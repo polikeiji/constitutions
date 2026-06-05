@@ -4,7 +4,7 @@
     "name": "polikeiji"
   },
   "metadata": {
-    "description": "Personal skills for and product specification writing",
+    "description": "Personal skills for product specification writing, implementation planning, DevOps pipeline planning, task ticket generation, and constitution writing",
     "version": "1.0.0"
   },
   "plugins": [
@@ -46,6 +46,15 @@
       "dependencies": [
         "impl-plan",
         "devops-plan"
+      ]
+    },
+    {
+      "name": "constitution",
+      "description": "Write and maintain project constitutions — coding standards, documentation policies, and team conventions in docs/constitutions/",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/constitution"
       ]
     }
   ]
