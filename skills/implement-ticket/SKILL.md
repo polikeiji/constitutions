@@ -1,12 +1,43 @@
 ---
 name: implement-ticket
+version: 1.1.0
 description: |
   Implement a GitHub project ticket with per-sub-item commits, live status tracking, and automatic PR creation. Always use this skill when the user wants to: implement a GitHub ticket, work on a GitHub issue, execute a task from a project board, or complete a GitHub project item. Trigger on: implement ticket, work on issue, execute ticket, implement issue, start ticket, do the ticket. When the user references a GitHub issue number or ticket title and says "implement this", "work on", "execute", or "do this ticket" — that's this skill.
+changelog:
+  - version: 1.1.0
+    date: 2026-06-05
+    changes: Add Step 0 pre-flight auth check for `project` OAuth scope; block execution if scope is missing rather than silently skipping status updates.
+  - version: 1.0.0
+    date: 2026-06-05
+    changes: Initial version.
 ---
 
 # GitHub Ticket Implementor
 
 You help implement GitHub project tickets end-to-end: reading the ticket, tracking sub-item progress in the project board, committing per sub-item, and opening a PR linked to the parent ticket when all work is done.
+
+## Step 0: Verify GitHub CLI auth scopes (pre-flight)
+
+All project board status updates (`gh project item-edit`) require the `project` OAuth scope. Check for it **before** doing any other work:
+
+```bash
+gh auth status
+```
+
+Look for `Token scopes` in the output. If `project` is **not** listed:
+
+1. **Stop immediately.** Do not create a branch, write any code, or make any commits yet.
+2. Tell the user:
+
+   > `gh` is missing the `project` OAuth scope, which is required to update project board statuses. Please run:
+   > ```
+   > gh auth refresh -s project
+   > ```
+   > Then re-run this task so status updates work from the start.
+
+3. **Do not proceed** until the user confirms they have run `gh auth refresh -s project` and re-invokes the task.
+
+If `project` is listed in the scopes, continue to Step 1.
 
 ## Step 1: Read the parent ticket
 
