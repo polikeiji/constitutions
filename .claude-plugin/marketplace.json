@@ -1,0 +1,11 @@
+{
+  "name": "keiji-personal-skills",
+  "owner": {
+    "name": "polikeiji"
+  },
+  "metadata": {
+    "description": "Personal skills for",
+    "version": "1.0.0"
+  },
+  "plugins": []
+}
