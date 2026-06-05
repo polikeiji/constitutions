@@ -35,6 +35,7 @@ Skill instructions...
 | [impl-plan](skills/impl-plan/) | Create and maintain implementation plan documents in docs/plans/ | — |
 | [devops-plan](skills/devops-plan/) | Generate DevOps pipeline plans as markdown documents in .github/workflows/ | — |
 | [task-tickets](skills/task-tickets/) | Generate and register task tickets from impl/devops plans to a kanban tool (GitHub Projects, Linear, Notion, Jira) | impl-plan, devops-plan |
+| [constitution](skills/constitution/) | Write and maintain project constitutions — coding standards, documentation policies, and team conventions in docs/constitutions/ | — |
 
 ## Adding a skill
 
