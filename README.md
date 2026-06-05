@@ -27,6 +27,12 @@ description: What this skill does and when to use it.
 Skill instructions...
 ```
 
+## Skills
+
+| Plugin | Description | Depends on |
+|---|---|---|
+| [product-spec](skills/product-spec/) | Write and maintain product specification documents in docs/specs/ | — |
+
 ## Adding a skill
 
 1. Create a folder under `skills/` with a kebab-case name.
