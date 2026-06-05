@@ -71,11 +71,23 @@ git checkout -b <issue-number>-<short-kebab-slug>
 
 One branch per parent ticket. Do not open more than one PR for the same parent ticket.
 
-## Step 4: Implement each sub-item
+## Step 4: Mark the parent ticket "In Progress"
+
+Before touching any code, move the parent ticket to In Progress so the board reflects active work:
+
+```bash
+gh project item-edit \
+  --id <parent-project-item-id> \
+  --project-id <project-id> \
+  --field-id <status-field-id> \
+  --single-select-option-id <in-progress-option-id>
+```
+
+## Step 5: Implement each sub-item
 
 Work through sub-items in dependency order (prerequisites first). For each sub-item:
 
-### 4a. Mark sub-item "In Progress"
+### 5a. Mark sub-item "In Progress"
 
 If the sub-item is a linked child issue, update its project status:
 
@@ -89,11 +101,11 @@ gh project item-edit \
 
 If the sub-item is a task-list checkbox (not a separate issue), note it in the commit message instead — you cannot update project status for inline checkboxes.
 
-### 4b. Implement the sub-item
+### 5b. Implement the sub-item
 
 Write the code or make the changes required by this sub-item. Stay focused on what the sub-item describes — do not mix in work from other sub-items.
 
-### 4c. Commit the changes
+### 5c. Commit the changes
 
 Stage the relevant files and commit. The commit message must reference the sub-item issue number so GitHub auto-links the commit:
 
@@ -113,7 +125,7 @@ Use `Refs` (not `Closes`) to link without closing the sub-item — the issue sta
 
 If the sub-item was a task-list checkbox (no separate issue number), omit the `Refs` line.
 
-### 4d. Mark sub-item "Done"
+### 5d. Mark sub-item "Done"
 
 After committing, update the sub-item's project status to Done:
 
@@ -125,15 +137,15 @@ gh project item-edit \
   --single-select-option-id <done-option-id>
 ```
 
-Repeat Steps 4a–4d for every sub-item before moving on.
+Repeat Steps 5a–5d for every sub-item before moving on.
 
-## Step 5: Push the branch
+## Step 6: Push the branch
 
 ```bash
 git push -u origin <branch-name>
 ```
 
-## Step 6: Open a PR and link it to the parent ticket
+## Step 7: Open a PR and link it to the parent ticket
 
 Create a single PR that covers all the sub-item work. The PR body must reference the parent issue with a closing keyword so it auto-closes on merge:
 
@@ -161,7 +173,7 @@ If the project board shows the PR as a separate item, add it:
 gh project item-add <project-number> --owner <owner> --url <pr-url>
 ```
 
-## Step 7: Move the parent ticket to "In Review"
+## Step 8: Move the parent ticket to "In Review"
 
 Update the parent issue's project status:
 
@@ -173,7 +185,7 @@ gh project item-edit \
   --single-select-option-id <in-review-option-id>
 ```
 
-## Step 8: Confirm with the user
+## Step 9: Confirm with the user
 
 Report:
 - The branch created and the PR URL
