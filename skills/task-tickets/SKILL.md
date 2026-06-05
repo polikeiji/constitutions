@@ -57,7 +57,13 @@ For each task derived from the plans, build a complete ticket.
 **Description** — Must include all of the following sections:
 
 **1. Context**
-Which feature or initiative this belongs to, and the relative path to the source plan file.
+Which feature or initiative this belongs to, and a markdown link to the source plan file. Always include this link — it is the primary reference for the implementor.
+
+Format: `Source: [<plan-file-name>](<relative-path-to-plan-file>)`
+
+Example: `Source: [user-auth-architecture.md](docs/plans/user-auth-architecture.md)`
+
+If a ticket draws from multiple plan files (e.g., both an impl-plan and a devops-plan file), list all source links.
 
 **2. Objective**
 One sentence stating what "done" looks like.
