@@ -34,6 +34,19 @@
       "skills": [
         "./skills/devops-plan"
       ]
+    },
+    {
+      "name": "task-tickets",
+      "description": "Generate and register task tickets from implementation plans to a kanban tool (GitHub Projects, Linear, Notion, Jira)",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/task-tickets"
+      ],
+      "dependencies": [
+        "impl-plan",
+        "devops-plan"
+      ]
     }
   ]
 }

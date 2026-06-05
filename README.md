@@ -34,6 +34,7 @@ Skill instructions...
 | [product-spec](skills/product-spec/) | Write and maintain product specification documents in docs/specs/ | — |
 | [impl-plan](skills/impl-plan/) | Create and maintain implementation plan documents in docs/plans/ | — |
 | [devops-plan](skills/devops-plan/) | Generate DevOps pipeline plans as markdown documents in .github/workflows/ | — |
+| [task-tickets](skills/task-tickets/) | Generate and register task tickets from impl/devops plans to a kanban tool (GitHub Projects, Linear, Notion, Jira) | impl-plan, devops-plan |
 
 ## Adding a skill
 
