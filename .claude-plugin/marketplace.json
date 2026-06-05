@@ -4,8 +4,18 @@
     "name": "polikeiji"
   },
   "metadata": {
-    "description": "Personal skills for",
+    "description": "Personal skills for and product specification writing",
     "version": "1.0.0"
   },
-  "plugins": []
+  "plugins": [
+    {
+      "name": "product-spec",
+      "description": "Write and maintain product specification documents in docs/specs/",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/product-spec"
+      ]
+    }
+  ]
 }
