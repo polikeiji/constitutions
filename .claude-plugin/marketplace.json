@@ -25,6 +25,15 @@
       "skills": [
         "./skills/impl-plan"
       ]
+    },
+    {
+      "name": "devops-plan",
+      "description": "Generate DevOps pipeline plans as markdown documents in .github/workflows/",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/devops-plan"
+      ]
     }
   ]
 }
