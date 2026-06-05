@@ -4,7 +4,7 @@
     "name": "polikeiji"
   },
   "metadata": {
-    "description": "Personal skills for product specification writing, implementation planning, DevOps pipeline planning, task ticket generation, and constitution writing",
+    "description": "Personal skills for product specification writing, implementation planning, DevOps pipeline planning, task ticket generation, constitution writing, and GitHub ticket implementation",
     "version": "1.0.0"
   },
   "plugins": [
@@ -55,6 +55,15 @@
       "strict": false,
       "skills": [
         "./skills/constitution"
+      ]
+    },
+    {
+      "name": "implement-ticket",
+      "description": "Implement a GitHub project ticket with per-sub-item commits, live status tracking, and automatic PR creation",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/implement-ticket"
       ]
     }
   ]
