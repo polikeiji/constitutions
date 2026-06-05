@@ -32,6 +32,7 @@ Skill instructions...
 | Plugin | Description | Depends on |
 |---|---|---|
 | [product-spec](skills/product-spec/) | Write and maintain product specification documents in docs/specs/ | — |
+| [impl-plan](skills/impl-plan/) | Create and maintain implementation plan documents in docs/plans/ | — |
 
 ## Adding a skill
 

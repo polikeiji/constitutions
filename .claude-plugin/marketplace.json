@@ -16,6 +16,15 @@
       "skills": [
         "./skills/product-spec"
       ]
+    },
+    {
+      "name": "impl-plan",
+      "description": "Create and maintain implementation plan documents in docs/plans/",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/impl-plan"
+      ]
     }
   ]
 }
