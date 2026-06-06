@@ -37,6 +37,7 @@ Skill instructions...
 | [task-tickets](skills/task-tickets/) | Generate and register task tickets from impl/devops plans to a kanban tool (GitHub Projects, Linear, Notion, Jira) | impl-plan, devops-plan |
 | [constitution](skills/constitution/) | Write and maintain project constitutions — coding standards, documentation policies, and team conventions in docs/constitutions/ | — |
 | [implement-ticket](skills/implement-ticket/) | Implement a GitHub project ticket with per-sub-item commits, live status tracking, and automatic PR creation | — |
+| [review-pr](skills/review-pr/) | Review a GitHub PR using the official code-review skill and post findings as inline review comments with one-click code suggestions | code-review@claude-plugins-official |
 
 ## Adding a skill
 
