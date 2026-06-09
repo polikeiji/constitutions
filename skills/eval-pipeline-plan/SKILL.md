@@ -8,6 +8,8 @@ description: |
 
 You help plan GenAI evaluation pipelines by producing a structured set of markdown documents in `docs/evaluation_plans/`. Each document describes one aspect of the evaluation in enough detail to implement it. The default evaluation platform is **LangSmith** and the default cloud deployment target is **Azure Machine Learning** with **MLflow** for trace collection and score visualization.
 
+**Every markdown file you create must begin with a YAML frontmatter header** containing `title`, `version`, `date`, `authors`, and `changelog`. See the [Frontmatter format](#frontmatter-format) section for the required structure. When updating an existing file, always increment the version and append a changelog entry — never write a file without this header.
+
 ## Step 1: Survey the codebase
 
 Before writing any plans, read the project to understand what you're evaluating.
