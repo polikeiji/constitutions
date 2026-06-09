@@ -77,6 +77,15 @@
       "dependencies": [
         "code-review@claude-plugins-official"
       ]
+    },
+    {
+      "name": "eval-pipeline-plan",
+      "description": "Generate evaluation pipeline plans for GenAI agents and skills, with LangSmith tracking and Azure ML deployment",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/eval-pipeline-plan"
+      ]
     }
   ]
 }

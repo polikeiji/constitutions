@@ -4,7 +4,22 @@ Personal Claude Code skills for use across projects.
 
 ## Usage
 
-Load skills in Claude Code with the `/plugin marketplace` command, then select from this repository.
+### Add the marketplace
+
+```
+/plugin marketplace add polikeiji/skills
+```
+
+### Install individual skills
+
+```
+/plugin install eval-pipeline-plan@keiji-personal-skills
+/plugin install impl-plan@keiji-personal-skills
+/plugin install devops-plan@keiji-personal-skills
+# etc.
+```
+
+Then run `/reload-plugins` to activate.
 
 ## Structure
 
@@ -38,6 +53,7 @@ Skill instructions...
 | [constitution](skills/constitution/) | Write and maintain project constitutions — coding standards, documentation policies, and team conventions in docs/constitutions/ | — |
 | [implement-ticket](skills/implement-ticket/) | Implement a GitHub project ticket with per-sub-item commits, live status tracking, and automatic PR creation | — |
 | [review-pr](skills/review-pr/) | Review a GitHub PR using the official code-review skill and post findings as inline review comments with one-click code suggestions | code-review@claude-plugins-official |
+| [eval-pipeline-plan](skills/eval-pipeline-plan/) | Generate evaluation pipeline plans for GenAI agents and skills, with LangSmith tracking and Azure ML deployment | — |
 
 ## Adding a skill
 
