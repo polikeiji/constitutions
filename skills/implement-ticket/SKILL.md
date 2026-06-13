@@ -1,9 +1,12 @@
 ---
 name: implement-ticket
-version: 1.2.0
+version: 1.3.0
 description: |
   Implement a GitHub project ticket with per-sub-item commits, live status tracking, and automatic PR creation. Always use this skill when the user wants to: implement a GitHub ticket, work on a GitHub issue, execute a task from a project board, or complete a GitHub project item. Trigger on: implement ticket, work on issue, execute ticket, implement issue, start ticket, do the ticket. When the user references a GitHub issue number or ticket title and says "implement this", "work on", "execute", or "do this ticket" — that's this skill.
 changelog:
+  - version: 1.3.0
+    date: 2026-06-13
+    changes: "Fix sub-item status updates: (1) replace <placeholder> tokens with shell variables in item-edit commands so edits actually execute; (2) add explicit sub-item completion sweep in new Step 7b that marks every sub-item Done before moving the parent to In Review; (3) restructure Step 2 to produce a named shell variable per sub-item for use in later steps."
   - version: 1.2.0
     date: 2026-06-13
     changes: "Add sub-item board enrollment: if a linked child issue is not already on the project board, add it via GraphQL mutation before updating its status. Replace unreliable `gh project item-add` CLI with the `addProjectV2ItemById` GraphQL mutation throughout. Clarify Step 2 to enumerate sub-item item IDs and flag missing ones."
@@ -86,36 +89,61 @@ gh api graphql -f query='{ user(login: "<owner>") { projectV2(number: <project-n
 gh project field-list <project-number> --owner <owner> --format json
 ```
 
-Record:
-- `project-id` — the GraphQL node ID of the project
-- `status-field-id` — the node ID of the Status field
-- Option IDs for: **In Progress**, **Done**, **In Review** (exact names may vary per project — match case-insensitively)
+Store the results in shell variables that all later steps use:
+
+```bash
+project_id="<GraphQL node ID from above>"
+status_field_id="<Status field node ID>"
+in_progress_option_id="<option ID for In Progress>"
+done_option_id="<option ID for Done>"
+in_review_option_id="<option ID for In Review>"
+```
+
+Option names vary per project — match case-insensitively. Print them to confirm before continuing.
 
 ```bash
 # Get the item ID for the parent issue within the project
-gh project item-list <project-number> --owner <owner> --format json | \
-  jq '.items[] | select(.content.number == <issue-number>)'
+parent_item_id=$(gh project item-list <project-number> --owner <owner> --format json | \
+  jq -r '.items[] | select(.content.number == <issue-number>) | .id')
+echo "Parent item ID: $parent_item_id"
 ```
 
-### Enrolling sub-items in the project board
+### Enrolling sub-items in the project board and building the item ID map
 
-Sub-issues that were never explicitly added to the project board will not appear in `gh project item-list`. **Do not assume a missing sub-item means it has no item ID** — it simply hasn't been enrolled yet. For each linked child issue, check whether it appears in the board and add it if not:
+Sub-issues that were never explicitly added to the project board will not appear in `gh project item-list`. **Do not assume a missing sub-item means it has no item ID** — it simply hasn't been enrolled yet.
+
+For **each** linked child issue number, run the block below once and record the resulting shell variable. These variables are used by name in Steps 5a, 5d, and 7b — do **not** substitute placeholder text in those later steps; use the variable directly.
 
 ```bash
-# List all item numbers currently on the board
-gh project item-list <project-number> --owner <owner> --format json | \
-  jq '[.items[].content.number]'
+# Replace SUB_N with a short identifier for this sub-item (e.g., SUB_1, SUB_2, ...)
+# and <sub-issue-number> with the actual issue number.
 
-# For each sub-issue NOT in that list, add it via GraphQL (more reliable than gh project item-add):
-node_id=$(gh api repos/<owner>/<repo>/issues/<sub-issue-number> --jq '.node_id')
-gh api graphql -f query="mutation {
-  addProjectV2ItemById(input: {projectId: \"<project-id>\", contentId: \"$node_id\"}) {
-    item { id }
-  }
-}" | jq -r '.data.addProjectV2ItemById.item.id'
+# Check if already on the board
+existing=$(gh project item-list <project-number> --owner <owner> --format json | \
+  jq -r --argjson n <sub-issue-number> '.items[] | select(.content.number == $n) | .id')
+
+if [ -n "$existing" ]; then
+  SUB_N_item_id="$existing"
+else
+  # Not on board yet — add it
+  sub_node_id=$(gh api repos/<owner>/<repo>/issues/<sub-issue-number> --jq '.node_id')
+  SUB_N_item_id=$(gh api graphql -f query="mutation {
+    addProjectV2ItemById(input: {projectId: \"$project_id\", contentId: \"$sub_node_id\"}) {
+      item { id }
+    }
+  }" | jq -r '.data.addProjectV2ItemById.item.id')
+fi
+
+echo "Sub-item <sub-issue-number> project item ID: $SUB_N_item_id"
 ```
 
-Save the returned item ID — this is the `<sub-item-project-item-id>` used in Steps 5a and 5d.
+After running this for every sub-item, write out a quick summary table so you can reference it later:
+
+```
+Sub-item issue | Shell variable   | Project item ID
+#<n1>          | $SUB_1_item_id   | PVTI_...
+#<n2>          | $SUB_2_item_id   | PVTI_...
+```
 
 ## Step 3: Create a feature branch
 
@@ -135,37 +163,27 @@ Before touching any code, move the parent ticket to In Progress so the board ref
 
 ```bash
 gh project item-edit \
-  --id <parent-project-item-id> \
-  --project-id <project-id> \
-  --field-id <status-field-id> \
-  --single-select-option-id <in-progress-option-id>
+  --id "$parent_item_id" \
+  --project-id "$project_id" \
+  --field-id "$status_field_id" \
+  --single-select-option-id "$in_progress_option_id"
 ```
 
 ## Step 5: Implement each sub-item
 
 Work through sub-items in dependency order (prerequisites first). For each sub-item:
 
-### 5a. Ensure sub-item is on the board, then mark "In Progress"
+### 5a. Mark sub-item "In Progress"
 
-If the sub-item is a linked child issue, you must have its project item ID before editing status. If you didn't get one in Step 2 (it wasn't on the board yet), add it now:
-
-```bash
-node_id=$(gh api repos/<owner>/<repo>/issues/<sub-issue-number> --jq '.node_id')
-sub_item_id=$(gh api graphql -f query="mutation {
-  addProjectV2ItemById(input: {projectId: \"<project-id>\", contentId: \"$node_id\"}) {
-    item { id }
-  }
-}" | jq -r '.data.addProjectV2ItemById.item.id')
-```
-
-Then mark it In Progress:
+You already have the project item ID for this sub-item from the enrollment step in Step 2 (stored as `$SUB_N_item_id`). Use that variable directly — do **not** re-enroll or look it up again.
 
 ```bash
+# Use the variable recorded in Step 2, e.g. $SUB_1_item_id, $SUB_2_item_id, etc.
 gh project item-edit \
-  --id <sub-item-project-item-id> \
-  --project-id <project-id> \
-  --field-id <status-field-id> \
-  --single-select-option-id <in-progress-option-id>
+  --id "$SUB_N_item_id" \
+  --project-id "$project_id" \
+  --field-id "$status_field_id" \
+  --single-select-option-id "$in_progress_option_id"
 ```
 
 If the sub-item is a task-list checkbox (not a separate issue), note it in the commit message instead — you cannot update project status for inline checkboxes.
@@ -196,15 +214,17 @@ If the sub-item was a task-list checkbox (no separate issue number), omit the `R
 
 ### 5d. Mark sub-item "Done"
 
-After committing, update the sub-item's project status to Done:
+After committing, update the sub-item's project status to Done using the same variable from Step 2:
 
 ```bash
 gh project item-edit \
-  --id <sub-item-project-item-id> \
-  --project-id <project-id> \
-  --field-id <status-field-id> \
-  --single-select-option-id <done-option-id>
+  --id "$SUB_N_item_id" \
+  --project-id "$project_id" \
+  --field-id "$status_field_id" \
+  --single-select-option-id "$done_option_id"
 ```
+
+Verify the command exits 0. If it fails, re-check that `$SUB_N_item_id` is set and non-empty (echo it), then retry.
 
 Repeat Steps 5a–5d for every sub-item before moving on.
 
@@ -241,22 +261,43 @@ If the project board shows the PR as a separate item, add it via GraphQL (more r
 ```bash
 pr_node_id=$(gh pr view <pr-number> --json id --jq '.id')
 gh api graphql -f query="mutation {
-  addProjectV2ItemById(input: {projectId: \"<project-id>\", contentId: \"$pr_node_id\"}) {
+  addProjectV2ItemById(input: {projectId: \"$project_id\", contentId: \"$pr_node_id\"}) {
     item { id }
   }
 }"
 ```
 
+## Step 7b: Verify and complete all sub-item statuses
+
+**Before moving the parent to In Review, explicitly mark every sub-item Done.** Do this even if you believe you already did it in Step 5d — confirmation is cheap and failures in 5d are silent.
+
+For each sub-item issue, run:
+
+```bash
+# Check current status
+gh project item-list <project-number> --owner <owner> --format json | \
+  jq --arg id "$SUB_N_item_id" '.items[] | select(.id == $id) | .status'
+
+# If not already "Done", update it now
+gh project item-edit \
+  --id "$SUB_N_item_id" \
+  --project-id "$project_id" \
+  --field-id "$status_field_id" \
+  --single-select-option-id "$done_option_id"
+```
+
+Do this for **every** sub-item variable (`$SUB_1_item_id`, `$SUB_2_item_id`, etc.) before continuing. If any `item-edit` call fails, investigate immediately — do not skip it and proceed.
+
 ## Step 8: Move the parent ticket to "In Review"
 
-Update the parent issue's project status:
+All sub-items must be Done (verified in Step 7b) before running this. Update the parent issue's project status:
 
 ```bash
 gh project item-edit \
-  --id <parent-project-item-id> \
-  --project-id <project-id> \
-  --field-id <status-field-id> \
-  --single-select-option-id <in-review-option-id>
+  --id "$parent_item_id" \
+  --project-id "$project_id" \
+  --field-id "$status_field_id" \
+  --single-select-option-id "$in_review_option_id"
 ```
 
 ## Step 9: Confirm with the user
