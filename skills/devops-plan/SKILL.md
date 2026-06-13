@@ -36,11 +36,13 @@ Proposed pipelines:
 
 1. claude-code-review   — Automated PR code review using Claude
 2. claude-help          — Respond to @claude mentions in issues and PR comments
-3. iac-ci               — Validate and plan IaC changes on pull requests
-4. iac-cd               — Apply IaC changes on merge to main (with approval gate)
-5. app-test             — Run the application test suite on pull requests
-6. app-build            — Build and push a container image on merge to main
-7. app-deploy           — Deploy the latest container image to the target environment
+3. secret-scan          — Detect hardcoded credentials and secrets in commits using Gitleaks
+4. sast-scan            — Static application security testing on pull requests using Semgrep
+5. iac-ci               — Validate and plan IaC changes on pull requests
+6. iac-cd               — Apply IaC changes on merge to main (with approval gate)
+7. app-test             — Run the application test suite on pull requests
+8. app-build            — Build and push a container image on merge to main
+9. app-deploy           — Deploy the latest container image to the target environment
 
 Confirm this list, or tell me which to add, remove, or rename before I write the plans.
 ```
@@ -76,6 +78,8 @@ Name each plan file after the pipeline slug:
 |----------|-----------|
 | claude-code-review | `.github/workflows/claude-code-review.md` |
 | claude-help | `.github/workflows/claude-help.md` |
+| secret-scan | `.github/workflows/secret-scan.md` |
+| sast-scan | `.github/workflows/sast-scan.md` |
 | iac-ci | `.github/workflows/iac-ci.md` |
 | iac-cd | `.github/workflows/iac-cd.md` |
 | app-test | `.github/workflows/app-test.md` |
@@ -130,6 +134,44 @@ Each plan file must cover:
 
 ### Pipeline-specific guidance
 
+**secret-scan**
+Use [Gitleaks](https://github.com/gitleaks/gitleaks) (`gitleaks/gitleaks-action@v2`) — the most widely adopted OSS secret scanner. Trigger on `pull_request` (all types) **and** `push` to main so every commit path is covered.
+
+Key configuration points:
+- The action scans the diff on pull requests and the full commit range on push; no extra configuration needed for basic use.
+- Supports a `.gitleaks.toml` allowlist at repo root to suppress known false positives (e.g., test fixtures, example keys). Note this in the plan so implementers know where to put suppression rules.
+- The workflow must set `GITHUB_TOKEN` (automatically available) so the action can post a PR comment listing any findings. No additional secrets required for OSS use.
+- Fail the job on any detected secret (`exit-code: 1`, which is the default). Never soften this to a warning — the entire value of secret scanning is blocking the merge.
+- Alternative: [TruffleHog](https://github.com/trufflesecurity/trufflehog) (`trufflesecurity/trufflehog@v3`) scans full git history and is a strong complement when onboarding a repo with a long history. Mention it as an optional addition for the initial repo audit.
+
+Permissions needed: `contents: read`, `pull-requests: write`.
+
+**sast-scan**
+Use [Semgrep](https://github.com/semgrep/semgrep) — the most widely adopted OSS SAST tool, supporting 30+ languages. Trigger on `pull_request` (all types). Run in OSS mode (no Semgrep Cloud account required):
+
+```yaml
+- uses: semgrep/semgrep-action@v1
+  with:
+    config: >-
+      p/default
+      p/owasp-top-ten
+      p/secrets
+```
+
+Key configuration points:
+- `p/default` covers the language-appropriate default rules; `p/owasp-top-ten` adds OWASP coverage; `p/secrets` adds a second layer of secret pattern matching on top of Gitleaks.
+- Upload results as SARIF to GitHub Code Scanning (requires `security-events: write` permission and GitHub Advanced Security enabled for private repos):
+  ```yaml
+  - uses: github/codeql-action/upload-sarif@v3
+    with:
+      sarif_file: semgrep.sarif
+  ```
+- For public repos, GitHub Code Scanning is free. For private repos, note that it requires GitHub Advanced Security (GHAS) and suggest the user check their plan.
+- Alternative: [CodeQL](https://github.com/github/codeql-action) (`github/codeql-action@v3`) is GitHub-native and deeply integrated into the Security tab. Recommend it as an alternative or complement for compiled languages (Java, C/C++, C#, Go) where CodeQL's inter-procedural analysis is stronger than Semgrep's. The two tools are complementary, not redundant.
+- Do not set `continue-on-error: true` — security findings should block the PR merge.
+
+Permissions needed: `contents: read`, `security-events: write` (for SARIF upload), `pull-requests: write` (for inline PR annotations).
+
 **claude-code-review**
 Use the `anthropics/claude-code-action` GitHub Action. Trigger on `pull_request` (types: `opened`, `synchronize`). The action posts a review comment to the PR. Required secret: `ANTHROPIC_API_KEY`. Recommend `claude-sonnet-4-6` as the default model unless the user specifies otherwise.
 
@@ -178,6 +220,9 @@ Pipeline plans for this repository. Each file describes one workflow in enough d
 | Pipeline | File | Description |
 |----------|------|-------------|
 | claude-code-review | [claude-code-review.md](claude-code-review.md) | Automated PR code review using Claude |
+| claude-help | [claude-help.md](claude-help.md) | Respond to @claude mentions in issues and PR comments |
+| secret-scan | [secret-scan.md](secret-scan.md) | Detect hardcoded credentials and secrets using Gitleaks |
+| sast-scan | [sast-scan.md](sast-scan.md) | Static application security testing using Semgrep |
 ```
 
 ## Step 6: Confirm with the user
