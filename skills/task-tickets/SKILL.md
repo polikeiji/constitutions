@@ -86,7 +86,11 @@ Always include testing tasks — never omit them:
 
 ### Task sizing
 
-Each ticket should be completable by one developer or AI agent in a single sitting. If a plan task is too broad (spans multiple layers or days of work), split it into subtasks. If multiple plan tasks are trivially small and tightly coupled, merge them into one ticket.
+Each ticket must be sized for exactly one pull request — no more, no less. A ticket that would require multiple PRs is too large and must be split. A ticket so small it doesn't justify a PR should be merged with a closely related ticket.
+
+Each ticket must also be divided into sub-items (child tickets or a checklist of sub-tasks within the ticket), where each sub-item is sized for exactly one commit. This granularity supports both human developers and AI coding agents, who benefit from a clear sequence of small, atomic steps. If the tool supports hierarchical issues (e.g., GitHub sub-issues, Linear sub-issues), create child tickets. If not, include a numbered task checklist in the ticket description.
+
+If a plan task is too broad (spans multiple layers or days of work), split it into separate tickets first, then define sub-items within each. If multiple plan tasks are trivially small and tightly coupled, merge them into one ticket and represent each original task as a sub-item.
 
 ### Ordering and dependencies
 
