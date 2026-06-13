@@ -1,9 +1,12 @@
 ---
 name: implement-ticket
-version: 1.1.0
+version: 1.2.0
 description: |
   Implement a GitHub project ticket with per-sub-item commits, live status tracking, and automatic PR creation. Always use this skill when the user wants to: implement a GitHub ticket, work on a GitHub issue, execute a task from a project board, or complete a GitHub project item. Trigger on: implement ticket, work on issue, execute ticket, implement issue, start ticket, do the ticket. When the user references a GitHub issue number or ticket title and says "implement this", "work on", "execute", or "do this ticket" — that's this skill.
 changelog:
+  - version: 1.2.0
+    date: 2026-06-13
+    changes: "Add sub-item board enrollment: if a linked child issue is not already on the project board, add it via GraphQL mutation before updating its status. Replace unreliable `gh project item-add` CLI with the `addProjectV2ItemById` GraphQL mutation throughout. Clarify Step 2 to enumerate sub-item item IDs and flag missing ones."
   - version: 1.1.0
     date: 2026-06-05
     changes: Add Step 0 pre-flight auth check for `project` OAuth scope; block execution if scope is missing rather than silently skipping status updates.
@@ -75,6 +78,10 @@ Look up the project items for this issue to get the project ID and status field 
 # Find which project(s) this issue belongs to
 gh issue view <issue-number> --json projectItems
 
+# Get the project GraphQL node ID
+gh api graphql -f query='{ user(login: "<owner>") { projectV2(number: <project-number>) { id } } }' \
+  | jq -r '.data.user.projectV2.id'
+
 # List project fields to find the Status field ID and its option IDs
 gh project field-list <project-number> --owner <owner> --format json
 ```
@@ -85,10 +92,30 @@ Record:
 - Option IDs for: **In Progress**, **Done**, **In Review** (exact names may vary per project — match case-insensitively)
 
 ```bash
-# Get the item ID for this issue within the project
+# Get the item ID for the parent issue within the project
 gh project item-list <project-number> --owner <owner> --format json | \
   jq '.items[] | select(.content.number == <issue-number>)'
 ```
+
+### Enrolling sub-items in the project board
+
+Sub-issues that were never explicitly added to the project board will not appear in `gh project item-list`. **Do not assume a missing sub-item means it has no item ID** — it simply hasn't been enrolled yet. For each linked child issue, check whether it appears in the board and add it if not:
+
+```bash
+# List all item numbers currently on the board
+gh project item-list <project-number> --owner <owner> --format json | \
+  jq '[.items[].content.number]'
+
+# For each sub-issue NOT in that list, add it via GraphQL (more reliable than gh project item-add):
+node_id=$(gh api repos/<owner>/<repo>/issues/<sub-issue-number> --jq '.node_id')
+gh api graphql -f query="mutation {
+  addProjectV2ItemById(input: {projectId: \"<project-id>\", contentId: \"$node_id\"}) {
+    item { id }
+  }
+}" | jq -r '.data.addProjectV2ItemById.item.id'
+```
+
+Save the returned item ID — this is the `<sub-item-project-item-id>` used in Steps 5a and 5d.
 
 ## Step 3: Create a feature branch
 
@@ -118,9 +145,20 @@ gh project item-edit \
 
 Work through sub-items in dependency order (prerequisites first). For each sub-item:
 
-### 5a. Mark sub-item "In Progress"
+### 5a. Ensure sub-item is on the board, then mark "In Progress"
 
-If the sub-item is a linked child issue, update its project status:
+If the sub-item is a linked child issue, you must have its project item ID before editing status. If you didn't get one in Step 2 (it wasn't on the board yet), add it now:
+
+```bash
+node_id=$(gh api repos/<owner>/<repo>/issues/<sub-issue-number> --jq '.node_id')
+sub_item_id=$(gh api graphql -f query="mutation {
+  addProjectV2ItemById(input: {projectId: \"<project-id>\", contentId: \"$node_id\"}) {
+    item { id }
+  }
+}" | jq -r '.data.addProjectV2ItemById.item.id')
+```
+
+Then mark it In Progress:
 
 ```bash
 gh project item-edit \
@@ -198,10 +236,15 @@ EOF
 )"
 ```
 
-If the project board shows the PR as a separate item, add it:
+If the project board shows the PR as a separate item, add it via GraphQL (more reliable than `gh project item-add`):
 
 ```bash
-gh project item-add <project-number> --owner <owner> --url <pr-url>
+pr_node_id=$(gh pr view <pr-number> --json id --jq '.id')
+gh api graphql -f query="mutation {
+  addProjectV2ItemById(input: {projectId: \"<project-id>\", contentId: \"$pr_node_id\"}) {
+    item { id }
+  }
+}"
 ```
 
 ## Step 8: Move the parent ticket to "In Review"
