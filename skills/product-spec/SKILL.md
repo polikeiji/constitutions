@@ -65,6 +65,8 @@ Not this: "A Lambda function triggers an SES call when the applications table is
 
 **One concern per file.** A good spec file answers one clear question. Use a common filename prefix to show relationships: `payment-overview.md`, `payment-refunds.md`, `payment-disputes.md`.
 
+**Use diagrams where they help.** When a diagram would let a reader grasp a concept faster than prose — user flows, state transitions, system boundaries, screen relationships — draw it in Mermaid format inside a fenced code block (` ```mermaid `). Prefer diagrams over dense paragraphs for anything structural or sequential.
+
 **Use plain language.** Specs should be readable by product managers, business stakeholders, and designers — not just engineers.
 
 ### Suggested structure

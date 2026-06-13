@@ -94,7 +94,7 @@ When **updating** an existing file, increment the version (patch `x.x.1` for sma
 
 **One concern per file.** Each file answers one clear question about the implementation. If a file is covering two distinct concerns, split it.
 
-**Use diagrams where they help.** ASCII architecture diagrams are fine and preferred over prose-only descriptions for system topology. For data models, an entity-relationship notation (even informal) beats a prose description.
+**Use diagrams where they help.** Whenever a diagram would help readers understand a concept more quickly — system topology, component relationships, data flows, entity-relationship models, sequence flows — draw it in Mermaid format inside a fenced code block (` ```mermaid `). A diagram beats prose for structural relationships every time.
 
 **Flag decisions explicitly.** When a significant technical choice was made (e.g., chosen Postgres over DynamoDB, chosen polling over webhooks), note it with a brief rationale. This prevents revisiting settled decisions.
 

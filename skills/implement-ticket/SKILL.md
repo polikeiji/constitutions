@@ -1,21 +1,7 @@
 ---
 name: implement-ticket
-version: 1.3.0
 description: |
   Implement a GitHub project ticket with per-sub-item commits, live status tracking, and automatic PR creation. Always use this skill when the user wants to: implement a GitHub ticket, work on a GitHub issue, execute a task from a project board, or complete a GitHub project item. Trigger on: implement ticket, work on issue, execute ticket, implement issue, start ticket, do the ticket. When the user references a GitHub issue number or ticket title and says "implement this", "work on", "execute", or "do this ticket" — that's this skill.
-changelog:
-  - version: 1.3.0
-    date: 2026-06-13
-    changes: "Fix sub-item status updates: (1) replace <placeholder> tokens with shell variables in item-edit commands so edits actually execute; (2) add explicit sub-item completion sweep in new Step 7b that marks every sub-item Done before moving the parent to In Review; (3) restructure Step 2 to produce a named shell variable per sub-item for use in later steps."
-  - version: 1.2.0
-    date: 2026-06-13
-    changes: "Add sub-item board enrollment: if a linked child issue is not already on the project board, add it via GraphQL mutation before updating its status. Replace unreliable `gh project item-add` CLI with the `addProjectV2ItemById` GraphQL mutation throughout. Clarify Step 2 to enumerate sub-item item IDs and flag missing ones."
-  - version: 1.1.0
-    date: 2026-06-05
-    changes: Add Step 0 pre-flight auth check for `project` OAuth scope; block execution if scope is missing rather than silently skipping status updates.
-  - version: 1.0.0
-    date: 2026-06-05
-    changes: Initial version.
 ---
 
 # GitHub Ticket Implementor
@@ -309,3 +295,12 @@ Report:
 - Any status transitions that could not be completed and why (missing field IDs, insufficient permissions, etc.)
 
 Prompt the user to review the PR and assign reviewers.
+
+## Changelog
+
+| Version | Date | Changes |
+|---------|------|---------|
+| 1.3.0 | 2026-06-13 | Fix sub-item status updates: replace `<placeholder>` tokens with shell variables in item-edit commands; add explicit sub-item completion sweep in Step 7b; restructure Step 2 to produce named shell variables per sub-item. |
+| 1.2.0 | 2026-06-13 | Add sub-item board enrollment via GraphQL `addProjectV2ItemById` mutation; replace unreliable `gh project item-add` CLI throughout. |
+| 1.1.0 | 2026-06-05 | Add Step 0 pre-flight auth check for `project` OAuth scope; block execution if scope is missing. |
+| 1.0.0 | 2026-06-05 | Initial version. |

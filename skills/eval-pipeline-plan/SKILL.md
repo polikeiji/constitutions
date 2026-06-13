@@ -445,6 +445,10 @@ changelog:
 
 When **updating** an existing file, increment the version (patch `x.x.1` for edits, minor `x.1.0` for new sections, major `2.0.0` for rewrites), set today's date, and append a changelog entry.
 
+## Diagrams
+
+Whenever a diagram would help readers understand a concept more quickly — pipeline architecture, evaluation flow, component relationships, data flows — draw it in Mermaid format inside a fenced code block (` ```mermaid `). Replace ASCII art with Mermaid diagrams wherever practical. Flowcharts, sequence diagrams, and architecture diagrams are all well-supported.
+
 ## Readability constraint
 
 Each markdown file must be readable in under 3 minutes (~400–600 words / ~50 lines of content). If a file grows beyond this, split it: move detailed metric definitions to a `-metrics.md` companion, or move the full dataset schema to a `-schema.md` companion.

@@ -132,6 +132,8 @@ Each plan file must cover:
 
 **6. Notes and decisions** — Call out any non-obvious choices: why a particular action was chosen, what approval mechanism is used, how the workflow integrates with others.
 
+**Use diagrams where they help.** When a diagram would let a reader understand a pipeline's structure, job dependencies, or environment promotion model more quickly than prose, draw it in Mermaid format inside a fenced code block (` ```mermaid `). Pipeline flow charts and job dependency graphs are especially well-suited to Mermaid.
+
 ### Pipeline-specific guidance
 
 **secret-scan**
