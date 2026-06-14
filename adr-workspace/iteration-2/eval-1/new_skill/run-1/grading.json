@@ -1,0 +1,48 @@
+{
+  "eval_id": 1,
+  "eval_name": "postgresql-vs-mongodb",
+  "configuration": "new_skill",
+  "summary": {
+    "pass_rate": 1.0,
+    "passed": 7,
+    "failed": 0,
+    "total": 7
+  },
+  "expectations": [
+    {
+      "text": "File has YAML frontmatter with title, adr, status, date, authors, and changelog fields",
+      "passed": true,
+      "evidence": "YAML frontmatter present with title, adr, status: Accepted, date, authors, deciders, changelog"
+    },
+    {
+      "text": "Document contains Motivation, Decision Drivers, Options, and Decision sections",
+      "passed": true,
+      "evidence": "All four mandatory sections present with exact required headings"
+    },
+    {
+      "text": "Each option lists pros and cons referencing the same named decision drivers",
+      "passed": true,
+      "evidence": "Option A and B both annotate each of the 5 named drivers (ACID correctness, Team familiarity, Operational cost, Schema discipline, Ecosystem maturity) with explicit +/- markers"
+    },
+    {
+      "text": "Document includes a Consequences section with at least one good and one bad consequence",
+      "passed": true,
+      "evidence": "Consequences section has 5 Good and 3 Bad items explicitly labelled"
+    },
+    {
+      "text": "ADR file is at docs/adrs/NNNN-*.md with zero-padded number and kebab-case name",
+      "passed": true,
+      "evidence": "File at docs/adrs/0001-use-postgresql.md"
+    },
+    {
+      "text": "docs/adrs/README.md exists and contains a table entry linking to the new ADR",
+      "passed": true,
+      "evidence": "README.md created with table entry confirmed by agent"
+    },
+    {
+      "text": "Options section contains at least one specific current fact that goes beyond the user's original description",
+      "passed": true,
+      "evidence": "PostgreSQL 18 current stable with 19 in beta; AWS RDS pricing $25/mo entry vs MongoDB Atlas $57/mo; MongoDB ACID transactions have a 60-second time limit — all specific researched facts not in the user's prompt"
+    }
+  ]
+}

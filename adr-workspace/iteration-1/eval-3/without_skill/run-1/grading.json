@@ -1,0 +1,43 @@
+{
+  "eval_id": 3,
+  "eval_name": "turborepo-monorepo",
+  "configuration": "without_skill",
+  "summary": {
+    "pass_rate": 0.333,
+    "passed": 2,
+    "failed": 4,
+    "total": 6
+  },
+  "expectations": [
+    {
+      "text": "File has YAML frontmatter with title, adr, status, date, authors, and changelog fields",
+      "passed": false,
+      "evidence": "File uses '# ADR 0001:' heading and bold **Status:**/**Date:** — no YAML frontmatter block"
+    },
+    {
+      "text": "Document contains Motivation, Decision Drivers, Options, and Decision sections",
+      "passed": false,
+      "evidence": "Sections are: Context, Decision, Options Considered, Consequences. No Motivation or Decision Drivers as named sections."
+    },
+    {
+      "text": "Each option lists pros and cons referencing the same named decision drivers",
+      "passed": false,
+      "evidence": "Options Considered uses generic Pros/Cons bullets without referencing named decision drivers"
+    },
+    {
+      "text": "Document includes a Consequences section with at least one good and one bad consequence",
+      "passed": true,
+      "evidence": "Consequences section with Positive and Negative items listed"
+    },
+    {
+      "text": "ADR file is at docs/adrs/NNNN-*.md with zero-padded number and kebab-case name",
+      "passed": true,
+      "evidence": "File at docs/adrs/0001-use-turborepo-monorepo.md"
+    },
+    {
+      "text": "docs/adrs/README.md exists and contains a table entry linking to the new ADR",
+      "passed": false,
+      "evidence": "No README.md created in docs/adrs/"
+    }
+  ]
+}

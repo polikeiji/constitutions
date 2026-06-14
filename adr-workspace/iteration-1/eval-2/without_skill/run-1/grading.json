@@ -1,0 +1,43 @@
+{
+  "eval_id": 2,
+  "eval_name": "goodjob-background-jobs",
+  "configuration": "without_skill",
+  "summary": {
+    "pass_rate": 0.333,
+    "passed": 2,
+    "failed": 4,
+    "total": 6
+  },
+  "expectations": [
+    {
+      "text": "File has YAML frontmatter with title, adr, status, date, authors, and changelog fields",
+      "passed": false,
+      "evidence": "File uses '# ADR 0001:' heading and bold **Status:**/**Date:** — no YAML frontmatter block"
+    },
+    {
+      "text": "Document contains Motivation, Decision Drivers, Options, and Decision sections",
+      "passed": false,
+      "evidence": "Sections are: Context, Decision, Alternatives Considered, Consequences. No Motivation or Decision Drivers sections."
+    },
+    {
+      "text": "Each option lists pros and cons referencing the same named decision drivers",
+      "passed": false,
+      "evidence": "Alternatives Considered uses generic Pros/Cons bullets without referencing the named decision drivers"
+    },
+    {
+      "text": "Document includes a Consequences section with at least one good and one bad consequence",
+      "passed": true,
+      "evidence": "Consequences section split into Positive, Negative/Risks, and Neutral subsections"
+    },
+    {
+      "text": "ADR file is at docs/adrs/NNNN-*.md with zero-padded number and kebab-case name",
+      "passed": true,
+      "evidence": "File at docs/adrs/0001-use-goodjob-for-background-jobs.md"
+    },
+    {
+      "text": "docs/adrs/README.md exists and contains a table entry linking to the new ADR",
+      "passed": false,
+      "evidence": "No README.md created in docs/adrs/"
+    }
+  ]
+}

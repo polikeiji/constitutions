@@ -1,0 +1,37 @@
+{
+  "eval_id": 2,
+  "eval_name": "goodjob-background-jobs",
+  "configuration": "with_skill",
+  "expectations": [
+    {
+      "text": "File has YAML frontmatter with title, adr, status, date, authors, and changelog fields",
+      "passed": true,
+      "evidence": "File has YAML frontmatter with title, adr, status, date, authors, deciders, changelog"
+    },
+    {
+      "text": "Document contains Motivation, Decision Drivers, Options, and Decision sections",
+      "passed": true,
+      "evidence": "All four sections present: Motivation, Decision Drivers, Options (with A/B/C subsections), Decision"
+    },
+    {
+      "text": "Each option lists pros and cons referencing the same named decision drivers",
+      "passed": true,
+      "evidence": "Options A, B, and C each annotate all 5 drivers (Ops simplicity, Reliability, Team familiarity, Active maintenance, Developer experience) with +/- markers"
+    },
+    {
+      "text": "Document includes a Consequences section with at least one good and one bad consequence",
+      "passed": true,
+      "evidence": "Consequences has 4 Good and 3 Bad items explicitly labelled"
+    },
+    {
+      "text": "ADR file is at docs/adrs/NNNN-*.md with zero-padded number and kebab-case name",
+      "passed": true,
+      "evidence": "File at docs/adrs/0001-use-goodjob-for-background-jobs.md"
+    },
+    {
+      "text": "docs/adrs/README.md exists and contains a table entry linking to the new ADR",
+      "passed": true,
+      "evidence": "README.md has table row linking to 0001-use-goodjob-for-background-jobs.md with status and summary"
+    }
+  ]
+}

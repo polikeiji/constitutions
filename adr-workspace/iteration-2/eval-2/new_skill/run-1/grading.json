@@ -1,0 +1,48 @@
+{
+  "eval_id": 2,
+  "eval_name": "goodjob-background-jobs",
+  "configuration": "new_skill",
+  "summary": {
+    "pass_rate": 1.0,
+    "passed": 7,
+    "failed": 0,
+    "total": 7
+  },
+  "expectations": [
+    {
+      "text": "File has YAML frontmatter with title, adr, status, date, authors, and changelog fields",
+      "passed": true,
+      "evidence": "YAML frontmatter present with all required fields"
+    },
+    {
+      "text": "Document contains Motivation, Decision Drivers, Options, and Decision sections",
+      "passed": true,
+      "evidence": "All four sections present: Motivation, Decision Drivers, Options (A/B/C), Decision"
+    },
+    {
+      "text": "Each option lists pros and cons referencing the same named decision drivers",
+      "passed": true,
+      "evidence": "All three options annotate all 5 named drivers (Ops simplicity, Reliability, Team familiarity, Maintenance posture, Developer experience) with +/-/~ markers"
+    },
+    {
+      "text": "Document includes a Consequences section with at least one good and one bad consequence",
+      "passed": true,
+      "evidence": "4 Good, 2 Bad, 1 Neutral consequences clearly labelled"
+    },
+    {
+      "text": "ADR file is at docs/adrs/NNNN-*.md with zero-padded number and kebab-case name",
+      "passed": true,
+      "evidence": "File at docs/adrs/0001-use-goodjob-for-background-jobs.md"
+    },
+    {
+      "text": "docs/adrs/README.md exists and contains a table entry linking to the new ADR",
+      "passed": true,
+      "evidence": "README.md created with table entry confirmed by agent"
+    },
+    {
+      "text": "Options section contains at least one specific current fact that goes beyond the user's original description",
+      "passed": true,
+      "evidence": "GoodJob v4.18.2 released April 2026, near-daily release cadence, 80% issue closure rate, 947 merged PRs; Que commit activity has stalled in 2025-2026; LISTEN/NOTIFY delivers jobs 10-25x faster than polling; advisory-lock query degrades at 100,000+ enqueued jobs — all specific researched facts"
+    }
+  ]
+}

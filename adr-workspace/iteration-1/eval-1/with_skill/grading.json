@@ -1,0 +1,37 @@
+{
+  "eval_id": 1,
+  "eval_name": "postgresql-vs-mongodb",
+  "configuration": "with_skill",
+  "expectations": [
+    {
+      "text": "File has YAML frontmatter with title, adr, status, date, authors, and changelog fields",
+      "passed": true,
+      "evidence": "File opens with --- and contains title, adr, status, date, authors, deciders, and changelog fields"
+    },
+    {
+      "text": "Document contains Motivation, Decision Drivers, Options, and Decision sections",
+      "passed": true,
+      "evidence": "All four sections present with exact headings: Motivation, Decision Drivers, Options, Decision"
+    },
+    {
+      "text": "Each option lists pros and cons referencing the same named decision drivers",
+      "passed": true,
+      "evidence": "Option A and Option B both have inline (+/-/~) annotations for each of the 5 named drivers: Team familiarity, ACID transactions, Operational cost, Schema discipline, Ecosystem maturity"
+    },
+    {
+      "text": "Document includes a Consequences section with at least one good and one bad consequence",
+      "passed": true,
+      "evidence": "Consequences section has 4 Good items and 3 Bad items clearly labelled"
+    },
+    {
+      "text": "ADR file is at docs/adrs/NNNN-*.md with zero-padded number and kebab-case name",
+      "passed": true,
+      "evidence": "File written to docs/adrs/0001-use-postgresql.md"
+    },
+    {
+      "text": "docs/adrs/README.md exists and contains a table entry linking to the new ADR",
+      "passed": true,
+      "evidence": "README.md exists with table row: [0001](0001-use-postgresql.md) | Use PostgreSQL as Primary Database | Accepted | ..."
+    }
+  ]
+}

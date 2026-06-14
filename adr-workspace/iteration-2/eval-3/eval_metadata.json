@@ -1,0 +1,35 @@
+{
+  "eval_id": 3,
+  "eval_name": "turborepo-monorepo",
+  "prompt": "I want to document the decision to go with a monorepo structure for our new platform. We considered a polyrepo approach and a monorepo using Turborepo. Key drivers were: developer experience (easy to make cross-package changes), CI speed, and how easy it is to onboard new engineers. We went with Turborepo monorepo because cross-package refactors are way easier and new engineers only need to clone one repo. Downside is CI caching is more complex and the repo will grow large over time.",
+  "assertions": [
+    {
+      "id": "has_yaml_frontmatter",
+      "description": "File has YAML frontmatter with title, adr, status, date, authors, and changelog fields"
+    },
+    {
+      "id": "has_all_mandatory_sections",
+      "description": "Document contains Motivation, Decision Drivers, Options, and Decision sections"
+    },
+    {
+      "id": "options_pros_cons_per_driver",
+      "description": "Each option lists pros and cons referencing the same named decision drivers"
+    },
+    {
+      "id": "has_consequences_section",
+      "description": "Document includes a Consequences section with at least one good and one bad consequence"
+    },
+    {
+      "id": "correct_file_location",
+      "description": "ADR file is at docs/adrs/NNNN-*.md with zero-padded number and kebab-case name"
+    },
+    {
+      "id": "readme_index_updated",
+      "description": "docs/adrs/README.md exists and contains a table entry linking to the new ADR"
+    },
+    {
+      "id": "cites_current_facts",
+      "description": "Options section contains at least one specific current fact (version number, release date, adoption data, or recent feature note) that goes beyond the user's original description"
+    }
+  ]
+}
