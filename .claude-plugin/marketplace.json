@@ -4,7 +4,7 @@
     "name": "polikeiji"
   },
   "metadata": {
-    "description": "Personal skills for product specification writing, implementation planning, DevOps pipeline planning, task ticket generation, constitution writing, GitHub ticket implementation, and GitHub PR review",
+    "description": "Personal skills for product specification writing, implementation planning, DevOps pipeline planning, task ticket generation, constitution writing, GitHub ticket implementation, GitHub PR review, and Architecture Decision Records (ADRs)",
     "version": "1.0.0"
   },
   "plugins": [
@@ -85,6 +85,15 @@
       "strict": false,
       "skills": [
         "./skills/eval-pipeline-plan"
+      ]
+    },
+    {
+      "name": "adr",
+      "description": "Research and write Architecture Decision Records (ADRs) in docs/adrs/",
+      "source": "./",
+      "strict": false,
+      "skills": [
+        "./skills/adr"
       ]
     }
   ]
