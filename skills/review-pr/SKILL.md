@@ -42,7 +42,28 @@ The code-review skill will produce a set of findings. Each finding should have:
 
 If the code-review skill returns findings without file/line metadata, map each finding to a location by cross-referencing the unified diff output from Step 1.
 
-## Step 3: Classify findings
+## Step 3: Run tests from PR description
+
+Inspect the PR description fetched in Step 1 for any test plan or test checklist. If tests are present:
+
+1. **Identify tests** — look for a "Test plan", "Testing", or similar section containing steps or a checklist (lines starting with `- [ ]` or `- [x]`).
+2. **Run each test** — execute the described steps to verify the changes behave as expected.
+3. **Check off completed tests** — for each checklist item you successfully complete, update its checkbox from `- [ ]` to `- [x]` in the PR body:
+
+```bash
+# Fetch the current PR body
+gh pr view <pr-number> --json body -q .body
+
+# After completing a test, update the PR body with the checkbox checked.
+# Replace the first matching unchecked item, then repeat for each completed test.
+gh pr edit <pr-number> --body "<updated-body-with-checked-boxes>"
+```
+
+Update checkboxes one at a time as each test completes — do not batch all updates at the end. If a test fails or cannot be run, leave its checkbox unchecked and note the failure in the review summary (Step 6).
+
+If the PR description contains no tests or test checklist, skip this step.
+
+## Step 4: Classify findings
 
 Before posting, sort findings into two groups:
 
@@ -52,7 +73,7 @@ Before posting, sort findings into two groups:
 
 Discard nitpicks that do not warrant a comment (e.g., minor whitespace, subjective naming preferences with no clear winner).
 
-## Step 4: Build the review payload
+## Step 5: Build the review payload
 
 Construct a list of inline review comments. For each finding, identify:
 
@@ -99,7 +120,7 @@ Choose the event based on findings:
 - `"COMMENT"` — if findings are only refinements, style notes, or questions
 - `"APPROVE"` — if the code looks correct and no changes are needed
 
-## Step 5: Post the review
+## Step 6: Post the review
 
 Submit the review as a single API call. Posting all inline comments in one review call is required — do not post individual comments separately, and do not post any findings as ordinary (non-review) PR comments.
 
@@ -129,7 +150,7 @@ Replace `{owner}` and `{repo}` with the values from Step 1.
 
 If the API call fails with a position error (line number not in the diff), re-check the unified diff from Step 1 and adjust the line to the nearest changed line within the same hunk.
 
-## Step 6: Confirm with the user
+## Step 7: Confirm with the user
 
 Report:
 - The PR number and title reviewed
