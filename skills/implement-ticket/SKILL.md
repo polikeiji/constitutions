@@ -242,16 +242,7 @@ EOF
 )"
 ```
 
-If the project board shows the PR as a separate item, add it via GraphQL (more reliable than `gh project item-add`):
-
-```bash
-pr_node_id=$(gh pr view <pr-number> --json id --jq '.id')
-gh api graphql -f query="mutation {
-  addProjectV2ItemById(input: {projectId: \"$project_id\", contentId: \"$pr_node_id\"}) {
-    item { id }
-  }
-}"
-```
+Do **not** add the PR to the project board yourself. Whether PRs belong on the board is a per-project convention set by that project's own "Auto-add to project" / "Pull request linked to issue" workflows (`gh api graphql -f query='{ user(login: "<owner>") { projectV2(number: <n>) { workflows(first: 20) { nodes { name enabled } } } } }'`) — if those are enabled, the PR will appear on its own; if they're disabled, the project has deliberately chosen to track issues only, and manually inserting the PR via `addProjectV2ItemById` will silently violate that convention.
 
 ## Step 7b: Verify and complete all sub-item statuses
 
@@ -300,6 +291,7 @@ Prompt the user to review the PR and assign reviewers.
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.4.0 | 2026-07-04 | Step 7: stop unconditionally adding the PR to the project board via `addProjectV2ItemById` — some projects deliberately track issues only, and the skill was silently overriding that convention. Now defers to the project's own auto-add workflows. |
 | 1.3.0 | 2026-06-13 | Fix sub-item status updates: replace `<placeholder>` tokens with shell variables in item-edit commands; add explicit sub-item completion sweep in Step 7b; restructure Step 2 to produce named shell variables per sub-item. |
 | 1.2.0 | 2026-06-13 | Add sub-item board enrollment via GraphQL `addProjectV2ItemById` mutation; replace unreliable `gh project item-add` CLI throughout. |
 | 1.1.0 | 2026-06-05 | Add Step 0 pre-flight auth check for `project` OAuth scope; block execution if scope is missing. |
