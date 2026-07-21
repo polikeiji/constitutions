@@ -51,9 +51,9 @@ Skill instructions...
 | [devops-plan](skills/devops-plan/) | Generate DevOps pipeline plans as markdown documents in .github/workflows/ | — |
 | [task-tickets](skills/task-tickets/) | Generate and register task tickets from impl/devops plans to a kanban tool (GitHub Projects, Linear, Notion, Jira) | impl-plan, devops-plan |
 | [constitution](skills/constitution/) | Write and maintain project constitutions — coding standards, documentation policies, and team conventions in docs/constitutions/ | — |
-| [implement-ticket](skills/implement-ticket/) | Implement a GitHub project ticket with per-sub-item commits, live status tracking, and automatic PR creation | — |
-| [review-pr](skills/review-pr/) | Review a GitHub PR using the official code-review skill and post findings as inline review comments with one-click code suggestions | code-review@claude-plugins-official |
+| [handle-ticket](skills/handle-ticket/) | Handle a GitHub project ticket end-to-end: implement it with per-sub-item commits and live status tracking, open a PR, self-review it with the official code-review skill, post findings as inline comments, fix them, and reply to each comment | code-review@claude-plugins-official |
 | [eval-pipeline-plan](skills/eval-pipeline-plan/) | Generate evaluation pipeline plans for GenAI agents and skills, with LangSmith tracking and Azure ML deployment | — |
+| [adr](skills/adr/) | Research and write Architecture Decision Records (ADRs) in docs/adrs/ | — |
 
 ## Adding a skill
 

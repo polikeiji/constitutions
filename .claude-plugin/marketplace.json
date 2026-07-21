@@ -7,6 +7,9 @@
     "description": "Personal skills for product specification writing, implementation planning, DevOps pipeline planning, task ticket generation, constitution writing, end-to-end GitHub ticket handling (implement, review, and fix), and Architecture Decision Records (ADRs)",
     "version": "1.0.0"
   },
+  "allowCrossMarketplaceDependenciesOn": [
+    "claude-plugins-official"
+  ],
   "plugins": [
     {
       "name": "product-spec",
@@ -66,7 +69,10 @@
         "./skills/handle-ticket"
       ],
       "dependencies": [
-        "code-review@claude-plugins-official"
+        {
+          "name": "code-review",
+          "marketplace": "claude-plugins-official"
+        }
       ]
     },
     {
