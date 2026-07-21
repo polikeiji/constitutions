@@ -1,12 +1,16 @@
 ---
-name: implement-ticket
+name: handle-ticket
 description: |
-  Implement a GitHub project ticket with per-sub-item commits, live status tracking, and automatic PR creation. Always use this skill when the user wants to: implement a GitHub ticket, work on a GitHub issue, execute a task from a project board, or complete a GitHub project item. Trigger on: implement ticket, work on issue, execute ticket, implement issue, start ticket, do the ticket. When the user references a GitHub issue number or ticket title and says "implement this", "work on", "execute", or "do this ticket" — that's this skill.
+  Handle a GitHub project ticket end-to-end: implement it with per-sub-item commits and live status tracking, open a PR, self-review that PR using the official code-review skill, post the findings as inline PR comments, fix every finding, and reply to each review comment explaining how it was handled. Always use this skill when the user wants to: implement a GitHub ticket, work on a GitHub issue, execute a task from a project board, complete a GitHub project item, take a ticket through to a reviewed PR, or handle/close out a ticket end to end. Trigger on: implement ticket, work on issue, execute ticket, handle ticket, do the ticket, take this ticket to a PR, implement and review this ticket, close out this ticket. When the user references a GitHub issue number or ticket title and says "implement this", "work on", "execute", "do this ticket", or "handle this ticket" — that's this skill.
 ---
 
-# GitHub Ticket Implementor
+# GitHub Ticket Handler
 
-You help implement GitHub project tickets end-to-end: reading the ticket, tracking sub-item progress in the project board, committing per sub-item, and opening a PR linked to the parent ticket when all work is done.
+You take a GitHub project ticket from "not started" to "reviewed, revised, and ready for a human" in one pass: implement it, track its status on the project board, open a PR, review that PR yourself with the official `code-review` skill, post the findings, fix them, and reply to every comment explaining what you did about it.
+
+**Dependency:** This skill requires the `code-review` skill from `claude-plugins-official` for Step 9. Ensure it is installed before proceeding.
+
+The work happens in four phases — implement, open the PR, review, fix — and the ticket's project-board status changes exactly twice: to **In Progress** the moment work starts (Step 4), and to **In Review** the moment the PR exists (Step 8). Nothing later in the flow (self-review, fixes, replies) moves the status again — those are still pre-human-review activity on the same PR, and a human still needs to look at it.
 
 ## Step 0: Verify GitHub CLI auth scopes (pre-flight)
 
@@ -145,7 +149,7 @@ One branch per parent ticket. Do not open more than one PR for the same parent t
 
 ## Step 4: Mark the parent ticket "In Progress"
 
-Before touching any code, move the parent ticket to In Progress so the board reflects active work:
+Before touching any code, move the parent ticket to In Progress so the board reflects active work the moment you start:
 
 ```bash
 gh project item-edit \
@@ -277,22 +281,165 @@ gh project item-edit \
   --single-select-option-id "$in_review_option_id"
 ```
 
-## Step 9: Confirm with the user
+The ticket now reflects reality — the implementation is done and a PR is up. Everything from here on (self-review, fixes, replies) happens on that same open PR; it does not move the ticket further.
 
-Report:
+## Step 9: Review the PR yourself
+
+Now switch hats from implementer to reviewer. Review the PR you just opened using the official `code-review` skill, and post the findings as an inline GitHub review — the same as an independent reviewer would, so the fixes in Step 10 are driven by an honest pass over the diff rather than by memory of writing it.
+
+### 9a. Fetch PR metadata and diff
+
+```bash
+# Resolve owner/repo for the current repository
+gh repo view --json owner,name
+
+# Fetch PR metadata
+gh pr view <pr-number> --json title,body,headRefName,baseRefName,files,commits,author
+
+# Fetch the full unified diff
+gh pr diff <pr-number>
+```
+
+### 9b. Run the code-review skill
+
+Invoke the `code-review` skill from `claude-plugins-official` on the PR diff. Pass the full unified diff and the PR description as context. The code-review skill handles the analysis itself — do not duplicate its logic here.
+
+Each finding should have:
+- **Severity** — bug, security issue, code refinement, style, or nitpick
+- **File path** and **line number** (or line range) in the new version of the file
+- **Description** — what the issue is and why it matters
+- **Suggested fix** — for bugs and code refinements where you have a clear idea of the correct code
+
+If the code-review skill returns findings without file/line metadata, map each finding to a location by cross-referencing the unified diff from 9a.
+
+### 9c. Run tests from the PR description
+
+Inspect the PR body from 9a for a test plan or test checklist:
+
+1. **Identify tests** — look for a "Test plan", "Testing", or similar section with a checklist (`- [ ]` / `- [x]` lines).
+2. **Run each test** — execute the described steps to verify the changes behave as expected.
+3. **Check off completed tests** one at a time as each one passes:
+
+```bash
+gh pr view <pr-number> --json body -q .body
+# then, after completing a test, update the body with that checkbox checked
+gh pr edit <pr-number> --body "<updated-body-with-checked-boxes>"
+```
+
+If a test fails or cannot be run, leave its checkbox unchecked and note the failure in the review summary. If the PR description has no test plan, skip this step.
+
+### 9d. Classify findings
+
+Sort findings into two groups:
+
+- **With a suggestion** — bugs or refinements where you know exactly what the corrected code should look like. These become GitHub code suggestions.
+- **Without a suggestion** — observations, questions, style notes, or issues where the right fix depends on a decision the author must make. These become plain review comments.
+
+Discard nitpicks that don't warrant a comment at all (minor whitespace, subjective naming with no clear winner).
+
+### 9e. Post the review
+
+Build one inline comment per surviving finding — `path`, `line` (or `start_line`+`line` for multi-line), `side` (`"RIGHT"` for new-file lines, `"LEFT"` for deleted ones), and `body`:
+
+```
+**[Severity]** Short description of the issue.
+
+Explanation of why this matters or what could go wrong.
+```
+
+For findings with a clear fix, embed a fenced suggestion block containing **only the replacement lines**:
+
+```
+**[Bug / Refinement]** Short description of the issue.
+
+Brief explanation, then the suggested replacement:
+
+~~~suggestion
+exact replacement lines for the highlighted range
+~~~
+```
+
+Write a 2–5 sentence review summary (what the PR does, the most significant findings, an overall verdict) and choose the event: `REQUEST_CHANGES` if any bugs/security issues, `COMMENT` if only refinements/style/questions, `APPROVE` if nothing needs changing.
+
+Post everything as a **single** API call — do not post individual comments separately, and do not post findings as ordinary (non-review) PR comments:
+
+```bash
+gh api repos/{owner}/{repo}/pulls/<pr-number>/reviews \
+  --method POST \
+  -f body="<review summary>" \
+  -f event="<REQUEST_CHANGES|COMMENT|APPROVE>" \
+  -F comments='[
+    {"path": "<file-path>", "line": <line-number>, "side": "RIGHT", "body": "<comment body>"},
+    {"path": "<file-path>", "start_line": <start>, "line": <end>, "side": "RIGHT", "body": "<comment with suggestion block>"}
+  ]'
+```
+
+If the call fails with a position error (line not in the diff), re-check the unified diff and adjust to the nearest changed line within the same hunk.
+
+**Record the review's `id`** from the response — you need it next to look up each individual comment's ID:
+
+```bash
+review_id="<id from the response above>"
+gh api repos/{owner}/{repo}/pulls/<pr-number>/comments --paginate | \
+  jq --argjson rid "$review_id" '[.[] | select(.pull_request_review_id == $rid) | {id, path, line, body}]'
+```
+
+Keep this list — Steps 10 and 11 iterate over it by comment `id`. If the review event was `APPROVE` (no findings posted), skip Steps 10 and 11 and go straight to Step 12.
+
+## Step 10: Fix the findings
+
+Work through the comment list from 9e one finding at a time:
+
+- **Actionable findings** (bugs, security issues, refinements you posted with or without a suggestion block) — make the code change on the same branch. Prefer a commit per logical fix, or group tightly related fixes, referencing what it addresses:
+
+```bash
+git add <specific files>
+git commit -m "$(cat <<'EOF'
+<Concise description of the fix>
+
+Addresses review comment on <path>:<line>
+
+Co-Authored-By: Claude Sonnet 4.6 <noreply@anthropic.com>
+EOF
+)"
+```
+
+- **Non-actionable findings** (questions, nitpicks you intentionally left as comments, or anything where the right call depends on a decision only the ticket owner should make) — leave the code as-is. You'll explain why in Step 11; don't skip a code change just to avoid writing that explanation.
+
+After working through every finding, push the fixes:
+
+```bash
+git push
+```
+
+## Step 11: Reply to every review comment
+
+For **each** comment recorded in 9e — including ones you didn't act on — post a reply on its thread explaining what happened to it. Do not leave any comment without a reply.
+
+```bash
+gh api repos/{owner}/{repo}/pulls/<pr-number>/comments/<comment-id>/replies \
+  --method POST \
+  -f body="<reply text>"
+```
+
+Reply text conventions:
+- **Fixed:** `Fixed in <short-sha>: <one-line description of the change>.`
+- **Not changed:** `Not changing this: <reason — e.g. it's a style preference with no clear winner, or the fix depends on a decision the ticket owner should make>.`
+
+## Step 12: Confirm with the user
+
+Report, in one place:
 - The branch created and the PR URL
-- A list of sub-items implemented, each with its commit hash
-- Any sub-items skipped and the reason (e.g., already done, blocked by external dependency)
-- Any status transitions that could not be completed and why (missing field IDs, insufficient permissions, etc.)
+- Sub-items implemented, each with its commit hash; any skipped and why
+- Any status transitions that could not be completed and why
+- The self-review verdict and how many findings were posted (suggestions vs. plain comments)
+- How many findings were fixed vs. left as-is, with the reasoning for anything left unfixed
+- Confirmation that every review comment received a reply
 
-Prompt the user to review the PR and assign reviewers.
+Prompt the user to give the PR a human review — this skill's self-review and fixes are a first pass, not a substitute for one.
 
 ## Changelog
 
 | Version | Date | Changes |
 |---------|------|---------|
-| 1.4.0 | 2026-07-04 | Step 7: stop unconditionally adding the PR to the project board via `addProjectV2ItemById` — some projects deliberately track issues only, and the skill was silently overriding that convention. Now defers to the project's own auto-add workflows. |
-| 1.3.0 | 2026-06-13 | Fix sub-item status updates: replace `<placeholder>` tokens with shell variables in item-edit commands; add explicit sub-item completion sweep in Step 7b; restructure Step 2 to produce named shell variables per sub-item. |
-| 1.2.0 | 2026-06-13 | Add sub-item board enrollment via GraphQL `addProjectV2ItemById` mutation; replace unreliable `gh project item-add` CLI throughout. |
-| 1.1.0 | 2026-06-05 | Add Step 0 pre-flight auth check for `project` OAuth scope; block execution if scope is missing. |
-| 1.0.0 | 2026-06-05 | Initial version. |
+| 1.0.0 | 2026-07-21 | Initial version. Merges `implement-ticket` (through its 1.4.0 — including deferring PR-to-board addition to the project's own auto-add workflows instead of forcing it via `addProjectV2ItemById`) and `review-pr` into a single end-to-end flow, adding self-review fix-up (Step 10) and per-comment replies (Step 11). |

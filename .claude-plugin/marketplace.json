@@ -4,7 +4,7 @@
     "name": "polikeiji"
   },
   "metadata": {
-    "description": "Personal skills for product specification writing, implementation planning, DevOps pipeline planning, task ticket generation, constitution writing, GitHub ticket implementation, GitHub PR review, and Architecture Decision Records (ADRs)",
+    "description": "Personal skills for product specification writing, implementation planning, DevOps pipeline planning, task ticket generation, constitution writing, end-to-end GitHub ticket handling (implement, review, and fix), and Architecture Decision Records (ADRs)",
     "version": "1.0.0"
   },
   "plugins": [
@@ -58,21 +58,12 @@
       ]
     },
     {
-      "name": "implement-ticket",
-      "description": "Implement a GitHub project ticket with per-sub-item commits, live status tracking, and automatic PR creation",
+      "name": "handle-ticket",
+      "description": "Handle a GitHub project ticket end-to-end: implement it with per-sub-item commits and live status tracking, open a PR, self-review it with the official code-review skill, post findings as inline comments, fix them, and reply to each comment",
       "source": "./",
       "strict": false,
       "skills": [
-        "./skills/implement-ticket"
-      ]
-    },
-    {
-      "name": "review-pr",
-      "description": "Review a GitHub PR using the official code-review skill and post findings as inline review comments with one-click code suggestions",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/review-pr"
+        "./skills/handle-ticket"
       ],
       "dependencies": [
         "code-review@claude-plugins-official"
