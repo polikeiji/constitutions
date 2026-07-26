@@ -302,7 +302,9 @@ gh pr diff <pr-number>
 
 ### 9b. Run the code-review skill
 
-Invoke the `code-review` skill from `claude-plugins-official` on the PR diff. Pass the full unified diff and the PR description as context. The code-review skill handles the analysis itself — do not duplicate its logic here.
+Invoke the Skill tool with `skill: "code-review:code-review"` — the plugin-qualified name, from `claude-plugins-official`. The bare name `code-review` resolves to nothing and fails with a misleading `Skill code-review cannot be used with Skill tool due to disable-model-invocation` error, even though the plugin itself has `disable-model-invocation: false`. Pass the full unified diff and the PR description as context. The code-review skill handles the analysis itself — do not duplicate its logic here.
+
+If the qualified-name call still fails, do not retry it — fall back to a manual review (optionally via a fresh subagent for an independent read of the diff) and post findings the same way Step 9d would.
 
 Each finding should have:
 - **Severity** — bug, security issue, code refinement, style, or nitpick
