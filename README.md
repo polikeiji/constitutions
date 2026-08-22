@@ -1,4 +1,4 @@
-# skills
+# constitutions
 
 Personal rules and tooling for Claude Code across my projects.
 
@@ -119,7 +119,7 @@ longer beats the model working from the constitution alone.
 The marketplace still ships the skills that have not been retired yet:
 
 ```
-/plugin marketplace add polikeiji/skills
+/plugin marketplace add polikeiji/constitutions
 /plugin install <skill>@keiji-personal-skills
 ```
 
