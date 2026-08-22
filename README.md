@@ -2,10 +2,10 @@
 
 Personal rules and tooling for Claude Code across my projects.
 
-**This repository is being renewed.** It used to be a marketplace of eight prompt-only
-skills. It is becoming a set of **constitutions** (portable rule documents I drop into
-each project) plus a much smaller set of **skills** that earn their place by carrying
-deterministic logic and a passing eval suite.
+**This repository is being renewed.** It used to be a marketplace of prompt-only skills.
+It is becoming a set of **constitutions** — portable rule documents I drop into each
+project — with skills kept only where they carry deterministic logic and a passing eval
+suite.
 
 ## Why
 
@@ -33,7 +33,7 @@ A skill that is only a prompt is a rule with extra indirection — and a rule th
 sees if the trigger phrasing happens to match. Better to state it once, in the project, as
 something the model reads as context and applies with judgment.
 
-## What survives as a skill
+## The bar for a skill
 
 Both conditions, not either:
 
@@ -44,29 +44,38 @@ Both conditions, not either:
    way to notice when the next model release makes it redundant — which is exactly the
    failure mode both posts describe. Quarterly re-runs are the point.
 
-Everything failing either test becomes a constitution.
+Everything failing either test becomes a constitution. As of this rewrite that is
+everything, so the repository becomes constitutions-only. The bar stays documented because
+it is the test for anything added later, not because something is waiting behind it.
 
 ## Migration status
 
-Nothing has been moved yet — this README is step one. Planned disposition of the current skills:
+Nothing has been moved yet — this README is step one. Planned disposition:
 
-| Current skill | Disposition | Rationale |
+| Current skill | Becomes | Rationale |
 |---|---|---|
-| [product-spec](skills/product-spec/) | → constitution | Prompt + document template only. |
-| [impl-plan](skills/impl-plan/) | → constitution | Prompt + document template only. |
-| [devops-plan](skills/devops-plan/) | → constitution | Prompt + document template only. |
-| [adr](skills/adr/) | → constitution | Has evals (`evals/adr-evals.json`), but no deterministic logic — fails condition 1. |
-| [eval-pipeline-plan](skills/eval-pipeline-plan/) | → constitution | 458 lines of prompt; the LangSmith/Azure ML choices are project defaults, i.e. rules. |
-| [constitution](skills/constitution/) | → folded into the format itself | A skill for writing rule documents becomes the authoring convention for this repo. |
-| [task-tickets](skills/task-tickets/) | under review | The `gh`/Linear/Notion/Jira registration calls are deterministic; the task-extraction half is judgment. Keep only the registration script, if anything. |
-| [handle-ticket](skills/handle-ticket/) | strongest keep candidate | Auth-scope pre-flight, Project GraphQL node/field/option ID resolution, sub-item→item-ID mapping, status transitions. Real deterministic logic the model should not improvise — but it has to ship as scripts with evals, not as 445 lines of prose. |
+| [product-spec](skills/product-spec/) | spec constitution | Prompt + document template only. |
+| [devops-plan](skills/devops-plan/) | CI/CD constitution | Prompt + document template only. |
+| [adr](skills/adr/) | ADR constitution | Has evals (`evals/adr-evals.json`), but no deterministic logic — fails condition 1. |
+| [task-tickets](skills/task-tickets/) | GitHub Projects constitution | How tickets get written and registered is a convention, not a procedure to replay. |
+| [handle-ticket](skills/handle-ticket/) | GitHub Projects constitution | Same document — how a ticket goes from board to reviewed PR. |
+| [constitution](skills/constitution/) | the authoring convention for this repo | A skill for writing rule documents becomes the format itself. |
+
+Implementation planning lives on GitHub Projects rather than in checked-in plan documents,
+so the GitHub Projects constitution covers that ground too.
+
+`handle-ticket` carries the most genuinely deterministic content here — auth-scope
+pre-flight, Project GraphQL node/field/option ID resolution, sub-item→item-ID mapping,
+status transitions. It still goes into the constitution first. If any of it proves worth
+pinning down exactly, it can come back as a script with evals, which is what the bar above
+is for.
 
 ## Target structure
 
 ```
 constitutions/          # portable rule documents, one per concern
   <topic>.md
-skills/                 # only skills meeting both conditions
+skills/                 # empty for now — only skills meeting both conditions
   <name>/
     SKILL.md            # thin: when to reach for it, and what the scripts do
     scripts/            # the deterministic part
@@ -78,7 +87,7 @@ evals/
 
 A constitution is a plain markdown rule document, copied or symlinked into a target project
 (`docs/constitutions/`, or referenced from `CLAUDE.md`). It states what good output looks
-like for one concern — specs, ADRs, plans, CI pipelines, code style — and stops there.
+like for one concern — specs, ADRs, tickets, CI pipelines, code style — and stops there.
 
 Written for a model with judgment, which means:
 
@@ -93,9 +102,10 @@ If a constitution starts growing procedure, that procedure is a script — extra
 
 ### Skills
 
-What is left of a skill after the prompt moves out: a short `SKILL.md` saying when it
-applies and what its scripts do, plus the scripts. The model decides *whether* and
-*how* to use it; the script guarantees the mechanical parts are right.
+If something ever clears the bar, this is the shape: a short `SKILL.md` saying when it
+applies and what its scripts do, plus the scripts. The model decides *whether* and *how* to
+use it; the script guarantees the mechanical parts are right. Nothing in this repository is
+in that shape today.
 
 ## Shelf life
 
@@ -106,12 +116,11 @@ longer beats the model working from the constitution alone.
 
 ## Current state
 
-The marketplace still ships the eight skills as they are today:
+The marketplace still ships the skills that have not been retired yet:
 
 ```
 /plugin marketplace add polikeiji/skills
 /plugin install <skill>@keiji-personal-skills
 ```
 
-That stays working until each skill is either retired into a constitution or rebuilt
-around scripts and evals.
+That stays working until each one has been folded into a constitution.
