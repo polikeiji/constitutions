@@ -23,6 +23,18 @@
 
 :root {
   --content-width: 46rem;
+  /* Layout rather than palette, so they belong here in layer 1 with
+     --content-width and nowhere else. The two dark blocks below carry colours
+     and the build compares them declaration-for-declaration; a width repeated
+     there would be one more thing to keep in sync for no gain. */
+  --sidebar-width: 14rem;
+  --sidebar-gap: 2.5rem;
+  /* What the page measures once the sidebar sits beside the document. The
+     header, the footer and the two-column row all take it, so the site title,
+     the nav and the theme toggle stay on the same two edges down the page. */
+  --wide-width: calc(
+    var(--content-width) + var(--sidebar-width) + var(--sidebar-gap)
+  );
   --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
@@ -165,7 +177,12 @@ a:hover { text-decoration: underline; }
   font-size: 0.875rem;
 }
 
-.site-main { padding: 2.5rem 0; }
+/* The row holding the sidebar and the document. Longhands because .wrapper,
+   which this element also carries, sets `padding: 0 1.25rem` as a shorthand. */
+.site-body {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
 
 /* Theme toggle ------------------------------------------------------------- */
 
@@ -210,6 +227,132 @@ a:hover { text-decoration: underline; }
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
   white-space: nowrap;
+}
+
+/* Document navigation ------------------------------------------------------ */
+
+/*
+ * Every published document, one click from every other. The list itself is
+ * generated in _layouts/default.html; this is how it sits on the page.
+ *
+ * Stacked by default and two columns above the breakpoint, rather than the
+ * other way round: at 375px there is no room for a sidebar beside a 46rem
+ * column, and the narrow case is the one that breaks if it is an afterthought.
+ */
+
+.site-nav {
+  font-size: 0.9375rem;
+  /* Stacked above the document, so it needs a line between the two. Both are
+     dropped again once the sidebar moves beside the content. */
+  margin-bottom: 2rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Borrowed from .doc h6 - a quiet label rather than a heading competing with
+   the document's own h1 a few pixels to the right. */
+.site-nav summary {
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+.site-nav summary:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
+}
+
+.site-nav ul {
+  list-style: none;
+  margin: 0.75rem 0 0;
+  padding: 0;
+}
+
+/* The indent is what says a document sits inside a group; the rule keeps that
+   readable once a title wraps onto a second line, which several do at 14rem. */
+.site-nav ul ul {
+  margin: 0.25rem 0 0.25rem 0.5rem;
+  padding-left: 0.75rem;
+  border-left: 1px solid var(--border);
+}
+
+.site-nav li { margin: 0; }
+
+/* Muted rather than --link: eight links in the accent colour beside the
+   document would read as louder than the document. The full-width block is
+   what makes the current-page marker below a band rather than a smear behind
+   the words. */
+.site-nav a {
+  display: block;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  color: var(--text-muted);
+}
+
+.site-nav a:hover {
+  background: var(--bg-subtle);
+  color: var(--text);
+  text-decoration: none;
+}
+
+.site-nav a:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: 1px;
+}
+
+/* Styled off the attribute rather than a class of its own, so what a screen
+   reader announces and what a sighted reader sees cannot drift apart. */
+.site-nav a[aria-current="page"] {
+  background: var(--bg-subtle);
+  color: var(--text);
+  font-weight: 600;
+}
+
+/*
+ * The breakpoint is where the sidebar, the gap and the reading column stop
+ * fitting side by side: 14 + 2.5 + 46 = 62.5rem, plus room to breathe.
+ *
+ * The reading column keeps exactly the measure it had before the sidebar
+ * existed. .wrapper's max-width includes its 1.25rem of padding on each side,
+ * so widening that max-width by the sidebar and the gap leaves the second
+ * track at precisely the width .wrapper's content box used to be.
+ */
+@media (min-width: 64rem) {
+  /* The header and footer widen with the row below them. Left at
+     --content-width they would keep the reading column to themselves while
+     the sidebar began 16.5rem to its left, and the site title would line up
+     with nothing. */
+  .site-header .wrapper,
+  .site-footer .wrapper,
+  .site-body {
+    max-width: var(--wide-width);
+  }
+
+  .site-body {
+    display: grid;
+    /* minmax(0, 1fr) rather than 1fr: a wide table or code block in the
+       document would otherwise stretch its track and push the page sideways. */
+    grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+    gap: var(--sidebar-gap);
+  }
+
+  .site-nav {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: 0;
+    /* A constitution runs for several screens; the nav stays put rather than
+       scrolling away, and scrolls inside itself if it ever outgrows the
+       viewport. align-self keeps the grid from stretching it to the full row
+       height, which sticky would then have nothing to do. */
+    align-self: start;
+    position: sticky;
+    top: 2rem;
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+  }
 }
 
 /* Document body ------------------------------------------------------------ */
