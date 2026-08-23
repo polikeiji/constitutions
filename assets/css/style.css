@@ -309,6 +309,54 @@ a:hover { text-decoration: underline; }
 
 .doc th { background: var(--bg-subtle); font-weight: 600; }
 
+/* Diagrams ----------------------------------------------------------------- */
+
+/*
+ * assets/js/diagrams.js swaps each ```mermaid code block for one of these once
+ * the diagram has rendered. Mermaid emits its own <style> inside the SVG, so
+ * nothing here reaches into the drawing - this is the box around it.
+ */
+
+/* Mermaid sizes the SVG from the diagram's own content, which for a wide
+   flowchart is wider than the column. Scroll it in its own box, the same
+   bargain the tables above strike. */
+.diagram {
+  margin: 0 0 1rem;
+  overflow-x: auto;
+}
+
+/* Centred when it fits, left-aligned once it has to scroll - `margin: auto` on
+   the SVG would hide the left edge of an overflowing diagram. */
+.diagram svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+/*
+ * The diagram that did not render, still showing its source as a code block.
+ * The marker matters: without it the block is indistinguishable from a code
+ * sample that was always meant to be one, and an author reading the published
+ * page has no way to tell their diagram is broken.
+ */
+.diagram-unrendered {
+  border-left: 0.25rem solid var(--border-strong);
+}
+
+/* Sits inside the block's own padding, so no padding of its own. `white-space`
+   is reset because the note inherits `pre` and would otherwise run off the side
+   of a narrow screen rather than wrapping. */
+.diagram-unrendered::before {
+  content: "Diagram could not be rendered — showing its source.";
+  display: block;
+  margin-bottom: 0.75rem;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  white-space: normal;
+}
+
 /* Syntax highlighting ------------------------------------------------------ */
 
 /*
