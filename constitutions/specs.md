@@ -35,8 +35,9 @@ a spec that outgrows it is usually holding two concerns.
 ## Diagrams
 
 Anything structural or sequential — user flows, state transitions, how screens relate — is
-a Mermaid diagram in a fenced block rather than a paragraph. Prose describing a sequence is
-where readers stop reading.
+a Mermaid diagram in a fenced block wherever the alternative is a paragraph of dense prose.
+A two-step sequence that a sentence handles cleanly stays a sentence; a branching flow
+described in prose is where readers stop reading.
 
 ```mermaid
 stateDiagram-v2
