@@ -1,67 +1,66 @@
 # From board to reviewed PR
 
-What a ticket looks like on its way from the board to a pull request that is ready for a
-human, and the board mechanics that are easy to get wrong.
+What happens to a ticket between the board and a pull request ready for a human, and the
+board mechanics that are easy to get wrong.
 
-Upstream: https://github.com/polikeiji/constitutions/blob/b8aad7c/constitutions/github-projects/board-to-pr.md
+Upstream: https://github.com/polikeiji/constitutions/blob/main/constitutions/github-projects/board-to-pr.md
 
 ## Branch, commits, PR
 
-One branch per ticket, named `<issue-number>-<short-slug>`, and one pull request from it. A
-second PR against the same ticket means the ticket was two tickets.
+One branch per ticket, named `<issue-number>-<short-slug>`, and one pull request from it.
 
 Commits reference their sub-item with `Refs #<number>` rather than a closing keyword: a
-sub-item is finished when the PR merges, not when its commit lands on the branch, and a
-closing keyword would claim otherwise. A checkbox sub-item has no issue number of its own,
-so its commit references the parent ticket instead.
+sub-item is finished when the PR merges, not when its commit lands on the branch. A
+checkbox sub-item has no number of its own, so its commits reference the parent ticket
+instead.
 
-The PR body closes the parent ticket (`Closes #<number>`), summarises what changed, and
-carries a test plan whose boxes are checked one at a time as each check actually passes. An
-unchecked box on an open PR is worth more than a checked one nobody ran.
+The PR body closes the ticket (`Closes #<number>`), summarises what changed, and carries a
+test plan whose boxes are checked as each check actually passes — an unchecked box is worth
+more than a checked one nobody ran.
 
-Pull requests are not added to the board by hand. Whether they belong on it is set by that
-project's own auto-add workflows; inserting one manually overrides a decision the project
-already made the other way.
+Pull requests are not added to the board by hand: whether they belong on it is set by the
+project's own auto-add workflows, and inserting one overrides a decision already made.
 
 ## Status
 
-Three transitions, made while the work is happening rather than reconstructed afterwards:
+The board is written while the work happens, not reconstructed afterwards. The ticket moves
+to *In progress* before its first commit and to *In review* when the PR opens. A sub-item
+with a board row of its own moves to *Done* as its commit lands; a checkbox sub-item has no
+row and no status.
 
-- **In progress** — before the first commit, so the board shows work starting rather than
-  work landing.
-- **Done**, per sub-item — once its commit exists. Checkbox sub-items have no board row and
-  no status of their own.
-- **In review** — when the PR opens.
+`gh project item-edit` reports success without changing anything when the ID it is handed
+is stale or belongs to another board, so the rows are re-read before the ticket moves to
+*In review*. A ticket *In review* above sub-items still reading *Backlog* is what a status
+write that went nowhere looks like.
 
-Self-review, the fixes it produces, and the replies it draws all happen on that same open
-PR and move nothing further. *In review* is already true: the ticket is waiting on a human.
+Self-review and everything it produces happen on that same open PR and move nothing
+further: *In review* is already true. The ticket's *Done* belongs to the merge — `Closes`
+shuts the issue, and a board running the closed-item workflow moves the row itself.
 
 ## Self-review
 
-A PR gets one honest pass over its own diff before a human is asked for one. Findings land
-as inline comments on the PR rather than in the chat, so the fixes that follow read as a
-review thread a later reviewer can retrace.
+A PR gets one honest pass over its own diff before a human is asked for one. The findings
+go up as a single review of inline comments, each anchored to a line the diff actually
+touches — a comment aimed anywhere else is rejected — so the fixes that follow read as a
+thread a later reviewer can retrace.
 
 Every comment gets a reply: the ones acted on name the commit that fixed them, the ones
 left alone give the reason. A finding quietly fixed leaves the next reader diffing against
-a comment that no longer matches the code, and one quietly dropped is indistinguishable
-from one that was missed.
-
-The pass is a first pass. It does not stand in for the human review, which is what the
-ticket is waiting on.
+a comment that no longer matches the code; one quietly dropped is indistinguishable from
+one that was missed. The pass is a first pass, and does not stand in for the human review.
 
 ## Driving the board with `gh`
 
-- Board mutations need the `project` OAuth scope, which `gh auth login` does not grant by
-  default; `gh auth refresh -s project` adds it. Checking `gh auth status` before the first
-  status change beats discovering the gap three commits in, with a board still reading
-  *Backlog*.
-- A user-scoped board needs `--owner <user>` on every `gh project` call. Without it `gh`
-  guesses the scope, and the guess is wrong.
-- A sub-issue missing from `gh project item-list` is unenrolled, not absent — being the
-  child of an enrolled parent does not put an issue on the board. Enrol it, then take its
-  item ID from the mutation's own response. Reading the empty row as "this sub-item has no
-  item ID" is what produced two bug-fix commits here.
-- Field and option IDs are opaque and per-board, and option names differ between boards —
-  *In progress* on one is *In Progress* on the next. They are resolved per run and matched
-  case-insensitively rather than hardcoded.
+- Board mutations need the `project` OAuth scope, which `gh auth login` does not grant;
+  `gh auth refresh -s project` adds it. The check belongs before the first status change,
+  not three commits in.
+- A user-scoped board needs `--owner <user>` on every `gh project` call, or `gh` guesses
+  the scope and guesses wrong. The owner and number to pass are in the project's agent
+  entry point.
+- A sub-issue missing from `gh project item-list` is unenrolled, not absent — a board
+  without the sub-issue auto-add workflow does not enrol a child because its parent is on
+  it. Enrol it, then take the item ID from the mutation's response; reading the empty row
+  as "no item ID exists" is what produced two bug-fix commits here.
+- Field and option IDs are opaque and per-board, and option names differ — *In progress* on
+  one board is *In Progress* on the next. Both are resolved per run, matched
+  case-insensitively.
