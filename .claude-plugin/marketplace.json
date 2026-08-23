@@ -4,7 +4,7 @@
     "name": "polikeiji"
   },
   "metadata": {
-    "description": "Personal skills for product specification writing, implementation planning, DevOps pipeline planning, task ticket generation, constitution writing, end-to-end GitHub ticket handling (implement, review, and fix), and Architecture Decision Records (ADRs)",
+    "description": "Personal skills for product specification writing, implementation planning, DevOps pipeline planning, task ticket generation, end-to-end GitHub ticket handling (implement, review, and fix), and Architecture Decision Records (ADRs)",
     "version": "1.0.0"
   },
   "allowCrossMarketplaceDependenciesOn": [
@@ -49,15 +49,6 @@
       "dependencies": [
         "impl-plan",
         "devops-plan"
-      ]
-    },
-    {
-      "name": "constitution",
-      "description": "Write and maintain project constitutions — coding standards, documentation policies, and team conventions in docs/constitutions/",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/constitution"
       ]
     },
     {
