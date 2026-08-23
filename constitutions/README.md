@@ -109,6 +109,13 @@ resolves to what was actually copied and diffs against the current tip:
 A branch name in that URL would always resolve to tip and so could never show drift. The
 commit sha is the part that makes the line worth writing.
 
+The sha is filled in by whoever takes the copy. A document cannot carry the hash of the
+commit that contains it, and a branch rebased onto `main` renames every commit it had, so
+a pin written upstream names a commit that either predates the text below it or never
+lands at all — the documents here carry the `main` URL and the copy pins it. Index files
+carry no Upstream line: this one and a folder `README.md` list documents rather than state
+rules, and the documents they list carry their own.
+
 ### Vendor neutrality
 
 These documents are dropped into projects driven by different tools. The body says "the
