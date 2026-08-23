@@ -1,0 +1,150 @@
+/*
+ * Every colour is a custom property on :root so #10 can add dark mode by
+ * redefining this block under a media query and a [data-theme] selector,
+ * without touching a single rule below it.
+ */
+:root {
+  --content-width: 46rem;
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+
+  --bg: #ffffff;
+  --bg-subtle: #f6f8fa;
+  --text: #1f2328;
+  --text-muted: #59636e;
+  --link: #0969da;
+  --border: #d1d9e0;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+}
+
+.wrapper {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Header / footer ---------------------------------------------------------- */
+
+.site-header {
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 0;
+}
+
+.site-title {
+  color: var(--text);
+  font-weight: 600;
+  font-size: 1.0625rem;
+}
+
+.site-footer {
+  border-top: 1px solid var(--border);
+  margin-top: 4rem;
+  padding: 1.5rem 0;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+}
+
+.site-main { padding: 2.5rem 0; }
+
+/* Document body ------------------------------------------------------------ */
+
+.doc > :first-child { margin-top: 0; }
+
+.doc h1, .doc h2, .doc h3, .doc h4 {
+  line-height: 1.25;
+  margin: 2rem 0 1rem;
+}
+
+.doc h1 { font-size: 2rem; }
+
+.doc h2 {
+  font-size: 1.5rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.doc h3 { font-size: 1.25rem; }
+.doc h4 { font-size: 1rem; }
+
+.doc p, .doc ul, .doc ol { margin: 0 0 1rem; }
+.doc li + li { margin-top: 0.25rem; }
+
+.doc blockquote {
+  margin: 0 0 1rem;
+  padding: 0 1rem;
+  border-left: 0.25rem solid var(--border);
+  color: var(--text-muted);
+}
+
+.doc hr {
+  height: 1px;
+  margin: 2rem 0;
+  border: 0;
+  background: var(--border);
+}
+
+.doc img { max-width: 100%; }
+
+/* Code --------------------------------------------------------------------- */
+
+.doc code, .doc pre {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+
+.doc code {
+  padding: 0.2em 0.4em;
+  border-radius: 6px;
+  background: var(--bg-subtle);
+}
+
+.doc pre {
+  margin: 0 0 1rem;
+  padding: 1rem;
+  border-radius: 6px;
+  background: var(--bg-subtle);
+  overflow-x: auto;
+}
+
+.doc pre code {
+  padding: 0;
+  background: none;
+}
+
+/* Tables ------------------------------------------------------------------- */
+
+/* The README's migration table is wide. Let it scroll inside its own box
+   instead of widening the page on a narrow screen. */
+.doc table {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  margin: 0 0 1rem;
+  border-collapse: collapse;
+  overflow-x: auto;
+}
+
+.doc th, .doc td {
+  padding: 0.5rem 0.85rem;
+  border: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.doc th { background: var(--bg-subtle); font-weight: 600; }
