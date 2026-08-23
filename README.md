@@ -102,9 +102,10 @@ Written for a model with judgment, which means:
 
 If a constitution starts growing procedure, that procedure is a script — extract it.
 
-[`constitutions/README.md`](constitutions/README.md) carries the rest — frontmatter, modal
-verbs, naming, file size, and how a document is installed into a project. It is the
-authoring convention itself, so the working rules live there rather than here.
+[`constitutions/README.md`](constitutions/README.md) is the authoring convention in full —
+the bullets above, worked out, plus document shape, modal verbs, frontmatter, naming, file
+size, and how a document is installed into a project. The bullets here are the summary; if
+the two ever read differently, that document governs.
 
 ### Skills
 
