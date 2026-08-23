@@ -76,7 +76,14 @@ a forwarded email cannot verify an account a second time.
 
 ## The index
 
-`docs/specs/README.md` carries a table: one row per spec, linked, with a line on what it
-covers. It is updated in the change that adds, renames, or removes a spec, not afterwards.
+`docs/specs/README.md` carries the index, updated in the change that adds, renames, or
+removes a spec rather than afterwards:
+
+```markdown
+| Document | Covers |
+|---|---|
+| [Email verification](onboarding-email-verification.md) | How a new account confirms its address |
+```
+
 Past roughly six specs the table takes subheadings by area — a flat list of twenty is a
 directory listing with extra steps.
