@@ -76,11 +76,114 @@
       </div>
     </header>
 
-    <main class="site-main">
-      <div class="wrapper">
+    <div class="site-body wrapper">
+      {%- comment -%}
+        The sidebar. Site chrome like the header above it, so it lives here and
+        not in doc.html, which is the inside of <main> — and it sits outside
+        <main> for the same reason: the same list on every page is not this
+        page's content.
+
+        Generated from site.pages at render time rather than kept in a
+        _data/nav.yml. A hand-written list would be a third place to update
+        behind the index table in constitutions/README.md and the pointer in
+        the root README, and the documents cannot carry ordering hints of their
+        own — "No frontmatter" in the authoring convention rules out nav_order
+        and nav_title by design, not by oversight. Sorting by url instead keeps
+        a directory's children next to it, and the order within a level is
+        alphabetical rather than deliberate. If a deliberate order ever becomes
+        necessary, that is when _data/nav.yml arrives, with a CI check
+        asserting it matches the built page set. Not yet.
+
+        What site.pages holds here, read off a build rather than assumed:
+        jekyll-readme-index replaces each README with an index page — urls "/",
+        "/constitutions/" and "/constitutions/github-projects/" — and
+        jekyll-titles-from-headings runs after it, so those three carry titles
+        from their H1 like every other document. Everything else is a .html
+        url. Anything without a title is skipped rather than emitted as a blank
+        row.
+
+        Every href goes through relative_url. The site deploys under
+        /constitutions/ and CI overrides the baseurl with --baseurl
+        "$BASE_PATH"; a raw page.url would build clean here and 404 there.
+        "Check the build output" in .github/workflows/pages.yml asserts it.
+      {%- endcomment -%}
+      <nav class="site-nav" aria-label="Documents">
+        {%- comment -%}
+          <details> rather than a plain list, so a narrow screen can fold eight
+          links away instead of scrolling past them to reach the document. Open
+          by default and with the summary shown at every width: `open` is an
+          attribute, so CSS alone cannot close it below the breakpoint and open
+          it above, and hiding the summary on wide screens would strand anyone
+          who had folded it on a narrow one. No script is involved either way —
+          this is a list of links, not a control that waits for JavaScript the
+          way the theme toggle does.
+        {%- endcomment -%}
+        <details class="site-nav-disclosure" open>
+          <summary>Documents</summary>
+          {%- assign nav_pages = site.pages | where_exp: "p", "p.title" | sort: "url" -%}
+          {%- comment -%}
+            The landing page is taken out of the list and rendered first rather
+            than left to the sort. This build gives it the url "/", which sorts
+            first anyway — but the same plugin yields "/index.html" on other
+            paths, and that sorts after "/constitutions/", which would drop the
+            site's home into the middle of the list and feed the nesting below
+            a depth-1 page out of order. `here` is normalised the same way so
+            the current-page test survives both.
+          {%- endcomment -%}
+          {%- assign home = nav_pages | where_exp: "p", "p.url == '/' or p.url == '/index.html'" | first -%}
+          {%- assign docs = nav_pages | where_exp: "p", "p.url != '/' and p.url != '/index.html'" -%}
+          {%- assign here = page.url -%}
+          {%- if here == '/index.html' -%}{%- assign here = '/' -%}{%- endif -%}
+          {%- comment -%}
+            Nesting without a recursive include. A url's depth is how many path
+            segments it has: "/constitutions/" splits to ["", "constitutions"]
+            and "/constitutions/adrs.html" to ["", "constitutions",
+            "adrs.html"], so size - 1 is 1 for a directory index and 2 for the
+            documents inside it. The sort puts a parent immediately before its
+            children, so opening and closing a <ul> as that number changes
+            builds the whole tree in one pass. `level` is the depth of the list
+            currently open and `li_open` whether it has an <li> still waiting
+            to be closed; Liquid's assign writes to the outermost scope, so
+            both survive the loop body. The ranges are the loop Liquid has no
+            `while` for — (1..0) and (1..-1) simply do not run.
+          {%- endcomment -%}
+          <ul class="site-nav-list">
+            {%- if home -%}
+              <li><a href="{{ '/' | relative_url }}"{% if here == '/' %} aria-current="page"{% endif %}>{{ home.title }}</a></li>
+            {%- endif -%}
+            {%- assign level = 1 -%}
+            {%- assign li_open = false -%}
+            {%- for p in docs -%}
+              {%- assign depth = p.url | split: '/' | size | minus: 1 -%}
+              {%- assign deeper = depth | minus: level -%}
+              {%- for i in (1..deeper) -%}
+                {%- comment -%}A <ul> is only valid inside an <li>. It always is here, since a directory index sorts before its children; the guard is for a directory that has no index page at all.{%- endcomment -%}
+                {%- unless li_open -%}<li>{%- assign li_open = true -%}{%- endunless -%}
+                <ul>{%- assign level = level | plus: 1 -%}{%- assign li_open = false -%}
+              {%- endfor -%}
+              {%- assign shallower = level | minus: depth -%}
+              {%- for i in (1..shallower) -%}
+                {%- if li_open -%}</li>{%- endif -%}</ul>
+                {%- assign level = level | minus: 1 -%}{%- assign li_open = true -%}
+              {%- endfor -%}
+              {%- if li_open -%}</li>{%- endif -%}
+              <li><a href="{{ p.url | relative_url }}"{% if p.url == here %} aria-current="page"{% endif %}>{{ p.title }}</a>
+              {%- assign li_open = true -%}
+            {%- endfor -%}
+            {%- assign remaining = level | minus: 1 -%}
+            {%- for i in (1..remaining) -%}
+              {%- if li_open -%}</li>{%- endif -%}</ul>
+              {%- assign level = level | minus: 1 -%}{%- assign li_open = true -%}
+            {%- endfor -%}
+            {%- if li_open -%}</li>{%- endif -%}
+          </ul>
+        </details>
+      </nav>
+
+      <main class="site-main">
         {{ content }}
-      </div>
-    </main>
+      </main>
+    </div>
 
     <footer class="site-footer">
       <div class="wrapper">
