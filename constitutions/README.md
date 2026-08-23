@@ -16,20 +16,25 @@ Rows appear here as they do.
 ## Where these live
 
 `constitutions/` in this repository is where the documents are authored.
-`docs/constitutions/` is where a copy or symlink lands in a consuming project. A document
-that writes either path into its own body is wrong in one of the two places, so it writes
-neither — paths inside a constitution refer to the project it governs, and placing the copy
-is the installer's job.
+`docs/constitutions/` is where a copy or symlink lands in a consuming project. A topic
+document names neither: the paths in its rules belong to the project it governs, and where
+the document itself sits is the installer's business. This file names both because it is
+the index and has to describe the layout — that exemption belongs to the index, not to a
+topic document.
 
-Installing one means pointing the project's agent entry points at it. Those are a list —
-`CLAUDE.md`, `AGENTS.md`, `.cursorrules`, `copilot-instructions.md` — and a project may
-carry several of them or none:
+Installing one means placing the copy, adding a row for it to `docs/constitutions/README.md`
+in that project — the same index table used here, so an agent arrives at a map rather than
+a directory listing — and pointing the project's agent entry points at that index. Entry
+points are a list: `CLAUDE.md`, `AGENTS.md`, `.cursorrules`, `copilot-instructions.md`. A
+project may carry several. One that carries none gets an `AGENTS.md`, the entry point no
+single vendor owns.
 
 ```markdown
 ## Constitutions
 
-Project rules live in `docs/constitutions/`. Read them before writing code or
-documentation. Where a task and a constitution disagree, raise the conflict rather than
+Project rules live in `docs/constitutions/`, indexed in
+[docs/constitutions/README.md](docs/constitutions/README.md). Read them before writing code
+or documentation. Where a task and a constitution disagree, raise the conflict rather than
 working around it.
 ```
 
@@ -43,6 +48,23 @@ dependencies, its existing patterns — stays out.
 
 Procedure stays out too. A fixed sequence of calls with an exact right answer is a script,
 and a constitution that starts growing one has found a script worth extracting.
+
+No trigger-phrase list, and no passage explaining when to reach for the document. It is in
+context already; it does not need summoning.
+
+A concern an existing constitution already covers becomes a section in that document rather
+than a second file. Two documents on one concern is how a rule set starts contradicting
+itself, and the index at the top of this file is the check — short enough to read before
+starting.
+
+### Shape
+
+Title, then one sentence on what the document governs, then the `Upstream:` line, then the
+rules. A rule carries its reason where the reason is not obvious; one clause is usually
+enough, and it is what stops a later reader from tidying the rule away.
+
+A right/wrong pair goes where a rule is hard to apply without seeing it — as the modal verb
+rule below does. A rule that lands on first reading does not need one.
 
 ### Modal verbs
 
@@ -69,14 +91,19 @@ agent stops being its subject, it was procedure wearing a rule's clothes.
 
 ### No frontmatter
 
-No YAML header — no `version`, `date`, `authors`, `changelog`. Git records all four, a
-hand-maintained changelog inside a document rots the first time someone edits without
-updating it, and none of the agent entry points parse frontmatter, so it would be visible
-noise in every consuming project.
+No YAML header — no `version`, `date`, `authors`, `changelog`. In this repository git
+records all four, and a hand-maintained changelog inside a document rots the first time
+someone edits without updating it. None of the agent entry points parse frontmatter either,
+so it would be visible noise in every consuming project.
 
-A copy leaves its git history behind, so provenance is one line under the title instead:
+A copy leaves that history behind, which is the one thing the frontmatter did buy. One line
+under the title buys it back — pinned to the commit the copy was taken from, so it still
+resolves to what was actually copied and diffs against the current tip:
 
-> Upstream: https://github.com/polikeiji/constitutions/blob/main/constitutions/adr.md
+> Upstream: https://github.com/polikeiji/constitutions/blob/9f3c1ab/constitutions/adr.md
+
+A branch name in that URL would always resolve to tip and so could never show drift. The
+commit sha is the part that makes the line worth writing.
 
 ### Vendor neutrality
 
@@ -112,4 +139,5 @@ pointing at something that no longer explains itself.
 
 The table at the top of this file lists every constitution — a link, and one line on what
 it covers. It is updated in the change that adds, renames, or removes a document, not
-afterwards.
+afterwards. A consuming project keeps the same table at `docs/constitutions/README.md`,
+listing what was installed there.
