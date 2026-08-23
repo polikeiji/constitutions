@@ -7,11 +7,12 @@ description: >-
 url: "https://polikeiji.github.io"
 
 # Overridden on CI by `--baseurl "${{ steps.pages.outputs.base_path }}"`, which
-# is what the deployed site actually uses. Kept here so `jekyll serve` locally
+# is what the deployed site actually uses. Kept here so a local `jekyll serve`
 # produces the same URLs.
 baseurl: "/constitutions"
 
-theme: minima
+# No `theme:` on purpose. The layouts and stylesheet in this repo are the whole
+# design; see _layouts/default.html for why.
 
 # Plugins --------------------------------------------------------------------
 
@@ -26,10 +27,9 @@ plugins:
   # Rewrite [text](other-doc.md) to the built .html URL. Without it every
   # inter-document link 404s on the site while still working on github.com.
   - jekyll-relative-links
-  # Page title from the first heading, for <title> and SEO.
+  # Page title from the first heading.
   - jekyll-titles-from-headings
-  # Required by minima's layouts ({% feed_meta %} / {% seo %}).
-  - jekyll-feed
+  # <title>, description and Open Graph tags, fed by those derived titles.
   - jekyll-seo-tag
 
 optional_front_matter:

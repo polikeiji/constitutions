@@ -7,13 +7,11 @@ source "https://rubygems.org"
 # instead of whatever the `github-pages` gem currently pins.
 gem "jekyll", "~> 4.4"
 
-# Deliberately plain: #10 hand-writes the palette on top, so the base theme
-# should have as few opinions about colour as possible. minima 2.5 also ships a
-# `skin: auto` that follows prefers-color-scheme, which is #10's starting point.
-gem "minima", "~> 2.5"
+# No theme gem on purpose — see _layouts/default.html. minima 2.5.2 (the current
+# release) has no skins and no custom-styles seam, so it would contribute dated
+# Sass and nothing #10 could build a palette on.
 
 group :jekyll_plugins do
-  gem "jekyll-feed", "~> 0.17"
   gem "jekyll-optional-front-matter", "~> 0.3"
   gem "jekyll-readme-index", "~> 0.3"
   gem "jekyll-relative-links", "~> 0.7"

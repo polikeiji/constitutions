@@ -1,0 +1,17 @@
+---
+layout: default
+---
+{%- comment -%}
+  The default layout for every page (set under `defaults` in _config.yml), and
+  the seam the two follow-up tickets extend without touching default.html:
+
+  - #10 (dark mode)  — the toggle control goes here; the palette it drives is
+                       already declared as custom properties on :root in
+                       assets/css/style.css.
+  - #11 (Mermaid)    — the renderer script goes here, ideally gated on a
+                       `mermaid: true` page variable so pages without diagrams
+                       don't pay for it.
+{%- endcomment -%}
+<article class="doc">
+  {{ content }}
+</article>

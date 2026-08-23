@@ -1,0 +1,38 @@
+<!doctype html>
+{%- comment -%}
+  Hand-written rather than inherited from a theme gem.
+
+  minima 2.5.2 — the current release, and the obvious candidate — has no skins
+  and no custom-styles seam (verified against the v2.5.2 tag; the skins live
+  only on its unreleased master). It would have contributed Sass that dart-sass
+  warns about, a Disqus/Twitter/Analytics include set this site has no use for,
+  and nothing #10 could hang a palette on. Plain CSS custom properties in
+  assets/css/style.css are a better starting point for that ticket.
+{%- endcomment -%}
+<html lang="{{ page.lang | default: site.lang | default: 'en' }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+    {%- seo -%}
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrapper">
+        <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+      </div>
+    </header>
+
+    <main class="site-main">
+      <div class="wrapper">
+        {{ content }}
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrapper">
+        <a href="https://github.com/polikeiji/constitutions">View on GitHub</a>
+      </div>
+    </footer>
+  </body>
+</html>
