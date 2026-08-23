@@ -50,16 +50,16 @@ it is the test for anything added later, not because something is waiting behind
 
 ## Migration status
 
-Nothing has been moved yet — this README is step one. Planned disposition:
+The authoring convention is in place. The four conversion rows are written against it.
 
-| Current skill | Becomes | Rationale |
-|---|---|---|
-| [product-spec](skills/product-spec/) | spec constitution | Prompt + document template only. |
-| [devops-plan](skills/devops-plan/) | CI/CD constitution | Prompt + document template only. |
-| [adr](skills/adr/) | ADR constitution | Has evals (`evals/adr-evals.json`), but no deterministic logic — fails condition 1. |
-| [task-tickets](skills/task-tickets/) | GitHub Projects constitution | How tickets get written and registered is a convention, not a procedure to replay. |
-| [handle-ticket](skills/handle-ticket/) | GitHub Projects constitution | Same document — how a ticket goes from board to reviewed PR. |
-| [constitution](skills/constitution/) | the authoring convention for this repo | A skill for writing rule documents becomes the format itself. |
+| Current skill | Becomes | Status | Rationale |
+|---|---|---|---|
+| [product-spec](skills/product-spec/) | spec constitution | Planned | Prompt + document template only. |
+| [devops-plan](skills/devops-plan/) | CI/CD constitution | Planned | Prompt + document template only. |
+| [adr](skills/adr/) | ADR constitution | Planned | Has evals (`evals/adr-evals.json`), but no deterministic logic — fails condition 1. |
+| [task-tickets](skills/task-tickets/) | GitHub Projects constitution | Planned | How tickets get written and registered is a convention, not a procedure to replay. |
+| [handle-ticket](skills/handle-ticket/) | GitHub Projects constitution | Planned | Same document — how a ticket goes from board to reviewed PR. |
+| constitution | [the authoring convention](constitutions/README.md) | **Done** | A skill for writing rule documents becomes the format itself. |
 
 Implementation planning lives on GitHub Projects rather than in checked-in plan documents,
 so the GitHub Projects constitution covers that ground too.
@@ -99,6 +99,10 @@ Written for a model with judgment, which means:
   anything the model can infer from the repository itself.
 
 If a constitution starts growing procedure, that procedure is a script — extract it.
+
+[`constitutions/README.md`](constitutions/README.md) carries the rest — frontmatter, modal
+verbs, naming, file size, and how a document is installed into a project. It is the
+authoring convention itself, so the working rules live there rather than here.
 
 ### Skills
 
