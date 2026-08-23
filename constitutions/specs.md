@@ -32,7 +32,9 @@ prefix so the directory sorts into groups: `onboarding-overview.md`,
 
 One concern per file — a file answers one clear question — and about 400–600 words, a
 three-minute read. Running past the budget is the signal to split rather than to compress;
-a spec that outgrows it is usually holding two concerns.
+a spec that outgrows it is usually holding two concerns. A concern an existing spec already
+covers becomes a section in that spec rather than a second file, for the same reason:
+two specs on one concern start contradicting each other.
 
 ## Diagrams
 
