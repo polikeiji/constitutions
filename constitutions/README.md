@@ -12,9 +12,9 @@ instruction.
 | [Product specs](specs.md) | What a product spec covers, and what it leaves to the code |
 | [Architecture decision records](adrs.md) | What an ADR records about a decision, and what keeps it readable later |
 | [GitHub Projects](github-projects/README.md) | How tickets are written, and how one gets from the board to a reviewed PR |
+| [CI/CD pipelines](ci-cd.md) | Which pipelines a repository carries, and what each one guarantees |
 
-The CI/CD constitution lands with its own ticket.
-Rows appear here as they do.
+Rows appear here as documents do.
 
 ## Where these live
 
