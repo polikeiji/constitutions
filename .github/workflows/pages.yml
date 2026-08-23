@@ -1,0 +1,69 @@
+name: pages
+
+on:
+  push:
+    branches: [main]
+  # Build (but don't deploy) on PRs, so a change to the site is verified before
+  # it reaches main rather than after.
+  pull_request:
+    branches: [main]
+  # Redeploy without a commit.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write # deploy-pages authenticates over OIDC; without this it fails
+
+concurrency:
+  group: pages
+  # Not `true`: cancelling a run mid-deploy can leave Pages wedged.
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.3"
+          bundler-cache: true
+
+      - name: Configure Pages
+        id: pages
+        uses: actions/configure-pages@v6
+
+      - name: Build with Jekyll
+        env:
+          JEKYLL_ENV: production
+        # base_path is "" on a user/org site and "/constitutions" here; taking it
+        # from configure-pages keeps _config.yml's baseurl from going stale.
+        run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
+
+      - name: Check excluded trees stayed out of the build
+        run: |
+          for dir in adr-workspace evals skills; do
+            if [ -e "_site/$dir" ]; then
+              echo "::error::_site/$dir was built but should be excluded"
+              exit 1
+            fi
+          done
+          test -f _site/index.html || { echo "::error::no index.html — README was not used as the landing page"; exit 1; }
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: ./_site
+
+  deploy:
+    needs: build
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
