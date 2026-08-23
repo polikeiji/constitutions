@@ -10,8 +10,9 @@ instruction.
 |---|---|
 | [Authoring convention](#the-authoring-convention) | How the documents in this directory are written |
 | [Product specs](specs.md) | What a product spec covers, and what it leaves to the code |
+| [Architecture decision records](adrs.md) | What an ADR records about a decision, and what keeps it readable later |
 
-The ADR, CI/CD, and GitHub Projects constitutions each land with their own ticket.
+The CI/CD and GitHub Projects constitutions each land with their own ticket.
 Rows appear here as they do.
 
 ## Where these live
@@ -101,7 +102,7 @@ A copy leaves that history behind, which is the one thing the frontmatter did bu
 under the title buys it back — pinned to the commit the copy was taken from, so it still
 resolves to what was actually copied and diffs against the current tip:
 
-> Upstream: https://github.com/polikeiji/constitutions/blob/9f3c1ab/constitutions/adr.md
+> Upstream: https://github.com/polikeiji/constitutions/blob/9f3c1ab/constitutions/adrs.md
 
 A branch name in that URL would always resolve to tip and so could never show drift. The
 commit sha is the part that makes the line worth writing.
@@ -115,7 +116,7 @@ particular assistant named in a style rule is not.
 
 ### Files and size
 
-Lowercase kebab-case, one domain per file: `adr.md`, `commit-messages.md`. A file answers
+Lowercase kebab-case, one domain per file: `adrs.md`, `commit-messages.md`. A file answers
 one question — *what are the rules for X?* — and runs about 400–600 words, a three-minute
 read.
 
@@ -128,7 +129,7 @@ constitutions/
     README.md
     naming.md
     error-handling.md
-  adr.md
+  adrs.md
   README.md
 ```
 
