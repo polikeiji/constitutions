@@ -52,7 +52,7 @@ it is the test for anything added later, not because something is waiting behind
 
 The authoring convention is in place. The rows below are written against it — five skills
 across four conversion tickets, because `task-tickets` and `handle-ticket` become the same
-document, and two more deleted rather than converted.
+document. Two more are deleted rather than converted.
 
 | Current skill | Becomes | Status | Rationale |
 |---|---|---|---|
@@ -68,9 +68,9 @@ document, and two more deleted rather than converted.
 Implementation planning lives on GitHub Projects rather than in checked-in plan documents,
 so the GitHub Projects constitution covers that ground too.
 
-Deleting the two skills outright is what "not converted" costs: the LangSmith and Azure ML
-choreography is in the history and nowhere else. If that stack comes back, what gets
-written is a constitution about the evaluation approach, not this file restored.
+Deletion has a cost the table cannot show: `eval-pipeline-plan`'s LangSmith and Azure ML
+choreography now lives in the history and nowhere else. If that stack comes back, what
+gets written is a constitution about the evaluation approach, not this file restored.
 
 `handle-ticket` carried the most genuinely deterministic content here — auth-scope
 pre-flight, Project GraphQL node/field/option ID resolution, sub-item→item-ID mapping,
