@@ -57,7 +57,7 @@ document. Two more are deleted rather than converted.
 | Current skill | Becomes | Status | Rationale |
 |---|---|---|---|
 | product-spec | [spec constitution](constitutions/specs.md) | **Done** | Prompt + document template only. |
-| [devops-plan](skills/devops-plan/) | CI/CD constitution | Planned | Prompt + document template only. |
+| devops-plan | [CI/CD constitution](constitutions/ci-cd.md) | **Done** | Prompt + document template only. |
 | adr | [ADR constitution](constitutions/adrs.md) | **Done** | Has evals (`evals/adr-evals.json`), but no deterministic logic — fails condition 1. |
 | task-tickets | [GitHub Projects](constitutions/github-projects/README.md) | **Done** | How tickets get written and registered is a convention, not a procedure to replay. |
 | handle-ticket | [GitHub Projects](constitutions/github-projects/README.md) | **Done** | Same document — how a ticket goes from board to reviewed PR. |

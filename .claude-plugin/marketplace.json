@@ -4,18 +4,8 @@
     "name": "polikeiji"
   },
   "metadata": {
-    "description": "Personal skills for DevOps pipeline planning",
-    "version": "6.0.0"
+    "description": "No skills currently meet the bar in README.md; this marketplace ships nothing",
+    "version": "7.0.0"
   },
-  "plugins": [
-    {
-      "name": "devops-plan",
-      "description": "Generate DevOps pipeline plans as markdown documents in .github/workflows/",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/devops-plan"
-      ]
-    }
-  ]
+  "plugins": []
 }
