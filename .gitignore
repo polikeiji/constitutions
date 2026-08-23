@@ -1,0 +1,11 @@
+# Jekyll build output and caches
+_site/
+.jekyll-cache/
+.jekyll-metadata
+.sass-cache/
+
+# Bundler (ruby/setup-ruby installs here with bundler-cache: true)
+vendor/
+.bundle/
+
+.DS_Store
