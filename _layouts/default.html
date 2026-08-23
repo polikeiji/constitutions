@@ -94,5 +94,26 @@
       affects the first paint.
     {%- endcomment -%}
     <script src="{{ '/assets/js/theme.js' | relative_url }}" defer></script>
+
+    {%- comment -%}
+      Mermaid, on the pages that have a diagram and no others. The bundle is
+      3.5 MB; most pages here contain nothing to draw.
+
+      The gate reads the rendered page rather than a `mermaid: true` front
+      matter flag, which is what an earlier note in doc.html proposed. These
+      pages carry no front matter at all — that is the point of
+      jekyll-optional-front-matter, and "No frontmatter" in
+      constitutions/README.md makes it a rule for the documents most likely to
+      hold a diagram. A flag would have to go in the one place that may not have
+      one. `language-mermaid` is the class kramdown puts on the block, so the
+      page that has a diagram is already the page that says so.
+
+      Both deferred, so they run in order after the document parses, and after
+      the inline script above has stamped data-theme — diagrams.js reads it.
+    {%- endcomment -%}
+    {%- if content contains 'language-mermaid' -%}
+      <script src="{{ '/assets/js/vendor/mermaid.min.js' | relative_url }}" defer></script>
+      <script src="{{ '/assets/js/diagrams.js' | relative_url }}" defer></script>
+    {%- endif -%}
   </body>
 </html>
