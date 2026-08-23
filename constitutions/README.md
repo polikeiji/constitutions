@@ -11,8 +11,9 @@ instruction.
 | [Authoring convention](#the-authoring-convention) | How the documents in this directory are written |
 | [Product specs](specs.md) | What a product spec covers, and what it leaves to the code |
 | [Architecture decision records](adrs.md) | What an ADR records about a decision, and what keeps it readable later |
+| [GitHub Projects](github-projects/README.md) | How tickets are written, and how one gets from the board to a reviewed PR |
 
-The CI/CD and GitHub Projects constitutions each land with their own ticket.
+The CI/CD constitution lands with its own ticket.
 Rows appear here as they do.
 
 ## Where these live
