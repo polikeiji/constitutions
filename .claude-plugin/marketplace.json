@@ -4,19 +4,10 @@
     "name": "polikeiji"
   },
   "metadata": {
-    "description": "Personal skills for implementation planning, DevOps pipeline planning, and evaluation pipeline planning",
-    "version": "5.0.0"
+    "description": "Personal skills for DevOps pipeline planning",
+    "version": "6.0.0"
   },
   "plugins": [
-    {
-      "name": "impl-plan",
-      "description": "Create and maintain implementation plan documents in docs/plans/",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/impl-plan"
-      ]
-    },
     {
       "name": "devops-plan",
       "description": "Generate DevOps pipeline plans as markdown documents in .github/workflows/",
@@ -24,15 +15,6 @@
       "strict": false,
       "skills": [
         "./skills/devops-plan"
-      ]
-    },
-    {
-      "name": "eval-pipeline-plan",
-      "description": "Generate evaluation pipeline plans for GenAI agents and skills, with LangSmith tracking and Azure ML deployment",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/eval-pipeline-plan"
       ]
     }
   ]
