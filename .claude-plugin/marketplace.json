@@ -4,8 +4,8 @@
     "name": "polikeiji"
   },
   "metadata": {
-    "description": "Personal skills for implementation planning, DevOps pipeline planning, task ticket generation, end-to-end GitHub ticket handling (implement, review, and fix), and Architecture Decision Records (ADRs)",
-    "version": "3.0.0"
+    "description": "Personal skills for implementation planning, DevOps pipeline planning, task ticket generation, and end-to-end GitHub ticket handling (implement, review, and fix)",
+    "version": "4.0.0"
   },
   "allowCrossMarketplaceDependenciesOn": [
     "claude-plugins-official"
@@ -64,15 +64,6 @@
       "strict": false,
       "skills": [
         "./skills/eval-pipeline-plan"
-      ]
-    },
-    {
-      "name": "adr",
-      "description": "Research and write Architecture Decision Records (ADRs) in docs/adrs/",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/adr"
       ]
     }
   ]
