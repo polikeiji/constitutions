@@ -16,7 +16,7 @@ comment in the YAML or a Mermaid block beside it carries the explanation.
 | `claude-code-review` | Every pull request has an automated review on it before a human opens it |
 | `claude-help` | An `@`-mention in an issue or PR comment gets an answer |
 | `secret-scan` | No credential reaches the default branch — Gitleaks |
-| `sast-scan` | No known-vulnerable pattern merges — Semgrep, `p/default` plus `p/owasp-top-ten` |
+| `sast-scan` | No known-vulnerable pattern merges — Semgrep, `p/default` plus `p/owasp-top-ten` and `p/secrets` |
 | `iac-ci` | Infrastructure changes are validated and their plan is readable on the pull request |
 | `iac-cd` | Merged infrastructure changes are applied, behind an approval gate |
 | `app-test` | The test suite passes on the merge candidate |
@@ -25,7 +25,7 @@ comment in the YAML or a Mermaid block beside it carries the explanation.
 
 A repository takes the rows that apply to it — no IaC, no `iac-*`; no image, no
 `app-build`. Anything added beyond the set is named the same way. The two agent workflows
-are named for whichever coding agent the project runs.
+keep those names whichever coding agent the action behind them runs.
 
 ## What the repository already answers
 
@@ -60,6 +60,12 @@ that dismissing a finding leaves a diff behind.
 
 `secret-scan` covers pull requests and pushes to the default branch both; scanning one path
 leaves the other open.
+
+`sast-scan` uploads its SARIF to GitHub Code Scanning, which needs `security-events: write`
+and — on a private repository — GitHub Advanced Security, a paid add-on. Nothing in a
+repository reveals whether that is on the plan, so the upload step is the one part of the
+set worth confirming before it is written. `p/secrets` overlaps Gitleaks on purpose: two
+pattern sets over the same diff catch what one misses.
 
 ## Deploys pass through an environment
 
