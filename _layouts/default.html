@@ -13,6 +13,37 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    {%- comment -%}
+      Inline, blocking, and above the stylesheet on purpose — this is the whole
+      defence against a flash of the wrong theme.
+
+      Everything about that placement is load-bearing. Moved into
+      assets/js/theme.js it becomes a second round-trip and the page paints
+      light before the stored preference arrives; given `defer` it runs after
+      the document is parsed, which is later still; put below the <link> it
+      races the stylesheet. It stays small enough to be worth the bytes in
+      every page.
+
+      No attribute is written for the unset state: the site follows the OS
+      through the media query in style.css, so leaving `data-theme` off is what
+      "follow the OS" looks like in the markup.
+    {%- endcomment -%}
+    <script>
+      (function () {
+        var root = document.documentElement;
+        try {
+          var stored = localStorage.getItem('theme');
+          if (stored === 'light' || stored === 'dark') {
+            root.setAttribute('data-theme', stored);
+          }
+        } catch (e) {
+          /* Storage access throws outright where site data is blocked, rather
+             than returning null. The OS preference still applies. */
+        }
+        /* Reveals the toggle, which is inert until theme.js has loaded. */
+        root.className += (root.className ? ' ' : '') + 'js';
+      })();
+    </script>
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
     {%- seo -%}
   </head>
@@ -20,6 +51,18 @@
     <header class="site-header">
       <div class="wrapper">
         <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+
+        {%- comment -%}
+          Lives here rather than in doc.html, where an earlier comment said it
+          would: the control belongs to the site chrome, and doc.html is the
+          inside of <main>. The label is the button's accessible name, and
+          theme.js rewrites it as the setting cycles.
+        {%- endcomment -%}
+        <button type="button" class="theme-toggle" data-theme-toggle
+                aria-live="polite">
+          <span class="u-visually-hidden">Theme: </span>
+          <span data-theme-toggle-label>System</span>
+        </button>
       </div>
     </header>
 
@@ -34,5 +77,12 @@
         <a href="https://github.com/{{ site.repository }}">View on GitHub</a>
       </div>
     </footer>
+
+    {%- comment -%}
+      The half that can wait: cycling the setting, persisting it, and announcing
+      it. Deferred and external, unlike the pre-paint script above — none of it
+      affects the first paint.
+    {%- endcomment -%}
+    <script src="{{ '/assets/js/theme.js' | relative_url }}" defer></script>
   </body>
 </html>
