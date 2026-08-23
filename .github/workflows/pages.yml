@@ -130,9 +130,10 @@ jobs:
             end
 
             plain = "_site/index.html"
-            abort("::error::#{plain} unexpectedly contains a diagram, so it cannot stand in for a diagram-free page here") if File.read(plain).include?("language-mermaid")
+            index = File.read(plain)
+            abort("::error::#{plain} unexpectedly contains a diagram, so it cannot stand in for a diagram-free page here") if index.include?("language-mermaid")
             assets.each do |asset|
-              abort("::error::#{plain} has no diagram but still loads #{asset}") if File.read(plain).include?(asset)
+              abort("::error::#{plain} has no diagram but still loads #{asset}") if index.include?(asset)
             end
           '
 
