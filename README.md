@@ -50,7 +50,9 @@ it is the test for anything added later, not because something is waiting behind
 
 ## Migration status
 
-The authoring convention is in place. The four conversion rows are written against it.
+The authoring convention is in place. The rows below are written against it — five skills
+across four conversion tickets, because `task-tickets` and `handle-ticket` become the same
+document.
 
 | Current skill | Becomes | Status | Rationale |
 |---|---|---|---|
