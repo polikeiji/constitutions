@@ -80,43 +80,62 @@ jobs:
             abort("::error::_site/index.html has no <head> - the doc layout did not run, check `defaults` in _config.yml") unless index.include?("</head>")
 
             # The sidebar is the one part of the layout assembled by hand
-            # rather than by a plugin, and it fails in two quiet ways. Losing
-            # the `defaults` block or regressing the layout drops it from pages
-            # that still build and still read fine on their own. And an href
-            # that skips `relative_url` builds clean here and 404s on the
-            # deployed site, which is served under a baseurl - the one bug this
-            # layout was always most likely to ship. Both are asserted on
-            # every built page rather than on the index alone, since a nav is
-            # only worth anything if it is on all of them.
+            # rather than by a plugin, and it fails quietly in three ways.
+            # Losing the `defaults` block or regressing the layout drops it
+            # from pages that still build and still read fine on their own. An
+            # href that skipped relative_url builds clean here and 404s on the
+            # deployed site, which is served under a baseurl. And the list is
+            # derived from page titles, so a document that stops carrying one
+            # falls out of the nav while every page still ships the box it used
+            # to sit in. All three are asserted on every built page rather than
+            # on the index alone, since a nav is only worth anything if it is
+            # on all of them.
+
+            # Chomped the way relative_url chomps it, so a baseurl written with
+            # a trailing slash - which Jekyll treats as the same baseurl - does
+            # not report every link on the site as broken.
             base = ENV["BASE_PATH"].to_s
             base = YAML.load_file("_config.yml")["baseurl"].to_s if base.empty?
+            base = base.chomp("/")
 
-            pages = Dir.glob("_site/**/*.html").sort
-            abort("::error::no HTML pages in _site at all") if pages.empty?
+            # assets/ is swept out rather than in: an HTML file vendored beside
+            # mermaid.min.js is not a page and owes no nav.
+            html = Dir.glob("_site/**/*.html").sort
+                      .reject { |f| f.start_with?("_site/assets/") }
+                      .to_h   { |f| [f, File.read(f)] }
 
-            navless = pages.reject { |f| File.read(f).include?(%q(<nav class="site-nav")) }
+            # Matched once, so a nav opened and never closed reads as a missing
+            # nav here rather than raising NoMethodError further down.
+            navs = html.transform_values { |body| body[/<nav class="site-nav".*?<\/nav>/m] }
+            navless = navs.select { |_, nav| nav.nil? }.keys
             abort("::error::no sidebar in: #{navless.join(", ")} - check `defaults` in _config.yml and the nav in _layouts/default.html") if navless.any?
 
-            # Following each href into _site rather than only checking it
-            # starts with the baseurl, because here those are not the same
-            # test: the documents live under constitutions/ and the site
-            # deploys under /constitutions/, so a raw page.url still starts
-            # with the right prefix and still 404s. Where the link lands is the
-            # property that actually matters.
-            resolves = lambda do |href|
-              return false unless href.start_with?("#{base}/")
+            # Where a nav href lands in the build, or nil if it lands nowhere.
+            # Following each one in, rather than checking it starts with the
+            # baseurl, because here those are not the same test: the documents
+            # live under constitutions/ and the site deploys under
+            # /constitutions/, so a raw page.url still carries the right prefix
+            # and still 404s.
+            target = lambda do |href|
+              return nil unless href.start_with?("#{base}/")
               path = href[base.length..-1]
               path = File.join(path, "index.html") if path.end_with?("/")
-              File.file?(File.join("_site", path))
+              path = File.join("_site", path)
+              File.file?(path) ? path : nil
             end
 
-            broken = pages.flat_map do |f|
-              nav = File.read(f)[/<nav class="site-nav".*?<\/nav>/m]
-              nav.scan(/href="([^"]*)"/).flatten
-                 .reject { |href| resolves.call(href) }
-                 .map    { |href| "#{f}: #{href}" }
-            end
+            links = navs.transform_values { |nav| nav.scan(/href="([^"]*)"/).flatten }
+
+            broken = links.flat_map { |f, hrefs| hrefs.reject { |h| target.call(h) }.map { |h| "#{f}: #{h}" } }
             abort("::error::sidebar links that reach nothing in the build, and so 404 once deployed under #{base.inspect} - the usual cause is an href that skipped relative_url: #{broken.join("; ")}") if broken.any?
+
+            # A page carrying the sidebar is a page the sidebar has to carry.
+            # Without this the two checks above are satisfied by an empty nav,
+            # which is what a change to how titles are derived - or a document
+            # that stops opening with a heading - would actually produce.
+            listed = links.values.flatten.map { |h| target.call(h) }.compact.uniq
+            missing = html.keys - listed
+            abort("::error::built pages the sidebar does not link to: #{missing.join(", ")} - the list is built from page titles, so check that each of these still opens with a heading") if missing.any?
           '
 
       # The two dark blocks in style.css cannot share one rule - a media query
