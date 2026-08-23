@@ -101,6 +101,41 @@ jobs:
             end
           '
 
+      # The Mermaid bundle is 3.5 MB, so _layouts/default.html ships it only to
+      # pages whose rendered HTML contains a diagram. Both halves of that gate
+      # fail quietly and in opposite directions - one sends 3.5 MB to every
+      # page, the other stops sending it to the pages that need it - and the
+      # site looks unchanged either way until someone opens a document with a
+      # diagram in it. Assert both, and assert the bundle actually shipped:
+      # `vendor/` in the exclude list above is rooted at the site source and
+      # does not reach assets/js/vendor/, which is easy to misread.
+      - name: Check the Mermaid gate
+        run: |
+          ruby -e '
+            bundle  = "_site/assets/js/vendor/mermaid.min.js"
+            fixture = "_site/constitutions/github-projects/board-to-pr.html"
+            assets  = ["assets/js/vendor/mermaid.min.js", "assets/js/diagrams.js"]
+
+            abort("::error::#{bundle} is not in the build - check that `vendor/` in _config.yml has not been widened to match it") unless File.file?(bundle)
+            abort("::error::#{fixture} is missing - the Mermaid fixture page moved, so update this check") unless File.file?(fixture)
+
+            html = File.read(fixture)
+            # Rouge has no mermaid lexer, so kramdown emits its plain fallback
+            # and puts the class on the <code>. If Rouge ever ships one the
+            # class moves to a wrapper div; assets/js/diagrams.js handles both
+            # shapes, and this substring is present in both.
+            abort("::error::no language-mermaid block in #{fixture} - the fixture diagrams are gone") unless html.include?("language-mermaid")
+            assets.each do |asset|
+              abort("::error::#{fixture} has a diagram but does not load #{asset}") unless html.include?(asset)
+            end
+
+            plain = "_site/index.html"
+            abort("::error::#{plain} unexpectedly contains a diagram, so it cannot stand in for a diagram-free page here") if File.read(plain).include?("language-mermaid")
+            assets.each do |asset|
+              abort("::error::#{plain} has no diagram but still loads #{asset}") if File.read(plain).include?(asset)
+            end
+          '
+
       # Nothing downloads this on a PR, where the deploy job is skipped.
       - name: Upload the site
         if: github.event_name != 'pull_request'
