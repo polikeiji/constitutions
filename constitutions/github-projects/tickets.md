@@ -2,6 +2,8 @@
 
 What a ticket on a GitHub Projects board contains, and how much work belongs in one.
 
+Upstream: https://github.com/polikeiji/constitutions/blob/2bb7165/constitutions/github-projects/tickets.md
+
 ## The body
 
 Six sections, in this order: Context, Objective, Technical guidance, Acceptance criteria,
