@@ -50,6 +50,17 @@ readme_index:
 # enabled, pages but not collections, and the first heading left in the body —
 # the layout doesn't print page.title, so stripping it would drop the H1.
 
+# Every page goes through _layouts/doc.html, the seam #10 (dark mode) and #11
+# (Mermaid) extend. Nothing else assigns a layout: the pages here are markdown
+# without front matter, so without this block they render as bare HTML
+# fragments with no <head>, no stylesheet and no header.
+defaults:
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: doc
+
 # Content scope --------------------------------------------------------------
 
 # Jekyll concats its own DEFAULT_EXCLUDES onto this list (Configuration

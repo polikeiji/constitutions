@@ -58,7 +58,7 @@ jobs:
 
       # Reads the exclude list out of _config.yml rather than restating it, so
       # a tree added there is covered here without anyone remembering to.
-      - name: Check the excluded trees stayed out of the build
+      - name: Check the build output
         run: |
           ruby -ryaml -e '
             leaked = YAML.load_file("_config.yml")["exclude"]
@@ -66,6 +66,13 @@ jobs:
                          .select { |e| File.exist?(File.join("_site", e)) }
             abort("::error::excluded in _config.yml but present in _site: #{leaked.join(", ")}") if leaked.any?
             abort("::error::no _site/index.html - README was not used as the landing page") unless File.file?("_site/index.html")
+
+            # The pages here carry no front matter, so their layout comes only
+            # from the `defaults` block in _config.yml. Losing that block still
+            # produces a plausible _site/index.html - just a bare fragment with
+            # no <head>, stylesheet or header. Assert the layout actually ran.
+            index = File.read("_site/index.html")
+            abort("::error::_site/index.html has no <head> - the doc layout did not run, check `defaults` in _config.yml") unless index.include?("</head>")
           '
 
       # Nothing downloads this on a PR, where the deploy job is skipped.
