@@ -24,8 +24,10 @@ something the intended reader can neither confirm nor dispute.
 
 ## Files
 
-Specs live in `docs/specs/`, lowercase kebab-case. Related specs share a filename prefix so
-the directory sorts into groups: `onboarding-overview.md`,
+Specs live in `docs/specs/`, lowercase kebab-case, and carry no YAML frontmatter — no
+version, date, or changelog, because git records all three and a changelog kept by hand
+rots the first time someone edits without updating it. Related specs share a filename
+prefix so the directory sorts into groups: `onboarding-overview.md`,
 `onboarding-email-verification.md`.
 
 One concern per file — a file answers one clear question — and about 400–600 words, a
