@@ -56,7 +56,7 @@ document.
 
 | Current skill | Becomes | Status | Rationale |
 |---|---|---|---|
-| [product-spec](skills/product-spec/) | spec constitution | Planned | Prompt + document template only. |
+| product-spec | [spec constitution](constitutions/specs.md) | **Done** | Prompt + document template only. |
 | [devops-plan](skills/devops-plan/) | CI/CD constitution | Planned | Prompt + document template only. |
 | [adr](skills/adr/) | ADR constitution | Planned | Has evals (`evals/adr-evals.json`), but no deterministic logic — fails condition 1. |
 | [task-tickets](skills/task-tickets/) | GitHub Projects constitution | Planned | How tickets get written and registered is a convention, not a procedure to replay. |
