@@ -7,8 +7,8 @@ title: constitutions
 # the whole description.
 tagline: rules for coding agents
 description: >-
-  Personal rules and tooling for Claude Code across my projects — portable
-  constitutions, and the few skills that carry deterministic logic.
+  Personal rules for Claude Code across my projects — portable constitutions, one per
+  concern, copied into each project that needs them.
 url: "https://polikeiji.github.io"
 repository: polikeiji/constitutions
 
@@ -65,11 +65,10 @@ defaults:
 
 # Jekyll concats its own DEFAULT_EXCLUDES onto this list (Configuration
 # #add_default_excludes) and discards dot-prefixed entries before consulting it
-# (EntryFilter#special?), so Gemfile, Gemfile.lock, .jekyll-cache/, .claude/ and
-# .claude-plugin/ don't need naming here.
+# (EntryFilter#special?), so Gemfile, Gemfile.lock, .jekyll-cache/ and .claude/ don't need
+# naming here.
 exclude:
   - adr-workspace/   # 62 files of eval scratch output, not documentation
   - evals/           # fixtures
-  - skills/          # retired by #4–#8
   - CLAUDE.md        # instructions for the agent, not documentation
   - vendor/          # DEFAULT_EXCLUDES only covers vendor/bundle/ and friends
