@@ -4,22 +4,13 @@
     "name": "polikeiji"
   },
   "metadata": {
-    "description": "Personal skills for product specification writing, implementation planning, DevOps pipeline planning, task ticket generation, end-to-end GitHub ticket handling (implement, review, and fix), and Architecture Decision Records (ADRs)",
-    "version": "2.0.0"
+    "description": "Personal skills for implementation planning, DevOps pipeline planning, task ticket generation, end-to-end GitHub ticket handling (implement, review, and fix), and Architecture Decision Records (ADRs)",
+    "version": "3.0.0"
   },
   "allowCrossMarketplaceDependenciesOn": [
     "claude-plugins-official"
   ],
   "plugins": [
-    {
-      "name": "product-spec",
-      "description": "Write and maintain product specification documents in docs/specs/",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/product-spec"
-      ]
-    },
     {
       "name": "impl-plan",
       "description": "Create and maintain implementation plan documents in docs/plans/",
