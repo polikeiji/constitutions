@@ -304,3 +304,117 @@ a:hover { text-decoration: underline; }
 
 .doc th { background: var(--bg-subtle); font-weight: 600; }
 
+/* Syntax highlighting ------------------------------------------------------ */
+
+/*
+ * Rouge ships its own themes as fixed hex values, which is how a dark page ends
+ * up with a light code block. These map its classes onto the palette above
+ * instead, so both themes are driven from one place.
+ *
+ * Grouped by what the token means rather than one rule per class: Rouge's short
+ * names (.kd keyword-declaration, .mi number-integer, .nf name-function) are a
+ * two-letter category plus a subtype, and the subtypes do not need to differ.
+ * The full list is in Rouge's Token::Tokens.
+ */
+
+/* Rouge tags both the wrapper div and the <pre> inside it `highlight`, so a
+   `.doc .highlight` rule lands on the <pre> as well - and at (0,2,0) it outranks
+   the (0,1,1) of `.doc pre`. Anything meant for the wrapper alone has to say
+   `div.highlight`, or it silently overrides the code block's own background and
+   padding. The token rules below are safe because they all carry a third class.
+   No background is declared here: .doc pre already paints it. */
+
+/* Comments, and the preprocessor lines that read like them. */
+.doc .highlight .c, .doc .highlight .ch, .doc .highlight .cd,
+.doc .highlight .cm, .doc .highlight .c1, .doc .highlight .cs {
+  color: var(--code-comment);
+  font-style: italic;
+}
+
+.doc .highlight .cp, .doc .highlight .cpf { color: var(--code-keyword); }
+
+/* Keywords and operators that are words. */
+.doc .highlight .k, .doc .highlight .kc, .doc .highlight .kd,
+.doc .highlight .kn, .doc .highlight .kp, .doc .highlight .kr,
+.doc .highlight .ow {
+  color: var(--code-keyword);
+}
+
+/* Types, classes, constants - the things a language capitalises. */
+.doc .highlight .kt, .doc .highlight .nc, .doc .highlight .nn,
+.doc .highlight .no, .doc .highlight .ne {
+  color: var(--code-type);
+}
+
+/* Strings, in every flavour Rouge distinguishes. */
+.doc .highlight .s, .doc .highlight .sa, .doc .highlight .sb,
+.doc .highlight .sc, .doc .highlight .dl, .doc .highlight .sd,
+.doc .highlight .s2, .doc .highlight .se, .doc .highlight .sh,
+.doc .highlight .si, .doc .highlight .sx, .doc .highlight .sr,
+.doc .highlight .s1, .doc .highlight .ss {
+  color: var(--code-string);
+}
+
+/* Numbers. */
+.doc .highlight .m, .doc .highlight .mb, .doc .highlight .mf,
+.doc .highlight .mh, .doc .highlight .mi, .doc .highlight .mo,
+.doc .highlight .mx, .doc .highlight .il {
+  color: var(--code-number);
+}
+
+/* Functions, decorators, labels. */
+.doc .highlight .nf, .doc .highlight .fm, .doc .highlight .nd,
+.doc .highlight .nl {
+  color: var(--code-function);
+}
+
+/* Built-ins and variables. */
+.doc .highlight .nb, .doc .highlight .bp, .doc .highlight .nv,
+.doc .highlight .vc, .doc .highlight .vg, .doc .highlight .vi,
+.doc .highlight .vm, .doc .highlight .ni {
+  color: var(--code-builtin);
+}
+
+/* Markup tags and their attributes - HTML, XML, and the YAML keys in this
+   repo's examples. */
+.doc .highlight .nt { color: var(--code-tag); }
+.doc .highlight .na { color: var(--code-number); }
+
+/* Plain names, operators and punctuation inherit the body colour rather than
+   picking up a Rouge default. */
+.doc .highlight .n, .doc .highlight .o, .doc .highlight .p,
+.doc .highlight .py, .doc .highlight .w {
+  color: inherit;
+}
+
+/*
+ * Generic tokens. The markdown lexer leans on these, and the constitutions are
+ * full of fenced markdown, so they matter more here than the language tokens
+ * above.
+ */
+.doc .highlight .gh, .doc .highlight .gu {
+  color: var(--code-type);
+  font-weight: 600;
+}
+
+.doc .highlight .gs { font-weight: 600; }
+.doc .highlight .ge { font-style: italic; }
+.doc .highlight .gp { color: var(--code-comment); }
+.doc .highlight .gl { color: var(--text-muted); }
+
+.doc .highlight .gd {
+  color: var(--code-deleted);
+  background-color: var(--code-deleted-bg);
+}
+
+.doc .highlight .gi {
+  color: var(--code-inserted);
+  background-color: var(--code-inserted-bg);
+}
+
+/* A lexer that gave up on the input. Underlined rather than boxed in red, which
+   at this size reads as a spelling mistake in the prose. */
+.doc .highlight .err, .doc .highlight .gr, .doc .highlight .gt {
+  color: var(--code-deleted);
+  text-decoration: underline;
+}
