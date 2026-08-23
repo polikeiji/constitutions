@@ -75,6 +75,32 @@ jobs:
             abort("::error::_site/index.html has no <head> - the doc layout did not run, check `defaults` in _config.yml") unless index.include?("</head>")
           '
 
+      # The two dark blocks in style.css cannot share one rule - a media query
+      # and a plain selector do not combine - so the values are written twice.
+      # Duplication drifts, and the bug it produces is quiet: the OS-dark page
+      # and the explicitly-dark page slowly stop matching, and only a visitor
+      # who uses the toggle ever sees it.
+      - name: Check the two dark palettes match
+        run: |
+          ruby -e '
+            css = File.read("assets/css/style.css")
+            blocks = {
+              "media-query" => css[/:root:not\(\[data-theme="light"\]\)\s*\{(.*?)\}/m, 1],
+              "attribute"   => css[/:root\[data-theme="dark"\]\s*\{(.*?)\}/m, 1]
+            }
+            blocks.each do |name, body|
+              abort("::error::no #{name} dark block found in assets/css/style.css - the palette layers moved, so update this check") if body.nil?
+            end
+            declarations = blocks.transform_values do |body|
+              body.scan(/[-\w]+\s*:[^;]+/).map { |d| d.gsub(/\s+/, " ").strip }
+            end
+            unless declarations["media-query"] == declarations["attribute"]
+              only = (declarations["media-query"] | declarations["attribute"]) -
+                     (declarations["media-query"] & declarations["attribute"])
+              abort("::error::the two dark palettes in assets/css/style.css have drifted: #{only.join("; ")}")
+            end
+          '
+
       # Nothing downloads this on a PR, where the deploy job is skipped.
       - name: Upload the site
         if: github.event_name != 'pull_request'

@@ -1,8 +1,26 @@
 /*
- * Every colour is a custom property on :root so #10 can add dark mode by
- * redefining this block under a media query and a [data-theme] selector,
- * without touching a single rule below it.
+ * Palette ---------------------------------------------------------------------
+ *
+ * Three layers, and the order is load-bearing:
+ *
+ *   1. :root                                 the complete light palette
+ *   2. @media (prefers-color-scheme: dark)   dark, unless overridden to light
+ *      :root:not([data-theme="light"])
+ *   3. :root[data-theme="dark"]              dark again, so a choice beats the OS
+ *
+ * The :not([data-theme="light"]) guard in layer 2 is what lets a visitor whose OS
+ * is set to dark force the site to light: without it layer 2 keeps matching and
+ * the toggle only overrides in one direction.
+ *
+ * Layer 3 repeats layer 2's values rather than sharing them, because CSS cannot
+ * put a media query and a plain selector on the same rule. The build asserts the
+ * two blocks stay identical - see "Check the two dark palettes match" in
+ * .github/workflows/pages.yml.
+ *
+ * Every token is given a value in layer 1. A token defined only inside layer 2
+ * resolves to nothing for a visitor on a light OS who picks dark.
  */
+
 :root {
   --content-width: 46rem;
   --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
@@ -10,12 +28,86 @@
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
     "Liberation Mono", monospace;
 
+  /* Also tells the UA which way to paint scrollbars, form controls and the
+     canvas behind the page - all of which stay light otherwise. */
+  color-scheme: light;
+
   --bg: #ffffff;
   --bg-subtle: #f6f8fa;
   --text: #1f2328;
   --text-muted: #59636e;
   --link: #0969da;
   --border: #d1d9e0;
+  /* Hairlines are decorative; a control's edge is not, and owes 3:1 under WCAG
+     1.4.11. Only the toggle uses this one. */
+  --border-strong: #818b96;
+
+  /* Rouge's own classes are mapped onto these at the end of the file, so the
+     syntax colours change with the palette instead of staying light. */
+  --code-comment: #5d6673;
+  --code-keyword: #cf222e;
+  --code-string: #0a3069;
+  --code-number: #0550ae;
+  --code-function: #8250df;
+  --code-type: #953800;
+  --code-tag: #116329;
+  --code-builtin: #0550ae;
+  --code-deleted: #82071e;
+  --code-deleted-bg: #ffebe9;
+  --code-inserted: #0f5323;
+  --code-inserted-bg: #dafbe1;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --bg: #10151c;
+    --bg-subtle: #171f29;
+    --text: #dfe6ee;
+    --text-muted: #9aa7b4;
+    --link: #6cb0ff;
+    --border: #2c3644;
+    --border-strong: #68737f;
+
+    --code-comment: #8b98a5;
+    --code-keyword: #ff7b72;
+    --code-string: #a5d6ff;
+    --code-number: #79c0ff;
+    --code-function: #d2a8ff;
+    --code-type: #ffa657;
+    --code-tag: #7ee787;
+    --code-builtin: #79c0ff;
+    --code-deleted: #ffa198;
+    --code-deleted-bg: #3c1618;
+    --code-inserted: #7ee787;
+    --code-inserted-bg: #12261e;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #10151c;
+  --bg-subtle: #171f29;
+  --text: #dfe6ee;
+  --text-muted: #9aa7b4;
+  --link: #6cb0ff;
+  --border: #2c3644;
+  --border-strong: #68737f;
+
+  --code-comment: #8b98a5;
+  --code-keyword: #ff7b72;
+  --code-string: #a5d6ff;
+  --code-number: #79c0ff;
+  --code-function: #d2a8ff;
+  --code-type: #ffa657;
+  --code-tag: #7ee787;
+  --code-builtin: #79c0ff;
+  --code-deleted: #ffa198;
+  --code-deleted-bg: #3c1618;
+  --code-inserted: #7ee787;
+  --code-inserted-bg: #12261e;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -158,3 +250,4 @@ a:hover { text-decoration: underline; }
 }
 
 .doc th { background: var(--bg-subtle); font-weight: 600; }
+
