@@ -31,7 +31,12 @@
   --sidebar-gap: 2.5rem;
   /* What the page measures once the sidebar sits beside the document. The
      header, the footer and the two-column row all take it, so the site title,
-     the nav and the theme toggle stay on the same two edges down the page. */
+     the nav and the theme toggle stay on the same two edges down the page.
+
+     The breakpoint that switches those two columns on is this sum plus room to
+     breathe, written out as 64rem near the end of this file. A media query
+     cannot read a custom property, so it is the one number here that has to be
+     changed by hand when any of the three widths above it change. */
   --wide-width: calc(
     var(--content-width) + var(--sidebar-width) + var(--sidebar-gap)
   );
@@ -215,6 +220,30 @@ a:hover { text-decoration: underline; }
   outline-offset: 2px;
 }
 
+/* Off the top of the page until focused, then a real control above everything
+   else. Not .u-visually-hidden, which would keep it invisible while focused;
+   not display:none, which would take it out of the tab order and defeat the
+   point. */
+.skip-link {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 1;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  transform: translateY(-300%);
+}
+
+.skip-link:focus { transform: none; }
+
+/* The skip link lands here. tabindex="-1" makes <main> focusable without
+   putting it in the tab order; the ring is dropped because a box drawn round
+   the whole document reads as breakage rather than as focus. */
+.site-main:focus { outline: none; }
+
 /* Reachable by a screen reader, absent from the page. */
 .u-visually-hidden {
   position: absolute;
@@ -312,8 +341,10 @@ a:hover { text-decoration: underline; }
 }
 
 /*
- * The breakpoint is where the sidebar, the gap and the reading column stop
- * fitting side by side: 14 + 2.5 + 46 = 62.5rem, plus room to breathe.
+ * The breakpoint is --wide-width plus room to breathe: 14 + 2.5 + 46 = 62.5rem.
+ * It cannot be written as var(--wide-width), because a media query does not
+ * read custom properties - so this number and those three widths have to move
+ * together.
  *
  * The reading column keeps exactly the measure it had before the sidebar
  * existed. .wrapper's max-width includes its 1.25rem of padding on each side,
@@ -340,8 +371,13 @@ a:hover { text-decoration: underline; }
   }
 
   .site-nav {
-    margin-bottom: 0;
-    padding-bottom: 0;
+    /* overflow-y below makes this a scroll container on both axes - overflow-x
+       computes to auto with it - so it clips at its padding box. The links
+       fill that box edge to edge, so their focus rings would be cut off down
+       both sides; the padding gives them room and the negative margin puts the
+       column back where it was. */
+    margin: -3px -3px 0;
+    padding: 3px;
     border-bottom: 0;
     /* A constitution runs for several screens; the nav stays put rather than
        scrolling away, and scrolls inside itself if it ever outgrows the
