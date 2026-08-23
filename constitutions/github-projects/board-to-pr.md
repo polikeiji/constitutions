@@ -23,6 +23,8 @@ project's own auto-add workflows, and inserting one overrides a decision already
 
 ```mermaid
 flowchart LR
+  accTitle: The status path a ticket walks
+  accDescr: Backlog to Ready, then to In progress before the first commit, to In review when the pull request opens, and to Done when it merges.
   Backlog --> Ready
   Ready -->|before the first commit| Progress["In progress"]
   Progress -->|the PR opens| Review["In review"]
@@ -47,6 +49,8 @@ shuts the issue, and a board running the closed-item workflow moves the row itse
 
 ```mermaid
 sequenceDiagram
+  accTitle: The self-review exchange on an open pull request
+  accDescr: The agent opens the pull request, reviews its own diff in one pass, replies to every comment it raised, and only then hands over to a human reviewer.
   participant Agent
   participant PR as Pull request
   participant Human as Human reviewer
