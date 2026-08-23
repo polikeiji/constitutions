@@ -7,22 +7,28 @@ on:
   # it reaches main rather than after.
   pull_request:
     branches: [main]
-  # Redeploy without a commit.
+  # Redeploy without a commit. Only deploys from main — see the deploy job.
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write # deploy-pages authenticates over OIDC; without this it fails
-
-concurrency:
-  group: pages
-  # Not `true`: cancelling a run mid-deploy can leave Pages wedged.
-  cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      # For configure-pages' GET /repos/{owner}/{repo}/pages. Deliberately not
+      # `write`, and no `id-token`: this job runs `bundle install` and five
+      # third-party Jekyll plugins, and none of that needs to be able to
+      # reconfigure Pages or mint an OIDC token.
+      pages: read
+    # Per-branch and disposable. Only the deploy path belongs in the single
+    # shared queue below; sharing it here lets a PR build evict a main deploy
+    # that is still pending.
+    concurrency:
+      group: pages-build-${{ github.ref }}
+      cancel-in-progress: true
     steps:
       - uses: actions/checkout@v7
 
@@ -34,32 +40,56 @@ jobs:
       - name: Configure Pages
         id: pages
         uses: actions/configure-pages@v6
+        # A fork PR's token is granted no `pages` scope at all, so this 403s
+        # there. Tolerate that on PRs, where the build falls back to the baseurl
+        # in _config.yml; on main a failure here is real and should stop the run.
+        continue-on-error: ${{ github.event_name == 'pull_request' }}
 
       - name: Build with Jekyll
         env:
           JEKYLL_ENV: production
-        # base_path is "" on a user/org site and "/constitutions" here; taking it
-        # from configure-pages keeps _config.yml's baseurl from going stale.
-        run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
-
-      - name: Check excluded trees stayed out of the build
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
         run: |
-          for dir in adr-workspace evals skills; do
-            if [ -e "_site/$dir" ]; then
-              echo "::error::_site/$dir was built but should be excluded"
-              exit 1
-            fi
-          done
-          test -f _site/index.html || { echo "::error::no index.html — README was not used as the landing page"; exit 1; }
+          if [ -n "$BASE_PATH" ]; then
+            bundle exec jekyll build --baseurl "$BASE_PATH"
+          else
+            bundle exec jekyll build
+          fi
 
-      - uses: actions/upload-pages-artifact@v5
+      # Reads the exclude list out of _config.yml rather than restating it, so
+      # a tree added there is covered here without anyone remembering to.
+      - name: Check the excluded trees stayed out of the build
+        run: |
+          ruby -ryaml -e '
+            leaked = YAML.load_file("_config.yml")["exclude"]
+                         .select { |e| e.end_with?("/") && !e.start_with?(".") }
+                         .select { |e| File.exist?(File.join("_site", e)) }
+            abort("::error::excluded in _config.yml but present in _site: #{leaked.join(", ")}") if leaked.any?
+            abort("::error::no _site/index.html - README was not used as the landing page") unless File.file?("_site/index.html")
+          '
+
+      # Nothing downloads this on a PR, where the deploy job is skipped.
+      - name: Upload the site
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v5
         with:
           path: ./_site
 
   deploy:
     needs: build
-    if: github.event_name != 'pull_request'
+    # Not `github.event_name != 'pull_request'`: that would let a
+    # workflow_dispatch run from any branch publish that branch to the live site.
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write # deploy-pages authenticates over OIDC; without this it fails
+    # One deploy at a time, and never cancelled mid-flight: cancelling can leave
+    # Pages wedged.
+    concurrency:
+      group: pages
+      cancel-in-progress: false
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
