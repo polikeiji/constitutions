@@ -9,8 +9,9 @@ instruction.
 | Constitution | Covers |
 |---|---|
 | [Authoring convention](#the-authoring-convention) | How the documents in this directory are written |
+| [Product specs](specs.md) | What a product spec covers, and what it leaves to the code |
 
-The spec, ADR, CI/CD, and GitHub Projects constitutions each land with their own ticket.
+The ADR, CI/CD, and GitHub Projects constitutions each land with their own ticket.
 Rows appear here as they do.
 
 ## Where these live
