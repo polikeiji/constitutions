@@ -48,6 +48,13 @@
     {%- seo -%}
   </head>
   <body>
+    {%- comment -%}
+      The sidebar puts eight links between the header and the document on every
+      page, so a keyboard reader needs a way past them. Hidden until focused,
+      and the first thing in the document so it is the first thing reached.
+    {%- endcomment -%}
+    <a class="skip-link" href="#content">Skip to the document</a>
+
     <header class="site-header">
       <div class="wrapper">
         <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
@@ -109,16 +116,22 @@
       {%- endcomment -%}
       <nav class="site-nav" aria-label="Documents">
         {%- comment -%}
-          <details> rather than a plain list, so a narrow screen can fold eight
-          links away instead of scrolling past them to reach the document. Open
-          by default and with the summary shown at every width: `open` is an
-          attribute, so CSS alone cannot close it below the breakpoint and open
-          it above, and hiding the summary on wide screens would strand anyone
-          who had folded it on a narrow one. No script is involved either way —
-          this is a list of links, not a control that waits for JavaScript the
-          way the theme toggle does.
+          <details> rather than a plain list, so a narrow screen can fold the
+          document list away instead of scrolling past it. Open by default and
+          with the summary shown at every width: `open` is an attribute, so CSS
+          alone cannot close it below the breakpoint and open it above, and
+          hiding the summary on wide screens would strand anyone who had folded
+          it on a narrow one.
+
+          The fold is per page and does not survive following a link, because
+          nothing here remembers it — which is most of its value gone on a
+          phone, where the reader is moving between pages. Keeping it would
+          mean a script, and #24 ruled one out for the nav: a list of links is
+          not a control that waits for JavaScript the way the theme toggle is.
+          So this is worth having on a long page and worth little between short
+          ones, and the alternative on offer was no fold at all.
         {%- endcomment -%}
-        <details class="site-nav-disclosure" open>
+        <details open>
           <summary>Documents</summary>
           {%- assign nav_pages = site.pages | where_exp: "p", "p.title" | sort: "url" -%}
           {%- comment -%}
@@ -135,52 +148,78 @@
           {%- assign here = page.url -%}
           {%- if here == '/index.html' -%}{%- assign here = '/' -%}{%- endif -%}
           {%- comment -%}
-            Nesting without a recursive include. A url's depth is how many path
-            segments it has: "/constitutions/" splits to ["", "constitutions"]
-            and "/constitutions/adrs.html" to ["", "constitutions",
-            "adrs.html"], so size - 1 is 1 for a directory index and 2 for the
-            documents inside it. The sort puts a parent immediately before its
-            children, so opening and closing a <ul> as that number changes
-            builds the whole tree in one pass. `level` is the depth of the list
-            currently open and `li_open` whether it has an <li> still waiting
-            to be closed; Liquid's assign writes to the outermost scope, so
-            both survive the loop body. The ranges are the loop Liquid has no
-            `while` for — (1..0) and (1..-1) simply do not run.
+            Nesting without a recursive include, and without counting path
+            segments. `open_group` is the url whose children the open list
+            holds — always the url of a directory index page, so a nested list
+            can only ever hang off the <li> of the page that owns it.
+
+            A page opens a level when the entry before it is its own group
+            index: the sort by url puts an index immediately before its
+            children, so "the previous entry is a directory and this url starts
+            with it" is the whole test. A page closes levels until `open_group`
+            is a prefix of its url again.
+
+            Counting segments instead — depth 2 sits inside depth 1 — gets the
+            common cases right and one case wrong: two directories at the same
+            depth are the same number and not the same group, so a document in
+            a directory with no README of its own (no index page, so no <li> to
+            hang from) would nest under whichever group happened to sort before
+            it and read as one of its children. Prefix-matching cannot say that,
+            because it never opens a list except under the page that owns it.
+
+            `li_open` is whether the open list has an <li> still waiting to be
+            closed. Liquid assigns to the outermost scope, so it and
+            `open_group` survive the loop body. The (1..8) loops are the `while`
+            Liquid does not have; both walk up towards "/" and break on it, and
+            no url on this site is anywhere near eight deep.
           {%- endcomment -%}
-          <ul class="site-nav-list">
+          <ul>
             {%- if home -%}
               <li><a href="{{ '/' | relative_url }}"{% if here == '/' %} aria-current="page"{% endif %}>{{ home.title }}</a></li>
             {%- endif -%}
-            {%- assign level = 1 -%}
+            {%- assign open_group = '/' -%}
+            {%- assign prev_url = '' -%}
             {%- assign li_open = false -%}
             {%- for p in docs -%}
-              {%- assign depth = p.url | split: '/' | size | minus: 1 -%}
-              {%- assign deeper = depth | minus: level -%}
-              {%- for i in (1..deeper) -%}
-                {%- comment -%}A <ul> is only valid inside an <li>. It always is here, since a directory index sorts before its children; the guard is for a directory that has no index page at all.{%- endcomment -%}
-                {%- unless li_open -%}<li>{%- assign li_open = true -%}{%- endunless -%}
-                <ul>{%- assign level = level | plus: 1 -%}{%- assign li_open = false -%}
-              {%- endfor -%}
-              {%- assign shallower = level | minus: depth -%}
-              {%- for i in (1..shallower) -%}
+              {%- comment -%}Down one level, if the entry before this one is the index page of the directory this one lives in.{%- endcomment -%}
+              {%- assign n = prev_url | size -%}
+              {%- if n > 0 -%}
+                {%- assign tail = prev_url | slice: -1, 1 -%}
+                {%- assign head = p.url | slice: 0, n -%}
+                {%- if tail == '/' and head == prev_url -%}
+                  <ul>{%- assign open_group = prev_url -%}{%- assign li_open = false -%}
+                {%- endif -%}
+              {%- endif -%}
+              {%- comment -%}Up, until the open list is one this url belongs in.{%- endcomment -%}
+              {%- for i in (1..8) -%}
+                {%- assign n = open_group | size -%}
+                {%- assign head = p.url | slice: 0, n -%}
+                {%- if head == open_group -%}{%- break -%}{%- endif -%}
                 {%- if li_open -%}</li>{%- endif -%}</ul>
-                {%- assign level = level | minus: 1 -%}{%- assign li_open = true -%}
+                {%- assign parts = open_group | split: '/' -%}
+                {%- assign keep = parts | size | minus: 1 -%}
+                {%- assign open_group = parts | slice: 0, keep | join: '/' | append: '/' -%}
+                {%- assign li_open = true -%}
               {%- endfor -%}
               {%- if li_open -%}</li>{%- endif -%}
               <li><a href="{{ p.url | relative_url }}"{% if p.url == here %} aria-current="page"{% endif %}>{{ p.title }}</a>
               {%- assign li_open = true -%}
+              {%- assign prev_url = p.url -%}
             {%- endfor -%}
-            {%- assign remaining = level | minus: 1 -%}
-            {%- for i in (1..remaining) -%}
+            {%- for i in (1..8) -%}
+              {%- if open_group == '/' -%}{%- break -%}{%- endif -%}
               {%- if li_open -%}</li>{%- endif -%}</ul>
-              {%- assign level = level | minus: 1 -%}{%- assign li_open = true -%}
+              {%- assign parts = open_group | split: '/' -%}
+              {%- assign keep = parts | size | minus: 1 -%}
+              {%- assign open_group = parts | slice: 0, keep | join: '/' | append: '/' -%}
+              {%- assign li_open = true -%}
             {%- endfor -%}
             {%- if li_open -%}</li>{%- endif -%}
           </ul>
         </details>
       </nav>
 
-      <main class="site-main">
+      <main class="site-main" id="content" tabindex="-1">
         {{ content }}
       </main>
     </div>
