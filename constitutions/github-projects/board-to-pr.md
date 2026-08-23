@@ -3,6 +3,8 @@
 What a ticket looks like on its way from the board to a pull request that is ready for a
 human, and the board mechanics that are easy to get wrong.
 
+Upstream: https://github.com/polikeiji/constitutions/blob/b8aad7c/constitutions/github-projects/board-to-pr.md
+
 ## Branch, commits, PR
 
 One branch per ticket, named `<issue-number>-<short-slug>`, and one pull request from it. A
