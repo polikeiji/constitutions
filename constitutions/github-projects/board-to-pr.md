@@ -21,6 +21,14 @@ project's own auto-add workflows, and inserting one overrides a decision already
 
 ## Status
 
+```mermaid
+flowchart LR
+  Backlog --> Ready
+  Ready -->|before the first commit| Progress["In progress"]
+  Progress -->|the PR opens| Review["In review"]
+  Review -->|the PR merges| Done
+```
+
 The board is written while the work happens, not reconstructed afterwards. The ticket moves
 to *In progress* before its first commit and to *In review* when the PR opens. A sub-item
 with a board row of its own moves to *Done* as its commit lands; a checkbox sub-item has no
@@ -36,6 +44,21 @@ further: *In review* is already true. The ticket's *Done* belongs to the merge â
 shuts the issue, and a board running the closed-item workflow moves the row itself.
 
 ## Self-review
+
+```mermaid
+sequenceDiagram
+  participant Agent
+  participant PR as Pull request
+  participant Human as Human reviewer
+
+  Agent->>PR: open it, closing the ticket, with a test plan
+  Agent->>PR: one review, every comment on a line the diff touches
+  loop each comment
+    Agent->>PR: fix it and reply naming the commit, or reply with the reason
+  end
+  Agent->>Human: hand over
+  Human->>PR: the review this one does not stand in for
+```
 
 A PR gets one honest pass over its own diff before a human is asked for one. The findings
 go up as a single review of inline comments, each anchored to a line the diff actually
