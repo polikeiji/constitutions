@@ -59,18 +59,18 @@ document.
 | product-spec | [spec constitution](constitutions/specs.md) | **Done** | Prompt + document template only. |
 | [devops-plan](skills/devops-plan/) | CI/CD constitution | Planned | Prompt + document template only. |
 | adr | [ADR constitution](constitutions/adrs.md) | **Done** | Has evals (`evals/adr-evals.json`), but no deterministic logic — fails condition 1. |
-| [task-tickets](skills/task-tickets/) | GitHub Projects constitution | Planned | How tickets get written and registered is a convention, not a procedure to replay. |
-| [handle-ticket](skills/handle-ticket/) | GitHub Projects constitution | Planned | Same document — how a ticket goes from board to reviewed PR. |
+| task-tickets | [GitHub Projects](constitutions/github-projects/README.md) | **Done** | How tickets get written and registered is a convention, not a procedure to replay. |
+| handle-ticket | [GitHub Projects](constitutions/github-projects/README.md) | **Done** | Same document — how a ticket goes from board to reviewed PR. |
 | constitution | [the authoring convention](constitutions/README.md) | **Done** | A skill for writing rule documents becomes the format itself. |
 
 Implementation planning lives on GitHub Projects rather than in checked-in plan documents,
 so the GitHub Projects constitution covers that ground too.
 
-`handle-ticket` carries the most genuinely deterministic content here — auth-scope
+`handle-ticket` carried the most genuinely deterministic content here — auth-scope
 pre-flight, Project GraphQL node/field/option ID resolution, sub-item→item-ID mapping,
-status transitions. It still goes into the constitution first. If any of it proves worth
-pinning down exactly, it can come back as a script with evals, which is what the bar above
-is for.
+status transitions. It went into the constitution as prose anyway, and the fiddly parts
+are now re-derived per run. If that proves to cost more than it saves, the mechanics can
+come back as a script with evals, which is what the bar above is for.
 
 ## Target structure
 
