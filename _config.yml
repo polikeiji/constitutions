@@ -1,14 +1,21 @@
 # Site metadata --------------------------------------------------------------
 
 title: constitutions
+# jekyll-seo-tag prefers `tagline` over `description` for the "<title> | …"
+# suffix it builds when a page's title matches the site's — which is every time
+# here, since the README's H1 is also "constitutions". Without it the tab shows
+# the whole description.
+tagline: rules for coding agents
 description: >-
   Personal rules and tooling for Claude Code across my projects — portable
   constitutions, and the few skills that carry deterministic logic.
 url: "https://polikeiji.github.io"
+repository: polikeiji/constitutions
 
 # Overridden on CI by `--baseurl "${{ steps.pages.outputs.base_path }}"`, which
 # is what the deployed site actually uses. Kept here so a local `jekyll serve`
-# produces the same URLs.
+# produces the same URLs, and so PR builds (where configure-pages is allowed to
+# fail) still get the right prefix.
 baseurl: "/constitutions"
 
 # No `theme:` on purpose. The layouts and stylesheet in this repo are the whole
@@ -39,39 +46,19 @@ optional_front_matter:
 readme_index:
   remove_originals: true
 
-relative_links:
-  enabled: true
-  collections: false
-
-titles_from_headings:
-  enabled: true
-  # Leave the first heading in the body: the layout does not print page.title,
-  # so stripping it would drop the H1 entirely.
-  strip_title: false
-  collections: false
-
-# Every page goes through _layouts/doc.html, the seam #10 (dark mode) and #11
-# (Mermaid) extend.
-defaults:
-  - scope:
-      path: ""
-      type: pages
-    values:
-      layout: doc
+# jekyll-relative-links and jekyll-titles-from-headings run on their defaults:
+# enabled, pages but not collections, and the first heading left in the body —
+# the layout doesn't print page.title, so stripping it would drop the H1.
 
 # Content scope --------------------------------------------------------------
 
-# NOTE: setting `exclude` replaces Jekyll's defaults wholesale, so the Gemfile /
-# vendor entries below have to be repeated here.
+# Jekyll concats its own DEFAULT_EXCLUDES onto this list (Configuration
+# #add_default_excludes) and discards dot-prefixed entries before consulting it
+# (EntryFilter#special?), so Gemfile, Gemfile.lock, .jekyll-cache/, .claude/ and
+# .claude-plugin/ don't need naming here.
 exclude:
-  - adr-workspace/   # eval scratch output, hundreds of generated files
+  - adr-workspace/   # 62 files of eval scratch output, not documentation
   - evals/           # fixtures
   - skills/          # retired by #4–#8
-  - .claude/
-  - .claude-plugin/
   - CLAUDE.md        # instructions for the agent, not documentation
-  - Gemfile
-  - Gemfile.lock
-  - vendor/          # bundler installs here on CI (bundler-cache: true)
-  - .jekyll-cache/
-  - .sass-cache/
+  - vendor/          # DEFAULT_EXCLUDES only covers vendor/bundle/ and friends
