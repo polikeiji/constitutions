@@ -1,0 +1,77 @@
+# Site metadata --------------------------------------------------------------
+
+title: constitutions
+description: >-
+  Personal rules and tooling for Claude Code across my projects — portable
+  constitutions, and the few skills that carry deterministic logic.
+url: "https://polikeiji.github.io"
+
+# Overridden on CI by `--baseurl "${{ steps.pages.outputs.base_path }}"`, which
+# is what the deployed site actually uses. Kept here so `jekyll serve` locally
+# produces the same URLs.
+baseurl: "/constitutions"
+
+theme: minima
+
+# Plugins --------------------------------------------------------------------
+
+plugins:
+  # Render .md files that carry no YAML front matter. Whether constitutions get
+  # front matter is still an open question in #4; this makes the site work
+  # either way.
+  - jekyll-optional-front-matter
+  # Serve README.md at /, without renaming it or giving it front matter (which
+  # would show up as raw YAML on github.com).
+  - jekyll-readme-index
+  # Rewrite [text](other-doc.md) to the built .html URL. Without it every
+  # inter-document link 404s on the site while still working on github.com.
+  - jekyll-relative-links
+  # Page title from the first heading, for <title> and SEO.
+  - jekyll-titles-from-headings
+  # Required by minima's layouts ({% feed_meta %} / {% seo %}).
+  - jekyll-feed
+  - jekyll-seo-tag
+
+optional_front_matter:
+  # Emit the rendered HTML only — don't also copy the raw .md into _site.
+  remove_originals: true
+
+readme_index:
+  remove_originals: true
+
+relative_links:
+  enabled: true
+  collections: false
+
+titles_from_headings:
+  enabled: true
+  # Leave the first heading in the body: the layout does not print page.title,
+  # so stripping it would drop the H1 entirely.
+  strip_title: false
+  collections: false
+
+# Every page goes through _layouts/doc.html, the seam #10 (dark mode) and #11
+# (Mermaid) extend.
+defaults:
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: doc
+
+# Content scope --------------------------------------------------------------
+
+# NOTE: setting `exclude` replaces Jekyll's defaults wholesale, so the Gemfile /
+# vendor entries below have to be repeated here.
+exclude:
+  - adr-workspace/   # eval scratch output, hundreds of generated files
+  - evals/           # fixtures
+  - skills/          # retired by #4–#8
+  - .claude/
+  - .claude-plugin/
+  - CLAUDE.md        # instructions for the agent, not documentation
+  - Gemfile
+  - Gemfile.lock
+  - vendor/          # bundler installs here on CI (bundler-cache: true)
+  - .jekyll-cache/
+  - .sass-cache/
