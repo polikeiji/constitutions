@@ -61,9 +61,10 @@ starting.
 
 ### Shape
 
-Title, then one sentence on what the document governs, then the `Upstream:` line, then the
-rules. A rule carries its reason where the reason is not obvious; one clause is usually
-enough, and it is what stops a later reader from tidying the rule away.
+Title, then one sentence on what the document governs, then the rules — and in a copy
+installed into a project, the `Upstream:` line under the title. A rule carries its reason
+where the reason is not obvious; one clause is usually enough, and it is what stops a
+later reader from tidying the rule away.
 
 A right/wrong pair goes where a rule is hard to apply without seeing it — as the modal verb
 rule below does. A rule that lands on first reading does not need one.
@@ -102,7 +103,7 @@ A copy leaves that history behind, which is the one thing the frontmatter did bu
 under the title buys it back — pinned to the commit the copy was taken from, so it still
 resolves to what was actually copied and diffs against the current tip:
 
-> Upstream: https://github.com/polikeiji/constitutions/blob/9f3c1ab/constitutions/adrs.md
+> Upstream: https://github.com/polikeiji/constitutions/blob/9d9e77d/constitutions/specs.md
 
 A branch name in that URL would always resolve to tip and so could never show drift. The
 commit sha is the part that makes the line worth writing.
