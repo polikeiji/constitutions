@@ -59,6 +59,11 @@ jobs:
       # Reads the exclude list out of _config.yml rather than restating it, so
       # a tree added there is covered here without anyone remembering to.
       - name: Check the build output
+        # The same fallback the build step above uses, so the baseurl asserted
+        # is the one the pages were built with - including on a fork PR, where
+        # configure-pages is allowed to fail and both fall back to _config.yml.
+        env:
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
         run: |
           ruby -ryaml -e '
             leaked = YAML.load_file("_config.yml")["exclude"]
@@ -73,6 +78,45 @@ jobs:
             # no <head>, stylesheet or header. Assert the layout actually ran.
             index = File.read("_site/index.html")
             abort("::error::_site/index.html has no <head> - the doc layout did not run, check `defaults` in _config.yml") unless index.include?("</head>")
+
+            # The sidebar is the one part of the layout assembled by hand
+            # rather than by a plugin, and it fails in two quiet ways. Losing
+            # the `defaults` block or regressing the layout drops it from pages
+            # that still build and still read fine on their own. And an href
+            # that skips `relative_url` builds clean here and 404s on the
+            # deployed site, which is served under a baseurl - the one bug this
+            # layout was always most likely to ship. Both are asserted on
+            # every built page rather than on the index alone, since a nav is
+            # only worth anything if it is on all of them.
+            base = ENV["BASE_PATH"].to_s
+            base = YAML.load_file("_config.yml")["baseurl"].to_s if base.empty?
+
+            pages = Dir.glob("_site/**/*.html").sort
+            abort("::error::no HTML pages in _site at all") if pages.empty?
+
+            navless = pages.reject { |f| File.read(f).include?(%q(<nav class="site-nav")) }
+            abort("::error::no sidebar in: #{navless.join(", ")} - check `defaults` in _config.yml and the nav in _layouts/default.html") if navless.any?
+
+            # Following each href into _site rather than only checking it
+            # starts with the baseurl, because here those are not the same
+            # test: the documents live under constitutions/ and the site
+            # deploys under /constitutions/, so a raw page.url still starts
+            # with the right prefix and still 404s. Where the link lands is the
+            # property that actually matters.
+            resolves = lambda do |href|
+              return false unless href.start_with?("#{base}/")
+              path = href[base.length..-1]
+              path = File.join(path, "index.html") if path.end_with?("/")
+              File.file?(File.join("_site", path))
+            end
+
+            broken = pages.flat_map do |f|
+              nav = File.read(f)[/<nav class="site-nav".*?<\/nav>/m]
+              nav.scan(/href="([^"]*)"/).flatten
+                 .reject { |href| resolves.call(href) }
+                 .map    { |href| "#{f}: #{href}" }
+            end
+            abort("::error::sidebar links that reach nothing in the build, and so 404 once deployed under #{base.inspect} - the usual cause is an href that skipped relative_url: #{broken.join("; ")}") if broken.any?
           '
 
       # The two dark blocks in style.css cannot share one rule - a media query
