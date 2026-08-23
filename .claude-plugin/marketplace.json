@@ -4,12 +4,9 @@
     "name": "polikeiji"
   },
   "metadata": {
-    "description": "Personal skills for implementation planning, DevOps pipeline planning, task ticket generation, and end-to-end GitHub ticket handling (implement, review, and fix)",
-    "version": "4.0.0"
+    "description": "Personal skills for implementation planning and DevOps pipeline planning",
+    "version": "5.0.0"
   },
-  "allowCrossMarketplaceDependenciesOn": [
-    "claude-plugins-official"
-  ],
   "plugins": [
     {
       "name": "impl-plan",
@@ -27,34 +24,6 @@
       "strict": false,
       "skills": [
         "./skills/devops-plan"
-      ]
-    },
-    {
-      "name": "task-tickets",
-      "description": "Generate and register task tickets from implementation plans to a kanban tool (GitHub Projects, Linear, Notion, Jira)",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/task-tickets"
-      ],
-      "dependencies": [
-        "impl-plan",
-        "devops-plan"
-      ]
-    },
-    {
-      "name": "handle-ticket",
-      "description": "Handle a GitHub project ticket end-to-end: implement it with per-sub-item commits and live status tracking, open a PR, self-review it with the official code-review skill, post findings as inline comments, fix them, and reply to each comment",
-      "source": "./",
-      "strict": false,
-      "skills": [
-        "./skills/handle-ticket"
-      ],
-      "dependencies": [
-        {
-          "name": "code-review",
-          "marketplace": "claude-plugins-official"
-        }
       ]
     },
     {
