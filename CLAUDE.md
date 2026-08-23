@@ -1,5 +1,12 @@
 # CLAUDE.md
 
+## Constitutions
+
+The rules for work in this repository are the ones it authors: `constitutions/`, indexed in
+[constitutions/README.md](constitutions/README.md). Read them before writing code or
+documentation. Where a task and a constitution disagree, raise the conflict rather than
+working around it.
+
 ## Default project board
 
 All ticket work in this repository uses the following GitHub Project as the default
@@ -10,20 +17,15 @@ board. Do not ask which project to use — use this one unless the user names an
 - **Owner:** `polikeiji` (user-scoped project, not org-scoped)
 - **Project number:** `9`
 
-When a skill or command asks for `<project-number>` and `<owner>`, substitute `9` and
-`polikeiji`. For example:
+Where a rule asks for `<project-number>` and `<owner>`, substitute `9` and `polikeiji`. For
+example:
 
 ```bash
 gh project item-list 9 --owner polikeiji --format json
 gh project field-list 9 --owner polikeiji --format json
 ```
 
-The board is user-scoped, so `--owner polikeiji` is required on every `gh project`
-call; omitting it makes `gh` guess the wrong scope.
-
-Project board mutations (`gh project item-edit`, `item-add`) need the `project` OAuth
-scope. If a call fails on scope, ask the user to run:
-
-```bash
-gh auth refresh -s project
-```
+How the board is used — the `--owner` requirement, the `project` OAuth scope, the status
+transitions, and the rest — is in
+[constitutions/github-projects/](constitutions/github-projects/README.md), which governs
+where that document and this file read differently.
