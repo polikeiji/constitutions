@@ -82,8 +82,7 @@ skills/                 # empty for now — only skills meeting both conditions
     SKILL.md            # thin: when to reach for it, and what the scripts do
     scripts/            # the deterministic part
 evals/
-  <name>-evals.json     # required for every skill in skills/; adr-evals.json is
-                        # kept as the ADR constitution's regression baseline
+  <name>-evals.json     # one per skill in skills/, plus any retained baseline
 ```
 
 ### Constitutions
@@ -128,7 +127,13 @@ its context?* is a measurement rather than an opinion. It now grades against
 [`constitutions/adrs.md`](constitutions/adrs.md), which means it is no longer a
 skill-creator `evals.json`: there is no skill to toggle on and off, and the comparison it
 runs is the constitution in project context against an agent working from nothing.
-`adr-workspace/` holds the two earlier iterations to compare a re-run against.
+
+That re-run does not yet have a baseline it can be measured against. `adr-workspace/`
+holds two iterations, but only iteration-1 has a from-nothing arm (skill 100%, nothing
+33%) — iteration-2 compared two skill versions. Both were graded by an assertion requiring
+`title`/`date`/`authors`/`changelog` frontmatter, which the constitution drops, so a
+fully conforming run now fails one of the seven assertions those percentages were built
+on. The first re-run establishes the new baseline rather than beating the old one.
 
 ## Current state
 
