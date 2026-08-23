@@ -2,8 +2,6 @@
 
 What a ticket on a GitHub Projects board contains, and how much work belongs in one.
 
-Upstream: https://github.com/polikeiji/constitutions/blob/main/constitutions/github-projects/tickets.md
-
 ## Title and body
 
 The title names the thing being built and leads with the verb — *Convert task-tickets into

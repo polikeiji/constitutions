@@ -3,8 +3,6 @@
 What happens to a ticket between the board and a pull request ready for a human, and the
 board mechanics that are easy to get wrong.
 
-Upstream: https://github.com/polikeiji/constitutions/blob/main/constitutions/github-projects/board-to-pr.md
-
 ## Branch, commits, PR
 
 One branch per ticket, named `<issue-number>-<short-slug>`, and one pull request from it.
