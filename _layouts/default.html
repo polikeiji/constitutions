@@ -55,13 +55,23 @@
         {%- comment -%}
           Lives here rather than in doc.html, where an earlier comment said it
           would: the control belongs to the site chrome, and doc.html is the
-          inside of <main>. The label is the button's accessible name, and
-          theme.js rewrites it as the setting cycles.
+          inside of <main>. theme.js rewrites both labels as the setting cycles.
+
+          The accessible name is built from the button's own text - the setting
+          it is on, plus where the next press goes, since "System" alone reads
+          as a status rather than a control. Deliberately not an aria-label:
+          that would replace the text rather than describe it, and aria-live
+          announces changed *content*, so the update would stop being spoken.
+
+          The tags run together across the line breaks because whitespace
+          between them becomes a space inside that name, and " . Activate"
+          is not what was meant.
         {%- endcomment -%}
         <button type="button" class="theme-toggle" data-theme-toggle
                 aria-live="polite">
-          <span class="u-visually-hidden">Theme: </span>
-          <span data-theme-toggle-label>System</span>
+          <span class="u-visually-hidden">Theme: </span
+          ><span data-theme-toggle-label>System</span
+          ><span class="u-visually-hidden" data-theme-toggle-next>. Activate for light.</span>
         </button>
       </div>
     </header>

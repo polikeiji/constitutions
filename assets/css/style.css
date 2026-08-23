@@ -52,6 +52,9 @@
   --code-type: #953800;
   --code-tag: #116329;
   --code-builtin: #0550ae;
+  /* Deliberately the same value as --code-number, and deliberately not the
+     same token: retuning one should not silently retune the other. */
+  --code-attribute: #0550ae;
   --code-deleted: #82071e;
   --code-deleted-bg: #ffebe9;
   --code-inserted: #0f5323;
@@ -78,6 +81,7 @@
     --code-type: #ffa657;
     --code-tag: #7ee787;
     --code-builtin: #79c0ff;
+    --code-attribute: #79c0ff;
     --code-deleted: #ffa198;
     --code-deleted-bg: #3c1618;
     --code-inserted: #7ee787;
@@ -104,6 +108,7 @@
   --code-type: #ffa657;
   --code-tag: #7ee787;
   --code-builtin: #79c0ff;
+  --code-attribute: #79c0ff;
   --code-deleted: #ffa198;
   --code-deleted-bg: #3c1618;
   --code-inserted: #7ee787;
@@ -378,7 +383,7 @@ a:hover { text-decoration: underline; }
 /* Markup tags and their attributes - HTML, XML, and the YAML keys in this
    repo's examples. */
 .doc .highlight .nt { color: var(--code-tag); }
-.doc .highlight .na { color: var(--code-number); }
+.doc .highlight .na { color: var(--code-attribute); }
 
 /* Plain names, operators and punctuation inherit the body colour rather than
    picking up a Rouge default. */

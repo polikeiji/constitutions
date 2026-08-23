@@ -32,11 +32,15 @@
   /* The cycle order the button walks, starting from whatever is current. */
   var ORDER = ['light', 'dark', 'system'];
   var LABELS = { light: 'Light', dark: 'Dark', system: 'System' };
+  /* Spoken, not seen: what the next press does. "System" on its own reads as a
+     status readout rather than a control. */
+  var NEXT = { light: 'light', dark: 'dark', system: 'the system setting' };
 
   var root = document.documentElement;
   var query = window.matchMedia('(prefers-color-scheme: dark)');
   var button = document.querySelector('[data-theme-toggle]');
   var label = document.querySelector('[data-theme-toggle-label]');
+  var next = document.querySelector('[data-theme-toggle-next]');
 
   /* Reading and writing are both wrapped: storage access throws where site data
      is blocked, rather than returning null, and an uncaught throw here would
@@ -78,9 +82,16 @@
     );
   }
 
+  function advance(preference) {
+    return ORDER[(ORDER.indexOf(preference) + 1) % ORDER.length];
+  }
+
   function render(preference) {
     if (label) {
       label.textContent = LABELS[preference];
+    }
+    if (next) {
+      next.textContent = '. Activate for ' + NEXT[advance(preference)] + '.';
     }
   }
 
@@ -109,7 +120,7 @@
      time and pin the button to the first step of the cycle. */
   if (button) {
     button.addEventListener('click', function () {
-      preference = ORDER[(ORDER.indexOf(preference) + 1) % ORDER.length];
+      preference = advance(preference);
       apply(preference);
     });
   }
