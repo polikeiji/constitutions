@@ -3,17 +3,19 @@ layout: default
 ---
 {%- comment -%}
   The default layout for every page (set under `defaults` in _config.yml), and
-  the seam #11 extends without touching default.html:
+  the inside of <main>.
 
-  - #11 (Mermaid) — the renderer script goes here, ideally gated on a
-                    `mermaid: true` page variable so pages without diagrams
-                    don't pay for it. It re-themes on the `themechange` event
-                    dispatched by assets/js/theme.js, which documents the
-                    contract.
+  Both follow-up tickets were expected to extend this file and neither did.
 
-  #10 (dark mode) was expected here too and went into default.html instead: the
-  pre-paint script has to be in <head>, and the toggle belongs to the site
-  header. Both are outside this layout, which is the inside of <main>.
+  - #10 (dark mode) — the pre-paint script has to be in <head>, and the toggle
+                      belongs to the site header. Both are in default.html.
+  - #11 (Mermaid)   — the renderer belongs at the end of <body>, beside
+                      theme.js, and default.html's `content` already holds this
+                      layout's output, so the gate can read it from there. Also
+                      in default.html.
+
+  What is left here is the article wrapper, which is all this seam ever needed
+  to be.
 {%- endcomment -%}
 <article class="doc">
   {{ content }}
