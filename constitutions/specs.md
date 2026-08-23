@@ -56,7 +56,8 @@ stateDiagram-v2
 
 No fixed section list. A short spec that reads as prose beats the same content pushed into
 Overview / Behaviour / Edge Cases, and the headings a spec does grow come from its subject.
-Edge cases are part of the behaviour, not an appendix to it:
+Edge cases are part of the behaviour, not an appendix to it. The opening of one, at roughly
+a quarter of the length a finished spec runs to:
 
 ```markdown
 # Email verification
