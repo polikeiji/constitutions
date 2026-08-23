@@ -5,7 +5,12 @@ _site/
 .sass-cache/
 
 # Bundler (ruby/setup-ruby installs here with bundler-cache: true)
-vendor/
-.bundle/
+#
+# Anchored, because bundler's directory is the one at the root. Unanchored,
+# `vendor/` matches a directory of that name at any depth, and it was already
+# swallowing assets/js/vendor/ and the Mermaid bundle in it: on disk, and absent
+# from `git status` without saying so.
+/vendor/
+/.bundle/
 
 .DS_Store
