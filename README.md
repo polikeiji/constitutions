@@ -50,7 +50,7 @@ anything added later, not because something is waiting behind it.
 
 ## What moved where
 
-The migration is finished. Six skills became four constitutions — `task-tickets` and
+The migration is finished. Six skills became five constitutions — `task-tickets` and
 `handle-ticket` were the same document — and two were deleted rather than converted. The
 table is the record of it; the rationale column is why each one went the way it did, which
 the constitutions index cannot show.
@@ -79,7 +79,7 @@ status transitions. It went into the constitution as prose anyway, and the fiddl
 are now re-derived per run. If that proves to cost more than it saves, the mechanics can
 come back as a script with evals, which is what the bar above is for.
 
-## Structure
+## Where the content lives
 
 ```
 constitutions/          # portable rule documents, one per concern
@@ -91,6 +91,9 @@ constitutions/          # portable rule documents, one per concern
 evals/
   adr-evals.json        # the one retained suite, now grading against the constitution
 ```
+
+The site machinery — `_layouts/`, `assets/`, `_config.yml` — and `adr-workspace/`, which
+holds the eval scratch output, are not shown; the two directories above are the content.
 
 There is no `skills/`. If something ever clears the bar it comes back, in the shape the
 [Skills](#skills) section below describes.
@@ -162,8 +165,9 @@ used to ship one is gone — `.claude-plugin/marketplace.json` was deleted along
 skill. An empty `plugins` array would have left
 `/plugin marketplace add polikeiji/constitutions` succeeding and then offering nothing,
 which reads as a working marketplace rather than an empty one. Anyone who added it can drop
-it with `/plugin marketplace remove keiji-personal-skills`; the file comes back, numbered
-from 1.0.0, on the day something clears the bar.
+it by name (`keiji-personal-skills`) or by the repository they added it as
+(`polikeiji/constitutions`); the file comes back, numbered from 1.0.0, on the day something
+clears the bar.
 
 A constitution is not installed, it is copied. Take the file, drop it in the target
 project's `docs/constitutions/`, add its row to that project's index, and point the agent
