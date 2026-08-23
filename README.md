@@ -58,7 +58,7 @@ document.
 |---|---|---|---|
 | product-spec | [spec constitution](constitutions/specs.md) | **Done** | Prompt + document template only. |
 | [devops-plan](skills/devops-plan/) | CI/CD constitution | Planned | Prompt + document template only. |
-| [adr](skills/adr/) | ADR constitution | Planned | Has evals (`evals/adr-evals.json`), but no deterministic logic — fails condition 1. |
+| adr | [ADR constitution](constitutions/adrs.md) | **Done** | Has evals (`evals/adr-evals.json`), but no deterministic logic — fails condition 1. |
 | [task-tickets](skills/task-tickets/) | GitHub Projects constitution | Planned | How tickets get written and registered is a convention, not a procedure to replay. |
 | [handle-ticket](skills/handle-ticket/) | GitHub Projects constitution | Planned | Same document — how a ticket goes from board to reviewed PR. |
 | constitution | [the authoring convention](constitutions/README.md) | **Done** | A skill for writing rule documents becomes the format itself. |
