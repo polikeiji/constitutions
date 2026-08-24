@@ -1,6 +1,6 @@
 # constitutions
 
-Personal rules and tooling for Claude Code across my projects.
+Portable rule documents for coding agents.
 
 A constitution states what good output looks like for one concern — product specs, ADRs,
 tickets, CI pipelines — in enough detail that an agent produces the right artifact from it
