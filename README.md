@@ -2,10 +2,9 @@
 
 Personal rules and tooling for Claude Code across my projects.
 
-**This repository has been renewed.** It used to be a marketplace of prompt-only skills.
-It is now a set of **constitutions** — portable rule documents I drop into each project —
-with skills kept only where they carry deterministic logic and a passing eval suite, which
-nothing here currently does.
+A set of **constitutions** — portable rule documents I drop into each project — with skills
+kept only where they carry deterministic logic and a passing eval suite, which nothing here
+currently does.
 
 ## Why
 
@@ -48,37 +47,6 @@ Everything failing either test became a constitution. That was everything, so th
 repository is constitutions-only. The bar stays documented because it is the test for
 anything added later, not because something is waiting behind it.
 
-## What moved where
-
-The migration is finished. Six skills became five constitutions — `task-tickets` and
-`handle-ticket` were the same document — and two were deleted rather than converted. The
-table is the record of it; the rationale column is why each one went the way it did, which
-the constitutions index cannot show.
-
-| Skill | Became | Why |
-|---|---|---|
-| product-spec | [spec constitution](constitutions/specs.md) | Prompt + document template only. |
-| devops-plan | [CI/CD constitution](constitutions/ci-cd.md) | Prompt + document template only. |
-| adr | [ADR constitution](constitutions/adrs.md) | Has evals (`evals/adr-evals.json`), but no deterministic logic — fails condition 1. |
-| task-tickets | [GitHub Projects](constitutions/github-projects/README.md) | How tickets get written and registered is a convention, not a procedure to replay. |
-| handle-ticket | [GitHub Projects](constitutions/github-projects/README.md) | Same document — how a ticket goes from board to reviewed PR. |
-| constitution | [the authoring convention](constitutions/README.md) | A skill for writing rule documents becomes the format itself. |
-| impl-plan | **deleted** | Implementation planning moved onto the board, so there is no plan document left to describe. |
-| eval-pipeline-plan | **deleted** | Prompt and templates for one stack (LangSmith, Azure ML, MLflow): no deterministic logic, no evals, and no live project for a constitution to govern. |
-
-Implementation planning lives on GitHub Projects rather than in checked-in plan documents,
-so the GitHub Projects constitution covers that ground too.
-
-Deletion has a cost the table cannot show: `eval-pipeline-plan`'s LangSmith and Azure ML
-choreography now lives in the history and nowhere else. If that stack comes back, what
-gets written is a constitution about the evaluation approach, not this file restored.
-
-`handle-ticket` carried the most genuinely deterministic content here — auth-scope
-pre-flight, Project GraphQL node/field/option ID resolution, sub-item→item-ID mapping,
-status transitions. It went into the constitution as prose anyway, and the fiddly parts
-are now re-derived per run. If that proves to cost more than it saves, the mechanics can
-come back as a script with evals, which is what the bar above is for.
-
 ## Where the content lives
 
 ```
@@ -94,9 +62,6 @@ evals/
 
 The site machinery — `_layouts/`, `assets/`, `_config.yml` — is not shown; the two
 directories above are the content.
-
-There is no `skills/`. If something ever clears the bar it comes back, in the shape the
-[Skills](#skills) section below describes.
 
 ### Constitutions
 
@@ -119,23 +84,6 @@ If a constitution starts growing procedure, that procedure is a script — extra
 the bullets above, worked out, plus document shape, modal verbs, frontmatter, naming, file
 size, and how a document is installed into a project. The bullets here are the summary; if
 the two ever read differently, that document governs.
-
-### Skills
-
-Nothing in this repository is a skill today. If something ever clears both conditions,
-`skills/` comes back in this shape:
-
-```
-skills/
-  <name>/
-    SKILL.md            # thin: when to reach for it, and what the scripts do
-    scripts/            # the deterministic part
-evals/
-  <name>-evals.json     # the suite condition 2 asks for
-```
-
-The model decides *whether* and *how* to use it; the script guarantees the mechanical parts
-are right.
 
 ## Shelf life
 
@@ -161,14 +109,7 @@ one.
 
 ## Current state
 
-Constitutions only. There is nothing here to install as a plugin, and the marketplace that
-used to ship one is gone — `.claude-plugin/marketplace.json` was deleted along with the last
-skill. An empty `plugins` array would have left
-`/plugin marketplace add polikeiji/constitutions` succeeding and then offering nothing,
-which reads as a working marketplace rather than an empty one. Anyone who added it can drop
-it by name (`keiji-personal-skills`) or by the repository they added it as
-(`polikeiji/constitutions`); the file comes back, numbered from 1.0.0, on the day something
-clears the bar.
+Constitutions only. There is nothing here to install as a plugin.
 
 A constitution is not installed, it is copied. Take the file, drop it in the target
 project's `docs/constitutions/`, add its row to that project's index, and point the agent
