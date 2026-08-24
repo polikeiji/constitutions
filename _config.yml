@@ -7,8 +7,8 @@ title: constitutions
 # the whole description.
 tagline: rules for coding agents
 description: >-
-  Portable rules for coding agents — constitutions, one per concern, copied into each
-  project that needs them.
+  Portable rule documents for coding agents — one per concern, copied into each project
+  that needs them.
 url: "https://polikeiji.github.io"
 repository: polikeiji/constitutions
 
