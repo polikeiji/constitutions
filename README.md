@@ -69,7 +69,7 @@ models, and it will drift. So the bar is also the maintenance schedule — re-ru
 each significant model or harness release, and delete whatever no longer beats an agent
 working from the constitution alone.
 
-`evals/adr-evals.json` is the only suite here. It grades
+`evals/adrs-evals.json` is the only suite here. It grades
 [`constitutions/adrs.md`](constitutions/adrs.md) in project context against an agent working
 from nothing, which makes it the one place where *does this document still earn its context?*
 is a measurement rather than an opinion. The percentages it produced while it still graded a
