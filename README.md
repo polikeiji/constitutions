@@ -154,10 +154,10 @@ runs is the constitution in project context against an agent working from nothin
 That re-run does not yet have a baseline it can be measured against. The percentages this
 suite produced while it still graded the retired skill do not serve as one: they were
 scored by an assertion requiring `title`/`date`/`authors`/`changelog` frontmatter, which
-the constitution drops, so a fully conforming run now fails one of the seven assertions
-those numbers were built on — and only one of the two iterations compared against an
-agent working from nothing at all. The first re-run establishes the new baseline rather
-than beating the old one.
+the constitution drops, so a fully conforming run now fails an assertion those numbers
+were built on — and only one of the two iterations compared against an agent working from
+nothing at all. The first re-run establishes the new baseline rather than beating the old
+one.
 
 ## Current state
 
