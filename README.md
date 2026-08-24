@@ -29,8 +29,9 @@ The list says what exists. Where one of its lines and the matching row in
 
 A constitution is not installed, it is copied. Take the file, drop it in the target project's
 `docs/constitutions/`, add its row to that project's index, and point the project's agent
-entry points at that index — `CLAUDE.md`, `AGENTS.md`, `.cursorrules`, whichever the project
-carries; one that carries none gets an `AGENTS.md`, the entry point no single vendor owns.
+entry points at that index — `CLAUDE.md`, `AGENTS.md`, `.cursorrules`,
+`copilot-instructions.md`, whichever the project carries; one that carries none gets an
+`AGENTS.md`, the entry point no single vendor owns.
 [`constitutions/README.md`](constitutions/README.md) has the full procedure and the
 `Upstream:` line that keeps a copy traceable to the commit it came from.
 
