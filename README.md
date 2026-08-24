@@ -73,5 +73,6 @@ working from the constitution alone.
 [`constitutions/adrs.md`](constitutions/adrs.md) in project context against an agent working
 from nothing, which makes it the one place where *does this document still earn its context?*
 is a measurement rather than an opinion. The percentages it produced while it still graded a
-skill are not a baseline for that — they were scored by an assertion the constitution
-deliberately drops — so the first re-run establishes the baseline rather than beating one.
+skill are not a baseline for that: only one of those two runs had a from-nothing arm at all,
+and both were scored by an assertion the constitution deliberately drops. The first re-run
+establishes the baseline rather than beating one.
