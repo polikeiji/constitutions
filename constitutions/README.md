@@ -25,10 +25,10 @@ the document itself sits is the installer's business. This file names both becau
 the index and has to describe the layout — that exemption belongs to the index, not to a
 topic document.
 
-Everything in `constitutions/` is copy surface, so the repo-internal tooling that grades or
-generates these documents stays out of it: anything sitting beside a document rides into
-every project that installs it, carrying fixtures that mean nothing there. That tooling
-groups by kind at the repository root and takes the name of the constitution it serves —
+Everything in `constitutions/` is copy surface, so repo-internal tooling stays out of it: a
+folder-shaped constitution travels as a folder, and fixtures kept inside one would install
+themselves into every project that takes those rules. Tooling groups by kind at the
+repository root instead, and takes the name of the constitution it serves —
 `evals/adrs-evals.json` grades `adrs.md`. A topic folder inside `constitutions/` holds
 documents and nothing else.
 
