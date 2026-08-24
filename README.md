@@ -22,8 +22,8 @@ project needs it.
 - **[The authoring convention](constitutions/README.md)** — how these documents are written:
   what goes in, document shape, modal verbs, naming, size.
 
-This list is what exists. [`constitutions/README.md`](constitutions/README.md) is the index
-and the authoring convention in full, and governs anything about how a document is written.
+The list says what exists. Where one of its lines and the matching row in
+`constitutions/README.md` drift apart, that file governs.
 
 ## Copying one into a project
 
