@@ -68,7 +68,6 @@ defaults:
 # (EntryFilter#special?), so Gemfile, Gemfile.lock, .jekyll-cache/ and .claude/ don't need
 # naming here.
 exclude:
-  - adr-workspace/   # 62 files of eval scratch output, not documentation
   - evals/           # fixtures
   - CLAUDE.md        # instructions for the agent, not documentation
   - vendor/          # DEFAULT_EXCLUDES only covers vendor/bundle/ and friends

@@ -1,6 +1,6 @@
 {
   "constitution": "constitutions/adrs.md",
-  "purpose": "Regression baseline for the ADR constitution, re-run on significant model or harness releases. Not a skill-creator evals.json — skills/adr is retired, so there is no skill_name to match and no with-skill/without-skill toggle; the comparison here is the constitution in project context against an agent working from nothing. The adr-workspace/ percentages are not a baseline for this suite: they were graded by an assertion requiring title/date/authors/changelog frontmatter, which the constitution drops, and only iteration-1 has a from-nothing arm at all. The first run under these criteria sets the baseline.",
+  "purpose": "Regression baseline for the ADR constitution, re-run on significant model or harness releases. Not a skill-creator evals.json — skills/adr is retired, so there is no skill_name to match and no with-skill/without-skill toggle; the comparison here is the constitution in project context against an agent working from nothing. The percentages this suite produced while it still graded that skill are not a baseline for it: they were scored by an assertion requiring title/date/authors/changelog frontmatter, which the constitution drops, and only one of the two iterations had a from-nothing arm at all. The first run under these criteria sets the baseline.",
   "evals": [
     {
       "id": 1,
