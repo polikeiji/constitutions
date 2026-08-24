@@ -6,6 +6,22 @@ A set of **constitutions** — portable rule documents I drop into each project 
 kept only where they carry deterministic logic and a passing eval suite, which nothing here
 currently does.
 
+## The constitutions
+
+- **[Product specs](constitutions/specs.md)** — what a specification says about a product,
+  and what it leaves to the code.
+- **[Architecture decision records](constitutions/adrs.md)** — what an ADR records about a
+  decision, and what keeps it worth reading years later.
+- **[GitHub Projects](constitutions/github-projects/README.md)** — how tickets are written,
+  and what happens to one between the board and a pull request a human can review.
+- **[CI/CD pipelines](constitutions/ci-cd.md)** — which pipelines a repository carries, what
+  each one guarantees, and the choices that cannot be read off the code.
+- **[The authoring convention](constitutions/README.md)** — how these documents are written:
+  what goes in, document shape, modal verbs, naming, size.
+
+This list is what exists. [`constitutions/README.md`](constitutions/README.md) is the index
+and the authoring convention in full, and governs anything about how a document is written.
+
 ## Why
 
 Models got good enough that most of what I wrote into skills is now noise.
