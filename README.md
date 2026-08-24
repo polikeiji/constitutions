@@ -92,8 +92,8 @@ evals/
   adr-evals.json        # the one retained suite, now grading against the constitution
 ```
 
-The site machinery — `_layouts/`, `assets/`, `_config.yml` — and `adr-workspace/`, which
-holds the eval scratch output, are not shown; the two directories above are the content.
+The site machinery — `_layouts/`, `assets/`, `_config.yml` — is not shown; the two
+directories above are the content.
 
 There is no `skills/`. If something ever clears the bar it comes back, in the shape the
 [Skills](#skills) section below describes.
@@ -151,12 +151,13 @@ its context?* is a measurement rather than an opinion. It now grades against
 skill-creator `evals.json`: there is no skill to toggle on and off, and the comparison it
 runs is the constitution in project context against an agent working from nothing.
 
-That re-run does not yet have a baseline it can be measured against. `adr-workspace/`
-holds two iterations, but only iteration-1 has a from-nothing arm (skill 100%, nothing
-33%) — iteration-2 compared two skill versions. Both were graded by an assertion requiring
-`title`/`date`/`authors`/`changelog` frontmatter, which the constitution drops, so a
-fully conforming run now fails one of the seven assertions those percentages were built
-on. The first re-run establishes the new baseline rather than beating the old one.
+That re-run does not yet have a baseline it can be measured against. The percentages this
+suite produced while it still graded the retired skill do not serve as one: they were
+scored by an assertion requiring `title`/`date`/`authors`/`changelog` frontmatter, which
+the constitution drops, so a fully conforming run now fails one of the seven assertions
+those numbers were built on — and only one of the two iterations compared against an
+agent working from nothing at all. The first re-run establishes the new baseline rather
+than beating the old one.
 
 ## Current state
 
