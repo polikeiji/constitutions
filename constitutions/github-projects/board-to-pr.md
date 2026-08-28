@@ -7,10 +7,8 @@ board mechanics that are easy to get wrong.
 
 One branch per ticket, named `<issue-number>-<short-slug>`, and one pull request from it.
 
-Commits reference their sub-item with `Refs #<number>` rather than a closing keyword: a
-sub-item is finished when the PR merges, not when its commit lands on the branch. A
-checkbox sub-item has no number of its own, so its commits reference the parent ticket
-instead.
+Commits reference the ticket with `Refs #<number>` rather than a closing keyword: it is
+finished when the PR merges, not when a commit lands on the branch.
 
 The PR body closes the ticket (`Closes #<number>`), summarises what changed, and carries a
 test plan whose boxes are checked as each check actually passes — an unchecked box is worth
@@ -32,13 +30,11 @@ flowchart LR
 ```
 
 The board is written while the work happens, not reconstructed afterwards. The ticket moves
-to *In progress* before its first commit and to *In review* when the PR opens. A sub-item
-with a board row of its own moves to *Done* as its commit lands; a checkbox sub-item has no
-row and no status.
+to *In progress* before its first commit and to *In review* when the PR opens.
 
 `gh project item-edit` reports success without changing anything when the ID it is handed
-is stale or belongs to another board, so the rows are re-read before the ticket moves to
-*In review*. A ticket *In review* above sub-items still reading *Backlog* is what a status
+is stale or belongs to another board, so the row is re-read before the ticket moves to
+*In review*. A ticket whose row still reads *Backlog* while its PR is open is what a status
 write that went nowhere looks like.
 
 Self-review and everything it produces happen on that same open PR and move nothing
@@ -82,10 +78,6 @@ one that was missed. The pass is a first pass, and does not stand in for the hum
 - A user-scoped board needs `--owner <user>` on every `gh project` call, or `gh` guesses
   the scope and guesses wrong. The owner and number to pass are in the project's agent
   entry point.
-- A sub-issue missing from `gh project item-list` is unenrolled, not absent — a board
-  without the sub-issue auto-add workflow does not enrol a child because its parent is on
-  it. Enrol it, then take the item ID from the mutation's response; reading the empty row
-  as "no item ID exists" is what produced two bug-fix commits here.
 - Field and option IDs are opaque and per-board, and option names differ — *In progress* on
   one board is *In Progress* on the next. Both are resolved per run, matched
   case-insensitively.

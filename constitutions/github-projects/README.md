@@ -5,7 +5,7 @@ to it between the board and a pull request a human can review.
 
 | Document | Covers |
 |---|---|
-| [Writing tickets](tickets.md) | Title and body, one-PR sizing, sub-items, registering, labels |
+| [Writing tickets](tickets.md) | Title and body, sizing by PR and file count, registering, labels |
 | [From board to reviewed PR](board-to-pr.md) | Branch, commits, PR, status transitions, self-review, `gh` constraints |
 
 Two files because the halves are read at different moments — one when work is being written
