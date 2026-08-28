@@ -24,40 +24,15 @@ something the intended reader can neither confirm nor dispute.
 
 ## Files
 
-Specs live in `docs/specs/`, lowercase kebab-case, and carry no YAML frontmatter — no
-version, date, or changelog, because git records all three and a changelog kept by hand
-rots the first time someone edits without updating it. Related specs share a filename
-prefix so the directory sorts into groups: `onboarding-overview.md`,
-`onboarding-email-verification.md`.
-
-One concern per file — a file answers one clear question — and about 400–600 words, a
-three-minute read. Running past the budget is the signal to split rather than to compress;
-a spec that outgrows it is usually holding two concerns. A concern an existing spec already
-covers becomes a section in that spec rather than a second file, for the same reason:
-two specs on one concern start contradicting each other.
-
-## Diagrams
-
-Anything structural or sequential — user flows, state transitions, how screens relate — is
-a Mermaid diagram in a fenced block wherever the alternative is a paragraph of dense prose.
-A two-step sequence that a sentence handles cleanly stays a sentence; a branching flow
-described in prose is where readers stop reading.
-
-```mermaid
-stateDiagram-v2
-    [*] --> Draft
-    Draft --> Submitted: applicant submits
-    Submitted --> UnderReview: reviewer opens it
-    UnderReview --> Approved
-    UnderReview --> Rejected
-```
+Specs live in `docs/specs/`. A spec running past the length budget is usually holding two
+concerns rather than one long one, and the split follows the concerns.
 
 ## Shape
 
-No fixed section list. A short spec that reads as prose beats the same content pushed into
-Overview / Behaviour / Edge Cases, and the headings a spec does grow come from its subject.
-Edge cases are part of the behaviour, not an appendix to it. The opening of one, at roughly
-a quarter of the length a finished spec runs to:
+Edge cases are part of the behaviour, not an appendix to it, and a short spec that reads as
+prose beats the same content pushed under headings. User flows, state transitions, and how
+screens relate to one another are what a spec draws. The opening of one, at roughly a
+quarter of the length a finished spec runs to:
 
 ```markdown
 # Email verification
@@ -73,17 +48,3 @@ by another user — the restriction is what makes verification worth doing.
 The link expires after 24 hours. Requesting a new one invalidates the previous link, so
 a forwarded email cannot verify an account a second time.
 ```
-
-## The index
-
-`docs/specs/README.md` carries the index, updated in the change that adds, renames, or
-removes a spec rather than afterwards:
-
-```markdown
-| Document | Covers |
-|---|---|
-| [Email verification](onboarding-email-verification.md) | How a new account confirms its address |
-```
-
-Past roughly six specs the table takes subheadings by area — a flat list of twenty is a
-directory listing with extra steps.

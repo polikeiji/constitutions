@@ -19,14 +19,11 @@ not
 
 > `0003-database-decision.md`, `0007-should-we-use-graphql.md`
 
-Frontmatter carries `adr: NNNN` and `status`, and nothing else — git records the author
-and date, the Decision section records who agreed, and a hand-kept changelog rots the
-first time someone edits without updating it. `status` is one of **Proposed**,
-**Accepted**, **Deprecated**, or **Superseded by [ADR-NNNN]**, the one fact git cannot
-reconstruct.
+Frontmatter carries `adr: NNNN` and `status`, and nothing else — the Decision section
+records who agreed. `status` is one of **Proposed**, **Accepted**, **Deprecated**, or
+**Superseded by [ADR-NNNN]**.
 
-About 400–600 words. Running past that usually means the record holds more than one
-decision.
+A record running past the length budget usually holds more than one decision.
 
 ## Sections
 
@@ -68,8 +65,7 @@ benefits is advocacy.
 **Links** — related ADRs, RFCs, and design docs, cross-referenced as
 `[ADR-NNNN](NNNN-title.md)`.
 
-Boundaries, data flows, and topology go in a ` ```mermaid ` fenced block wherever the
-alternative is a paragraph of dense prose.
+Boundaries, data flows, and topology are what a record draws.
 
 ## Facts with a shelf life
 
@@ -81,8 +77,8 @@ support for its conclusion misleads the reader it was written for.
 
 ## The index
 
-`docs/adrs/README.md` lists every record in ascending order, updated in the change that
-adds or supersedes one:
+`docs/adrs/README.md` lists every record in ascending order, with the status and the reason
+in the row:
 
 ```markdown
 | ADR | Title | Status | Summary |
@@ -90,6 +86,6 @@ adds or supersedes one:
 | [0001](0001-use-postgresql.md) | Use PostgreSQL | Accepted | Chosen for ACID compliance and team familiarity over SQLite and MongoDB |
 ```
 
-Superseding a record sets `status` in the record itself as well as in its index row — one
-still reading Accepted sends someone off after a decision that was reversed. Past roughly
-ten records the table takes thematic subheadings.
+Superseding a record sets `status` in the record itself as well as in its index row, in the
+change that supersedes it — one still reading Accepted sends someone off after a decision
+that was reversed.
