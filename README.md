@@ -66,12 +66,12 @@ is the test for anything added later.
 
 Both posts land on the same point: this is a fitted curve against the current generation of
 models, and it will drift. So the maintenance schedule is to re-read these documents on each
-significant model release and delete whatever no longer earns its context — a rule the model
-now gets right unprompted is noise, and cutting noise is the whole argument above.
+significant model or harness release and delete whatever no longer earns its context — a rule
+the model now gets right unprompted is noise, and cutting noise is the whole argument above.
 
 That judgement is made in use rather than measured. Nothing here is scored: a suite that
 could settle *does this document still earn its context?* needs a task corpus and a grader
-per constitution, which is more apparatus than five markdown files justify. The reading comes
+per constitution, which is more apparatus than the five here justify. The reading comes
 off the artifact instead — whether the ADR or the spec came out right from the document
 alone. The eval condition in the bar above is a condition on skills, which carry an exact
 right answer to grade; a constitution does not.
