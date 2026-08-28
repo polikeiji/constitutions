@@ -28,8 +28,8 @@ topic document.
 Everything in `constitutions/` is copy surface, so repo-internal tooling stays out of it: a
 folder-shaped constitution travels as a folder, and fixtures kept inside one would install
 themselves into every project that takes those rules. Tooling groups by kind at the
-repository root instead, and takes the name of the constitution it serves —
-`evals/adrs-evals.json` grades `adrs.md`. A topic folder inside `constitutions/` holds
+repository root instead, and takes the name of the constitution it serves — an
+`evals/adrs-evals.json` would grade `adrs.md`. A topic folder inside `constitutions/` holds
 documents and nothing else.
 
 Installing one means placing the copy, adding a row for it to `docs/constitutions/README.md`
