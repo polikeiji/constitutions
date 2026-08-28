@@ -94,8 +94,8 @@
         _data/nav.yml. A hand-written list would be a third place to update
         behind the index table in constitutions/README.md and the pointer in
         the root README, and the documents cannot carry ordering hints of their
-        own — "No frontmatter" in the authoring convention rules out nav_order
-        and nav_title by design, not by oversight. Sorting by url instead keeps
+        own — "Files" in constitutions/documents.md rules out nav_order and
+        nav_title by design, not by oversight. Sorting by url instead keeps
         a directory's children next to it, and the order within a level is
         alphabetical rather than deliberate. If a deliberate order ever becomes
         necessary, that is when _data/nav.yml arrives, with a CI check
@@ -244,9 +244,9 @@
       The gate reads the rendered page rather than a `mermaid: true` front
       matter flag, which is what an earlier note in doc.html proposed. These
       pages carry no front matter at all — that is the point of
-      jekyll-optional-front-matter, and "No frontmatter" in
-      constitutions/README.md makes it a rule for the documents most likely to
-      hold a diagram. A flag would have to go in the one place that may not have
+      jekyll-optional-front-matter, and "Files" in constitutions/documents.md
+      makes it a rule for every document here — including the ones that hold a
+      diagram. A flag would have to go in the one place that may not have
       one. `language-mermaid` is the class kramdown puts on the block, so the
       page that has a diagram is already the page that says so.
 
