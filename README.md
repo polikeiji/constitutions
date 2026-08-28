@@ -65,14 +65,13 @@ is the test for anything added later.
 ## Shelf life
 
 Both posts land on the same point: this is a fitted curve against the current generation of
-models, and it will drift. So the bar is also the maintenance schedule — re-run the evals on
-each significant model or harness release, and delete whatever no longer beats an agent
-working from the constitution alone.
+models, and it will drift. So the maintenance schedule is to re-read these documents on each
+significant model release and delete whatever no longer earns its context — a rule the model
+now gets right unprompted is noise, and cutting noise is the whole argument above.
 
-`evals/adrs-evals.json` is the only suite here. It grades
-[`constitutions/adrs.md`](constitutions/adrs.md) in project context against an agent working
-from nothing, which makes it the one place where *does this document still earn its context?*
-is a measurement rather than an opinion. The percentages it produced while it still graded a
-skill are not a baseline for that: only one of those two runs had a from-nothing arm at all,
-and both were scored by an assertion the constitution deliberately drops. The first re-run
-establishes the baseline rather than beating one.
+That judgement is made in use rather than measured. Nothing here is scored: a suite that
+could settle *does this document still earn its context?* needs a task corpus and a grader
+per constitution, which is more apparatus than five markdown files justify. The reading comes
+off the artifact instead — whether the ADR or the spec came out right from the document
+alone. The eval condition in the bar above is a condition on skills, which carry an exact
+right answer to grade; a constitution does not.

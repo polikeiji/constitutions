@@ -68,6 +68,5 @@ defaults:
 # (EntryFilter#special?), so Gemfile, Gemfile.lock, .jekyll-cache/ and .claude/ don't need
 # naming here.
 exclude:
-  - evals/           # fixtures
   - CLAUDE.md        # instructions for the agent, not documentation
   - vendor/          # DEFAULT_EXCLUDES only covers vendor/bundle/ and friends
