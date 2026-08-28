@@ -104,3 +104,7 @@ A document is edited in the change that makes it wrong, and deleted in the chang
 removes what it described. Git keeps the history, so a deleted document costs a reader
 nothing — while a stale one costs them what they were willing to believe about the
 documents next to it.
+
+A record of something that happened is the exception: it is marked rather than removed,
+because an ADR whose decision was later reversed still describes the choice that was made,
+and that is what the reader came for.
