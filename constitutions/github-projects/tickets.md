@@ -36,16 +36,15 @@ small to justify a PR merges into the ticket beside it. The board's statuses des
 life of a PR, and that one-to-one mapping is what keeps *In review* a true statement about
 the ticket rather than about a fraction of it.
 
-That pull request changes around twenty files — about what one honest reading pass holds,
-and a count the ticket can be checked against as it is cut, since the files a change
-touches are mostly known before it is written. A ticket whose diff runs well past twenty is
-carrying more than one change and splits along that seam; the figure is a threshold to
-split against, not a quota to fill.
+That pull request changes around twenty files, a count the ticket can be checked against as
+it is cut, since the files a change touches are mostly known before it is written. A ticket
+whose diff runs well past twenty is carrying more than one change and splits along that
+seam; the figure is a threshold to split against, not a quota to fill.
 
 A ticket has no sub-items — no child issues, and no task-list checklist standing in for
-them. One PR per ticket has already fixed the size, so a split into sub-items restates the
-commit history in the tracker and adds rows whose status nobody keeps true. A ticket that
-looks like it needs them is two tickets.
+them. The one-PR rule already fixes the size, so a split into sub-items restates the commit
+history in the tracker and adds rows whose status nobody keeps true. A ticket that looks
+like it needs them is two tickets.
 
 ## Registering
 

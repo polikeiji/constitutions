@@ -7,8 +7,8 @@ board mechanics that are easy to get wrong.
 
 One branch per ticket, named `<issue-number>-<short-slug>`, and one pull request from it.
 
-Commits reference the ticket with `Refs #<number>` rather than a closing keyword: it is
-finished when the PR merges, not when a commit lands on the branch.
+Commits reference their ticket with `Refs #<number>` rather than a closing keyword: the
+ticket is finished when the PR merges, not when a commit lands on the branch.
 
 The PR body closes the ticket (`Closes #<number>`), summarises what changed, and carries a
 test plan whose boxes are checked as each check actually passes — an unchecked box is worth
