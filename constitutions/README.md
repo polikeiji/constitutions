@@ -13,6 +13,9 @@ instruction.
 | [Architecture decision records](adrs.md) | What an ADR records about a decision, and what keeps it readable later |
 | [GitHub Projects](github-projects/README.md) | How tickets are written, and how one gets from the board to a reviewed PR |
 | [CI/CD pipelines](ci-cd.md) | Which pipelines a repository carries, and what each one guarantees |
+| [Python](python/README.md) | Python standards: uv, ruff, mypy, Pydantic v2, FastAPI, pytest |
+| [TypeScript](typescript/README.md) | TypeScript and React standards: Bun, Biome, strict types, React 19 |
+| [Bicep](bicep/README.md) | Azure infrastructure-as-code: CAF naming, linting, modules, security |
 
 Rows appear here as documents do.
 
