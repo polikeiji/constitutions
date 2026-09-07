@@ -11,9 +11,11 @@ project needs it.
 
 ## The constitutions
 
-- **[Documents](constitutions/documents.md)** — what every document looks like whatever kind
-  it is: markdown, readable in five minutes, drawn wherever prose would be dense. The rest
-  of the list assumes it and covers only what is particular to its own artifact.
+- **[Documentation](constitutions/documentation/README.md)** — what every document looks like
+  whatever kind it is: markdown, readable in five minutes, drawn wherever prose would be
+  dense, one home per fact. The rest of the list assumes it and covers only what is
+  particular to its own artifact. It also holds the convention these documents are written
+  to.
 - **[Product specs](constitutions/specs.md)** — what a specification says about a product,
   and what it leaves to the code.
 - **[Architecture decision records](constitutions/adrs.md)** — what an ADR records about a
@@ -22,8 +24,6 @@ project needs it.
   and what happens to one between the board and a pull request a human can review.
 - **[CI/CD pipelines](constitutions/ci-cd.md)** — which pipelines a repository carries, what
   each one guarantees, and the choices that cannot be read off the code.
-- **[The authoring convention](constitutions/README.md)** — how these documents are written:
-  what goes in, how a rule is phrased, and what a copy carries that the original does not.
 
 The list says what exists. Where one of its lines and the matching row in
 `constitutions/README.md` drift apart, that file governs.
