@@ -2,8 +2,9 @@
 
 What is written down beside a pipeline, once the YAML is the artifact.
 
-The YAML is the artifact, so a markdown file restating a workflow's trigger, jobs, and
-permissions is deleted rather than maintained. What survives is what the YAML cannot hold:
+A markdown file restating a workflow's trigger, jobs, and permissions is deleted rather
+than maintained — it is a second copy of the design, and the copy drifts from the file that
+actually runs. What survives is what the YAML cannot hold:
 
 - **One-time human procedures** — creating a federated credential, granting a role, binding
   a custom domain. These are runbooks, and belong to the area they configure.
