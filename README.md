@@ -24,6 +24,12 @@ project needs it.
   and what happens to one between the board and a pull request a human can review.
 - **[CI/CD pipelines](constitutions/ci-cd.md)** — which pipelines a repository carries, what
   each one guarantees, and the choices that cannot be read off the code.
+- **[Python](constitutions/python/README.md)** — the toolchain, the type policy, and the
+  shape of the code under it: uv, ruff, mypy, Pydantic v2, FastAPI, pytest.
+- **[TypeScript](constitutions/typescript/README.md)** — the same for TypeScript and React:
+  Bun, Biome, `strict` mode, React 19, and the React Native carve-outs.
+- **[Bicep](constitutions/bicep/README.md)** — Azure infrastructure-as-code: CAF naming,
+  lint levels that block rather than warn, modules, and the outputs policy for secrets.
 
 The list says what exists. Where one of its lines and the matching row in
 `constitutions/README.md` drift apart, that file governs.
