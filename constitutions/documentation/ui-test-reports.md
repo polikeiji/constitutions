@@ -57,8 +57,9 @@ stored copy and the published page are the same bytes, so a reviewer reading eit
 same evidence.
 
 Screenshots are captured at device resolution and embedded as PNG. A report that runs past
-roughly 10 MB has too many captures in it, not too few — and the host's publish ceiling,
-16 MB for Claude artifacts, is where it stops publishing at all.
+roughly 10 MB has too many captures in it, not too few — and wherever the report is
+published, the host's own ceiling, commonly around 16 MB, is where it stops publishing at
+all.
 
 ## Where it lives
 
