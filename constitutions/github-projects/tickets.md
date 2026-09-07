@@ -55,8 +55,20 @@ this itself; otherwise `gh project item-add` does.
 Every ticket carries `ai-agent` plus one component label naming the area it touches. Labels
 that do not exist yet are created before the issue that needs them.
 
-Prerequisites are named in the description, and tickets are created in dependency order, so
-the board reads in the order the work can actually happen.
+New tickets land in the intake column, which is accepted work not yet scheduled; the column
+after it is what has been picked for the next pass. A blocked column, where the board has
+one, is not an intake column — it holds a ticket something outside it is in the way of, and
+a ticket parked there names what it is waiting on, because the column records only that
+something is. The full path is in [From board to reviewed PR](board-to-pr.md).
+
+Prerequisites are named in the description **and registered on the issue as a dependency**,
+and tickets are created in dependency order, so the board reads in the order the work can
+actually happen. The two records carry different halves of one fact: the description says
+why a ticket waits on another, the dependency field says that it does, and only the field is
+visible where the board is read rather than opened. Depending on another ticket is not a
+status — a ticket waiting on one stays in the intake column, since the blocked column means
+blocked by something outside the ticket set. The endpoint and its traps are in
+[From board to reviewed PR](board-to-pr.md).
 
 The board's own coordinates — its number, its owner, whether it is user-scoped or
 org-scoped — live in the project's agent entry point. This document travels between

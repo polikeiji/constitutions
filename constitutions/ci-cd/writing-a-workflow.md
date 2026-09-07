@@ -1,31 +1,7 @@
-# CI/CD pipelines
+# Writing a workflow
 
-Which pipelines a repository carries, what each one guarantees, and the choices that cannot
-be read off the code.
-
-The artifact is the workflow itself: `.github/workflows/<slug>.yml`, one file per pipeline,
-the filename matching the pipeline name in lowercase kebab-case. A markdown document
-describing a workflow to be implemented later is a second copy of the same design, and the
-copy drifts from the file that actually runs. Where a pipeline's shape needs explaining, a
-comment in the YAML or a Mermaid block beside it carries the explanation.
-
-## The default set
-
-| Pipeline | Guarantees |
-|---|---|
-| `claude-code-review` | Every pull request has an automated review on it before a human opens it |
-| `claude-help` | An `@`-mention in an issue or PR comment gets an answer |
-| `secret-scan` | No credential reaches the default branch — Gitleaks |
-| `sast-scan` | No known-vulnerable pattern merges — Semgrep, `p/default` plus `p/owasp-top-ten` and `p/secrets` |
-| `iac-ci` | Infrastructure changes are validated and their plan is readable on the pull request |
-| `iac-cd` | Merged infrastructure changes are applied, behind an approval gate |
-| `app-test` | The test suite passes on the merge candidate |
-| `app-build` | The default branch produces a container image tagged with its commit |
-| `app-deploy` | That image reaches the target environment |
-
-A repository takes the rows that apply to it — no IaC, no `iac-*`; no image, no
-`app-build`. Anything added beyond the set is named the same way. The two agent workflows
-keep those names whichever coding agent the action behind them runs.
+What the repository already answers, what has to be settled before a workflow can be
+written, and the two rules a pipeline is not allowed to soften.
 
 ## What the repository already answers
 
@@ -55,7 +31,7 @@ wherever the provider supports it.
 
 `secret-scan` and `sast-scan` fail the job on a finding. `continue-on-error`, a softened exit
 code, or a warning-only mode removes the only thing either scan is for. Suppression stays
-explicit and reviewable — a `.gitleaks.toml` allowlist entry, a Semgrep `nosem` comment — so
+explicit and reviewable — a `.gitleaks.toml` allowlist entry, a Semgrep `nosemgrep` comment — so
 that dismissing a finding leaves a diff behind.
 
 `secret-scan` covers pull requests and pushes to the default branch both; scanning one path
@@ -69,9 +45,9 @@ pattern sets over the same diff catch what one misses.
 
 ## Deploys pass through an environment
 
-`iac-cd` and `app-deploy` run against a GitHub Environment, which is what carries the manual
-approval gate and the environment-scoped secrets. An apply or a deploy that reaches
-production without one has no gate rather than an open gate.
+`iac-cd` and every `<component>-deploy` run against a GitHub Environment, which is what
+carries the manual approval gate and the environment-scoped secrets. An apply or a deploy
+that reaches production without one has no gate rather than an open gate.
 
-`app-deploy` deploys the tag `app-build` wrote — the triggering commit's SHA. A `latest` tag
-makes the running version unattributable to a commit.
+A `<component>-deploy` ships the SHA tag its `build-image` wrote — the triggering commit's.
+A `latest` tag makes the running version unattributable to a commit.
