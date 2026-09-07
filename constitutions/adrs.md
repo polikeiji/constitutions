@@ -39,13 +39,15 @@ an argument: *Performance: response time under 100 ms at p99*, not *Performance:
 enough*. The drivers are the ones the deciders actually named; invented ones read exactly
 like real ones.
 
-**Options** — one subsection per option seriously considered, its pros and cons labelled
-with those driver names verbatim, so every option is argued on the same axis and the
-reader compares options rather than the cases made for them. One option from a longer
-record:
+**Options** — one subsection per option seriously considered, headed
+`Option <letter>: <title>` with the letters running in heading order. Its pros and cons are
+labelled with those driver names verbatim, so every option is argued on the same axis and
+the reader compares options rather than the cases made for them. That letter is the handle
+the rest of the record cites, and the chosen option's heading — and no other — carries
+`(chosen)`:
 
 ```markdown
-### Option A: PostgreSQL
+### Option A: PostgreSQL (chosen)
 
 **Performance** (+) Excellent query planner; handles our projected 50k rows/day easily  
 **Operational cost** (-) Managed service at ~$80/month, or self-hosted ops overhead  
@@ -54,10 +56,19 @@ record:
 ```
 
 The trailing double spaces are load-bearing — without them the rows render as one
-paragraph.
+paragraph, and the source looks correct either way, so it is checked in the built site.
 
-**Decision** — the chosen option in one sentence, who agreed, and which drivers tipped it
-against which accepted trade-offs.
+The marker earns its place once a record grows enough to split: Options becomes a page of
+its own, and a comparison carrying no marker is read to its end without ever saying which
+way it went. A record whose options are spread across sibling files marks the winner on
+whichever page its heading lives.
+
+**Decision** — opens by naming the chosen option by **both** its letter and its title —
+*Adopt Option B: managed PostgreSQL* — and goes on to who agreed, which drivers tipped it,
+and what the rejected options give up. A statement of direction alone does not satisfy the
+section: *use PostgreSQL as the sole database* says what happens next while leaving the
+reader to work out which of the compared options that was. A decision that takes a
+different option per surface names each one, and says which surface it was chosen for.
 
 **Consequences** — what gets easier and what gets harder, both. A record listing only
 benefits is advocacy.

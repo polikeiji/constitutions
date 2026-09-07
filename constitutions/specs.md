@@ -22,6 +22,11 @@ not
 The second is not a rougher description of the same thing. It describes something else —
 something the intended reader can neither confirm nor dispute.
 
+Where a reader genuinely needs the mechanism, the spec links the ADR that owns it rather
+than summarising it. That is one home per fact applied to the boundary between product and
+engineering: a summary in the spec is a second copy that goes stale without anyone editing
+it, and it drags the engineering vocabulary back in on its way.
+
 ## Files
 
 Specs live in `docs/specs/`. A spec running past the length budget is usually holding two

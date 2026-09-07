@@ -22,8 +22,8 @@ project needs it.
   decision, and what keeps it worth reading years later.
 - **[GitHub Projects](constitutions/github-projects/README.md)** — how tickets are written,
   and what happens to one between the board and a pull request a human can review.
-- **[CI/CD pipelines](constitutions/ci-cd.md)** — which pipelines a repository carries, what
-  each one guarantees, and the choices that cannot be read off the code.
+- **[CI/CD pipelines](constitutions/ci-cd/README.md)** — which pipelines a repository
+  carries, what each one guarantees, and the choices that cannot be read off the code.
 - **[Python](constitutions/python/README.md)** — the toolchain, the type policy, and the
   shape of the code under it: uv, ruff, mypy, Pydantic v2, FastAPI, pytest.
 - **[TypeScript](constitutions/typescript/README.md)** — the same for TypeScript and React:
@@ -80,7 +80,7 @@ the model now gets right unprompted is noise, and cutting noise is the whole arg
 
 That judgement is made in use rather than measured. Nothing here is scored: a suite that
 could settle *does this document still earn its context?* needs a task corpus and a grader
-per constitution, which is more apparatus than the five here justify. The reading comes
+per constitution, which is more apparatus than the eight here justify. The reading comes
 off the artifact instead — whether the ADR or the spec came out right from the document
 alone. The eval condition in the bar above is a condition on skills, which carry an exact
 right answer to grade; a constitution does not.
