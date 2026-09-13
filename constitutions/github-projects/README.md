@@ -5,8 +5,10 @@ to it between the board and a pull request a human can review.
 
 | Document | Covers |
 |---|---|
-| [Writing tickets](tickets.md) | Title and body, sizing by PR and file count, registering, labels |
-| [From board to reviewed PR](board-to-pr.md) | Branch, commits, PR, status transitions, self-review, `gh` constraints |
+| [Writing tickets](tickets.md) | Title and body, the size limit and what counts toward it, registering, labels |
+| [Splitting a ticket](tickets-splitting.md) | The seams a ticket over the size limit splits along, and how the pieces' PRs merge |
+| [From board to reviewed PR](board-to-pr.md) | Branch, commits, a branch past the size limit, PR, status transitions, self-review, `gh` constraints |
 
-Two files because the halves are read at different moments — one when work is being written
-down, the other when it is picked up — and together they run past what one document holds.
+Tickets and the path to a PR are separate files because they are read at different moments
+— one when work is being written down, the other when it is picked up — and together they
+run past what one document holds.

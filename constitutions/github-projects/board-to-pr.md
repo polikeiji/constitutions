@@ -14,9 +14,18 @@ on every use is not a rule. What the name carries is the issue number and a slug
 Commits reference their ticket with `Refs #<number>` rather than a closing keyword: the
 ticket is finished when the PR merges, not when a commit lands on the branch.
 
-The PR body closes the ticket (`Closes #<number>`), summarises what changed, and carries a
-test plan whose boxes are checked as each check actually passes — an unchecked box is worth
-more than a checked one nobody ran.
+A branch that passes the size limit in [Writing tickets](tickets.md) stops and splits,
+before its PR opens or after. The work so far that stands alone becomes this ticket's PR,
+trimmed to it, and the ticket body is corrected to match; the rest becomes new tickets,
+registered in the intake column with their dependencies on this one and cut along the seams
+in [Splitting a ticket](tickets-splitting.md). A PR does not open over the limit with an
+explanation in its description instead, since that explanation is the exception a ticket
+cannot grant itself.
+
+The PR body closes the ticket (`Closes #<number>`), gives the diff's file count and names
+any file left out of it as generated or a UI test report, summarises what changed, and
+carries a test plan whose boxes are checked as each check actually passes — an unchecked box
+is worth more than a checked one nobody ran.
 
 Where the PR changes a user-visible screen, a link to that run's UI test report sits beside
 the test plan; see the documentation constitution's
@@ -75,10 +84,12 @@ sequenceDiagram
   Human->>PR: the review this one does not stand in for
 ```
 
-A PR gets one honest pass over its own diff before a human is asked for one. The findings
-go up as a single review of inline comments, each anchored to a line the diff actually
-touches — a comment aimed anywhere else is rejected — so the fixes that follow read as a
-thread a later reviewer can retrace.
+A PR gets one honest pass over its own diff before a human is asked for one, and the pass
+checks the file count before anything else. The review's summary states that count; a
+count over the limit is fixed by splitting, not answered with a reply, because no reply
+makes a diff smaller. The findings go up as a single review of inline comments, each
+anchored to a line the diff actually touches — a comment aimed anywhere else is rejected —
+so the fixes that follow read as a thread a later reviewer can retrace.
 
 Every comment gets a reply: the ones acted on name the commit that fixed them, the ones
 left alone give the reason. A finding quietly fixed leaves the next reader diffing against
