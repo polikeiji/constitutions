@@ -23,8 +23,8 @@ Acceptance criteria, Testing requirements, PR instructions.
 - **Testing requirements** — what to unit test and what to mock, what behaviour the
   integration tests cover, and what infrastructure they need. A ticket with no testable
   surface names the checks that stand in for tests instead of dropping the section.
-- **PR instructions** — target branch, PR title, the file count the diff is expected to
-  reach, and what the description contains.
+- **PR instructions** — target branch, PR title, the diff's expected file count, and what
+  the description contains.
 
 A ticket carries enough of its source to be implemented without opening it. The link in
 Context is for a reader who wants the reasoning; anyone who has to follow it before they

@@ -19,8 +19,8 @@ still splits, and its seams usually land in this order:
 Each seam is its own ticket with its own PR, registered with its dependencies in that order,
 unless it is too small to justify a PR and merges into the ticket beside it. They are
 separate tickets rather than sub-items, so the rule against sub-items in
-[Writing tickets](tickets.md) still stands: each piece carries its own six sections and
-walks the board on its own.
+[Writing tickets](tickets.md) still stands: each piece carries its own full body and walks
+the board on its own.
 
 A seam that is still over the limit splits again, and most often that seam is the switch.
 Its new path lands first, beside the old one and reached by nothing, so the default branch
@@ -40,17 +40,21 @@ Merging two list screens into one, shipped as a single PR of 88 files, cuts into
 ## How the pieces merge
 
 By default a piece's PR opens against the default branch once its prerequisite has merged,
-so its branch starts from one that already holds that prerequisite. A PR that cannot wait is
-based on the prerequisite's branch instead, since against the default branch it would show
-the prerequisite's files as its own.
+so its branch starts from the default branch with that prerequisite already in it. A PR
+that cannot wait is based on the prerequisite's branch instead, since against the default
+branch it would show the prerequisite's files as its own.
 
-When the prerequisite merges, a PR stacked on it is rebased onto the default branch by hand
-and retargeted there. A rebase or squash merge lands the prerequisite's commits under new
-hashes, so a PR that is only retargeted still shows them as its own. GitHub retargets a PR
-by itself only when the branch beneath it is deleted after that branch's PR merges, so in a
-repository running with `delete_branch_on_merge` off the retarget is done by hand as well.
+A stack built with GitHub's stacked pull requests rebases and retargets the pull requests
+above a merged one by itself. Outside such a stack, when the prerequisite merges, a PR
+stacked on it is rebased onto the default branch by hand and retargeted there. A rebase or
+squash merge lands the prerequisite's commits under new hashes, so a PR that is only
+retargeted still shows them as its own. GitHub retargets such a PR by itself only when the
+branch beneath it is deleted after that branch's PR merges, so in a repository running with
+`delete_branch_on_merge` off, the retarget is done by hand as well. A branch deleted through
+the API, as `gh pr merge --delete-branch` deletes it, closes the PRs based on it instead of
+retargeting them, so the retarget comes before any such deletion.
 
-While a stacked PR targets that branch its `Closes` does nothing, because GitHub registers
-the keyword only on a PR whose base is the default branch. Merged there, it lands in a
-branch that has already landed, so its change never reaches the default branch and its
-ticket never closes.
+While a stacked PR targets the prerequisite's branch, its `Closes` does nothing, because
+GitHub registers the keyword only on a PR whose base is the default branch. Merged there, it
+lands in a branch whose own PR has already merged, so its change never reaches the default
+branch and its ticket never closes.

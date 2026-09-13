@@ -22,10 +22,10 @@ in [Splitting a ticket](tickets-splitting.md). A PR does not open over the limit
 explanation in its description instead, since that explanation is the exception a ticket
 cannot grant itself.
 
-The PR body closes the ticket (`Closes #<number>`), gives the diff's file count and names
-any file left out of it as generated or a UI test report, summarises what changed, and
-carries a test plan whose boxes are checked as each check actually passes — an unchecked box
-is worth more than a checked one nobody ran.
+The PR body closes the ticket (`Closes #<number>`), gives the diff's file count, naming each
+file left out of it with the exclusion in [Writing tickets](tickets.md) that covers it,
+summarises what changed, and carries a test plan whose boxes are checked as each check
+actually passes — an unchecked box is worth more than a checked one nobody ran.
 
 Where the PR changes a user-visible screen, a link to that run's UI test report sits beside
 the test plan; see the documentation constitution's
