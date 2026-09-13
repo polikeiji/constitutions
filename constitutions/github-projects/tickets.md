@@ -23,7 +23,8 @@ Acceptance criteria, Testing requirements, PR instructions.
 - **Testing requirements** — what to unit test and what to mock, what behaviour the
   integration tests cover, and what infrastructure they need. A ticket with no testable
   surface names the checks that stand in for tests instead of dropping the section.
-- **PR instructions** — target branch, PR title, and what the description contains.
+- **PR instructions** — target branch, PR title, the file count the diff is expected to
+  reach, and what the description contains.
 
 A ticket carries enough of its source to be implemented without opening it. The link in
 Context is for a reader who wants the reasoning; anyone who has to follow it before they
@@ -31,15 +32,34 @@ can start is reading an incomplete ticket.
 
 ## Size
 
-One ticket is exactly one pull request. A ticket that would take two is split; one too
-small to justify a PR merges into the ticket beside it. The board's statuses describe the
-life of a PR, and that one-to-one mapping is what keeps *In review* a true statement about
-the ticket rather than about a fraction of it.
+One ticket is exactly one pull request, sized so one person can review the whole diff in
+one sitting. A reviewer who cannot hold a change in their head approves what they skimmed,
+which is a review that did not happen and still reads as one that did. A ticket that would
+take two is split; one too small to justify a PR merges into the ticket beside it. The
+board's statuses describe the life of a PR, and that one-to-one mapping is what keeps
+*In review* a true statement about the ticket rather than about a fraction of it.
 
-That pull request changes around twenty files, a count the ticket can be checked against as
-it is cut, since the files a change touches are mostly known before it is written. A ticket
-whose diff runs well past twenty is carrying more than one change and splits along that
-seam; the figure is a threshold to split against, not a quota to fill.
+**More than twenty changed files is over the limit.** The files a change touches are
+mostly known before it is written, so a ticket's PR instructions state the file count it
+expects, and one expecting more than twenty is split before it is registered. The figure is
+a limit to split against, not a quota to fill.
+
+Every file in the diff counts: source, tests, docs, and each deletion and rename, since a
+reviewer still has to confirm that each was meant. Two kinds do not. Output that a
+committed script regenerates and CI compares against the committed copy, such as a coverage
+page or `openapi.json`, is checked by that comparison, and a
+[UI test report](../documentation/ui-test-reports.md) by looking at it; neither is read
+line by line. One-off tool output, such as a codemod or updated snapshots, is read like any
+other change and counts.
+
+A ticket does not grant itself an exception. A body arguing that its change does not split,
+that the halves are not shippable, or that the diff is mostly tests has not found its seam
+yet, and none of those is a reason to pass the limit —
+[Splitting a ticket](tickets-splitting.md) has the seams such a change splits along. The
+limit does not apply to a **mechanical** pull request, a pure move, rename, deletion or
+regeneration that contains nothing else and says so in its description, because one check
+covers every file in it. A mechanical PR carries no behavioural change: among a hundred
+moved files, the one that changed behaviour is the one nobody reviews.
 
 A ticket has no sub-items — no child issues, and no task-list checklist standing in for
 them. The one-PR rule already fixes the size, so a split into sub-items restates the commit
