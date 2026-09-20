@@ -86,10 +86,12 @@ its own winner: a page holding two comparisons carries two markers, one to each.
 The marker earns its place once a record grows enough to split: Options becomes a page of
 its own, and a comparison carrying no marker is read to its end without ever saying which
 way it went. A record whose options are spread across sibling files marks the winner on
-whichever page its heading lives. The sibling takes the record's `NNNN-short-title` stem with
-`-options` on the end, carries the same `adr` and `status`, and opens with the record's title
-followed by `: Options`. It is a page of the record rather than a record of its own, so the
-index carries one row and the record links the page.
+whichever page its heading lives. Those siblings sit in a folder of the record's own: a
+record over the budget splits the way any document does
+([file-organization.md](documentation/file-organization.md) rule 1), into
+`NNNN-short-title/` whose `README.md` is the record and replaces the original file. `adr`
+and `status` go there with it; a page beside it is not a record and carries neither. The
+index keeps one row per record, pointing at the folder.
 
 **Decision** — opens by naming the chosen option by **both** its letter and its title —
 *Adopt Option B: managed PostgreSQL* — and goes on to who agreed, which drivers tipped it,
