@@ -23,7 +23,11 @@ Frontmatter carries `adr: NNNN` and `status`, and nothing else — the Decision 
 records who agreed. `status` is one of **Proposed**, **Accepted**, **Deprecated**, or
 **Superseded by [ADR-NNNN]**.
 
-A record running past the length budget usually holds more than one decision.
+A record running past the length budget usually holds more than one decision. Splitting
+the file does not split the decision: moving Options onto a page of its own answers the
+length and leaves the second decision where it was, in whatever shape it was already in.
+A second decision takes a record of its own or a comparison of its own, and a paragraph
+is neither.
 
 ## Sections
 
@@ -56,12 +60,36 @@ the rest of the record cites, and the chosen option's heading — and no other �
 ```
 
 The trailing double spaces are load-bearing — without them the rows render as one
-paragraph, and the source looks correct either way, so it is checked in the built site.
+paragraph, and the source looks correct to the eye either way. An editor that trims trailing
+whitespace takes them out silently, so the check is a command rather than a reading:
+
+```bash
+# a driver row that is followed by another row and has lost its break
+awk 'prev ~ /^\*\*/ && prev !~ /  $/ && /^\*\*/ { print NR-1": "prev } { prev = $0 }' FILE
+```
+
+It prints nothing once every row but each block's last carries its break, and the built site
+confirms the render.
+
+A comparison written as prose is advocacy. A paragraph granting each rejected alternative one
+dismissing clause is the case for the winner, and it is where a finding against the choice
+goes to be buried. Every set of alternatives a record weighs takes the labelled rows,
+wherever in the record it sits.
+
+A decision that only arises once an option is chosen is compared inside that option, under
+its own heading, in the same shape. Lettering its candidates alongside the options they
+depend on reads as one comparison where the record made two. It is argued on whichever
+drivers tell its candidates apart, and the drivers every candidate satisfies identically are
+named and set aside rather than repeated as rows that decide nothing. Each comparison marks
+its own winner: a page holding two comparisons carries two markers, one to each.
 
 The marker earns its place once a record grows enough to split: Options becomes a page of
 its own, and a comparison carrying no marker is read to its end without ever saying which
 way it went. A record whose options are spread across sibling files marks the winner on
-whichever page its heading lives.
+whichever page its heading lives. The sibling takes the record's `NNNN-short-title` stem with
+`-options` on the end, carries the same `adr` and `status`, and opens with the record's title
+followed by `: Options`. It is a page of the record rather than a record of its own, so the
+index carries one row and the record links the page.
 
 **Decision** — opens by naming the chosen option by **both** its letter and its title —
 *Adopt Option B: managed PostgreSQL* — and goes on to who agreed, which drivers tipped it,
