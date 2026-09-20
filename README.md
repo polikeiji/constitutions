@@ -18,7 +18,7 @@ project needs it.
   to.
 - **[Product specs](constitutions/specs.md)** — what a specification says about a product,
   and what it leaves to the code.
-- **[Architecture decision records](constitutions/adrs.md)** — what an ADR records about a
+- **[Architecture decision records](constitutions/adrs/README.md)** — what an ADR records about a
   decision, and what keeps it worth reading years later.
 - **[GitHub Projects](constitutions/github-projects/README.md)** — how tickets are written,
   and what happens to one between the board and a pull request a human can review.
