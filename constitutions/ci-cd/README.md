@@ -6,7 +6,7 @@ be read off the code.
 | Document | Covers |
 |---|---|
 | [The pipeline set](pipeline-set.md) | The workflow as the artifact, the default set, and the `<component>-<stage>` naming |
-| [Writing a workflow](writing-a-workflow.md) | What the repository already answers, what has to be settled first, and the two rules a pipeline cannot soften |
+| [Writing a workflow](writing-a-workflow.md) | What the repository already answers, what has to be settled first, which pull requests a pipeline runs on, and the two rules a pipeline cannot soften |
 | [Documenting a workflow](documenting-workflows.md) | What is written down beside a pipeline, and the one generated document permitted |
 
 Three files because they are read at different moments — naming a new pipeline, writing its

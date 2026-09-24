@@ -52,7 +52,10 @@ retargeted still shows them as its own. GitHub retargets such a PR by itself onl
 branch beneath it is deleted after that branch's PR merges, so in a repository running with
 `delete_branch_on_merge` off, the retarget is done by hand as well. A branch deleted through
 the API, as `gh pr merge --delete-branch` deletes it, closes the PRs based on it instead of
-retargeting them, so the retarget comes before any such deletion.
+retargeting them, so the retarget comes before any such deletion. The retarget also comes
+before the rebase's push: a stacked PR's checks run only once its base is the default
+branch, and it is a push rather than the retarget that starts them — see
+[Pull requests stacked on another branch](../ci-cd/writing-a-workflow.md#pull-requests-stacked-on-another-branch).
 
 While a stacked PR targets the prerequisite's branch, its `Closes` does nothing, because
 GitHub registers the keyword only on a PR whose base is the default branch. Merged there, it
