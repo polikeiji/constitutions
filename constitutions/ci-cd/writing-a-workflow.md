@@ -1,7 +1,8 @@
 # Writing a workflow
 
 What the repository already answers, what has to be settled before a workflow can be
-written, and the two rules a pipeline is not allowed to soften.
+written, which pull requests a pipeline runs on, and the two rules a pipeline is not allowed
+to soften.
 
 ## What the repository already answers
 
@@ -27,6 +28,44 @@ the default token grants more than most jobs use. And every secret and variable 
 origin: cloud credentials come from OIDC (`id-token: write`) rather than long-lived keys
 wherever the provider supports it.
 
+## Pull requests stacked on another branch
+
+A pipeline a pull request triggers runs its jobs only on a pull request whose own base is
+the default branch. A stacked pull request is checked once it reaches the bottom of its
+stack, where its diff against the default branch is what merges; checking it on every push
+and restack before then repeats that work once per pull request in the stack, and one
+restack of a long stack fills the runner pool.
+
+The gate is a job-level `if:` on the pull request's own base, letting every other event
+through so a manual run still works:
+
+```yaml
+jobs:
+  test:
+    if: github.event_name != 'pull_request' || github.event.pull_request.base.ref == 'main'
+    concurrency:
+      group: ${{ github.workflow }}-test-${{ github.event.pull_request.number || github.run_id }}
+      cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+```
+
+It reads `github.event.pull_request.base.ref`, not `github.base_ref`: in a GitHub native
+stack, workflows run as if every pull request targeted the stack's trunk, so `base_ref` is
+the default branch all the way up the stack and a gate on it skips nothing. It sits on the
+job rather than in `on.pull_request.branches`, because a workflow that never starts leaves a
+required check waiting as *Expected*, while a skipped job satisfies it.
+
+`edited` stays out of the trigger's `types`. It would start the checks when a stacked pull
+request is retargeted to the default branch without a push, but every title or body edit
+fires it too, and the skipped runs those edits start are listed over the real results in
+the pull request's checks. The push that follows a retarget is what runs the checks, so a
+stack rebased by hand is retargeted first and pushed second.
+
+A pull request's runs share one concurrency group, keyed on its number, and a new push
+cancels the run it supersedes, since a restack otherwise queues a stale run behind every
+fresh one. A run on a push to the default branch falls back to a group of its own and is
+never cancelled: a pipeline that checks only its push's range would leave the cancelled
+push's commits unchecked.
+
 ## Security scans block the merge
 
 `secret-scan` and `sast-scan` fail the job on a finding. `continue-on-error`, a softened exit
@@ -35,7 +74,12 @@ explicit and reviewable — a `.gitleaks.toml` allowlist entry, a Semgrep `nosem
 that dismissing a finding leaves a diff behind.
 
 `secret-scan` covers pull requests and pushes to the default branch both; scanning one path
-leaves the other open.
+leaves the other open. On pull requests both scans take the gate above like every other
+pipeline, and neither path opens: a stacked pull request's commits reach the default branch
+only through the pull request then at the bottom of the stack, which both scans read over
+`<default>..HEAD` and block. What the gate gives up is timing — a secret pushed to a stacked
+branch is caught when its pull request reaches the bottom rather than on its first push,
+and sits on the remote until then.
 
 `sast-scan` uploads its SARIF to GitHub Code Scanning, which needs `security-events: write`
 and — on a private repository — GitHub Advanced Security, a paid add-on. Nothing in a
