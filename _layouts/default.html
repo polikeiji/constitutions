@@ -202,6 +202,7 @@
                 {%- assign tail = prev_url | slice: -1, 1 -%}
                 {%- assign head = p.url | slice: 0, n -%}
                 {%- if tail == '/' and head == prev_url -%}
+                  {%- comment -%}"/constitutions/" splits to ["", "constitutions"], so the first level is 2.{%- endcomment -%}
                   {%- assign depth = prev_url | split: '/' | size -%}
                   {%- assign here_head = here | slice: 0, n -%}
                   <details{% if depth <= 2 or here_head == prev_url %} open{% endif %}>
