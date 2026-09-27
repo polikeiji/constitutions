@@ -136,6 +136,28 @@ jobs:
             listed = links.values.flatten.map { |h| target.call(h) }.compact.uniq
             missing = html.keys - listed
             abort("::error::built pages the sidebar does not link to: #{missing.join(", ")} - the list is built from page titles, so check that each of these still opens with a heading") if missing.any?
+
+            # The folds are decided at build time from the url, and both ways
+            # they can go wrong still ship a nav that passes everything above:
+            # the group the reader is in left shut, which hides the current page
+            # inside a closed fold, or every group open, which is the sidebar
+            # from before it folded. Walked as a stack of the <details> each
+            # tag sits in, so a fold the current page is inside is the one
+            # being asserted open.
+            hidden = navs.filter_map do |f, nav|
+              stack = []
+              shut = false
+              nav.scan(/<details(?: open)?>|<\/details>|aria-current="page"/) do |tag|
+                case tag
+                when "</details>" then stack.pop
+                when /\A<details/ then stack.push(tag.include?("open"))
+                else shut = true unless stack.all?
+                end
+              end
+              f if shut
+            end
+            abort("::error::the current page sits inside a shut sidebar group in: #{hidden.join(", ")} - check the `open` condition on the nested <details> in _layouts/default.html") if hidden.any?
+            abort("::error::no sidebar group is shut on _site/index.html - the groups below the first level should start folded, check the `open` condition in _layouts/default.html") unless navs["_site/index.html"].include?("<details>")
           '
 
       # The two dark blocks in style.css cannot share one rule - a media query
