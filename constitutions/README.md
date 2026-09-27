@@ -11,6 +11,7 @@ instruction.
 | [Documentation](documentation/README.md) | What every document looks like — shape, size, splitting, cross-referencing, diagrams — and how these rule documents are written |
 | [Product specs](specs.md) | What a product spec covers, and what it leaves to the code |
 | [Architecture decision records](adrs/README.md) | What an ADR records about a decision, and what keeps it readable later |
+| [Business plans](business-plans/README.md) | What an investor-facing business plan covers, and what every figure in it rests on |
 | [GitHub Projects](github-projects/README.md) | How tickets are written, and how one gets from the board to a reviewed PR |
 | [CI/CD pipelines](ci-cd/README.md) | Which pipelines a repository carries, and what each one guarantees |
 | [Python](python/README.md) | Python standards: uv, ruff, mypy, Pydantic v2, FastAPI, pytest |

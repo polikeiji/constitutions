@@ -38,6 +38,7 @@ Sessions steer toward a close once they have run long enough; see
 | A procedure a human runs step by step | the `guides/` section of the application or area it configures |
 | The shape of the running system | the `architecture/` section of the application it belongs to |
 | Evidence that a user-visible change was tested | `docs/test-reports/` |
+| The market, competitors, team and five-year costs the company raises money on | `docs/business-plan/` |
 
 The ticket row names no folder because there are no plan documents. How something is
 intended to be built is written in the ticket that carries the work and closed by the pull
