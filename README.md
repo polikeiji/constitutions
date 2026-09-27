@@ -20,6 +20,9 @@ project needs it.
   and what it leaves to the code.
 - **[Architecture decision records](constitutions/adrs/README.md)** — what an ADR records about a
   decision, and what keeps it worth reading years later.
+- **[Business plans](constitutions/business-plans/README.md)** — the plan a technology
+  company raises money with: its sections, the market, competitors and their prices, the
+  team, five years of costs, and what every figure rests on.
 - **[GitHub Projects](constitutions/github-projects/README.md)** — how tickets are written,
   and what happens to one between the board and a pull request a human can review.
 - **[CI/CD pipelines](constitutions/ci-cd/README.md)** — which pipelines a repository
