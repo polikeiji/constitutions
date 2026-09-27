@@ -48,7 +48,7 @@ The ask states:
 - the use of funds by category — people, product, go-to-market, other — summing to the
   amount and matching [costs](costs.md) over the same months;
 - the runway it buys at the planned burn, which covers reaching the milestones plus the
-  months the next raise takes to close — commonly 18 to 24 months at seed;
+  months the next raise takes to close — 18 to 24 months at seed in 2026 guidance;
 - the milestones it reaches: measurable ones a next-round investor would fund on, such as
   revenue, customer count, retention, or a product shipped to a named segment.
 
