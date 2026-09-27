@@ -280,7 +280,7 @@ a:hover { text-decoration: underline; }
 
 /* Borrowed from .doc h6 - a quiet label rather than a heading competing with
    the document's own h1 a few pixels to the right. */
-.site-nav summary {
+.site-nav > details > summary {
   color: var(--text-muted);
   font-size: 0.8125rem;
   font-weight: 600;
@@ -289,7 +289,7 @@ a:hover { text-decoration: underline; }
   cursor: pointer;
 }
 
-.site-nav summary:focus-visible {
+.site-nav > details > summary:focus-visible {
   outline: 2px solid var(--link);
   outline-offset: 2px;
 }
@@ -308,7 +308,63 @@ a:hover { text-decoration: underline; }
   border-left: 1px solid var(--border);
 }
 
-.site-nav li { margin: 0; }
+/* Relative so a group's fold toggle can sit on the row of the link it
+   belongs to. */
+.site-nav li {
+  margin: 0;
+  position: relative;
+}
+
+/* The fold toggle for a group, drawn as a chevron at the right end of the
+   group's own row. Out of flow, so a closed <details> takes up no height and
+   an open one puts its list straight under the link. The height is one link
+   row: 0.2rem of padding each side of a 0.9375rem line at 1.6. */
+.site-nav .nav-toggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 1.75rem;
+  height: 1.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  color: var(--text-muted);
+  cursor: pointer;
+  list-style: none;
+}
+
+.site-nav .nav-toggle::-webkit-details-marker { display: none; }
+
+.site-nav .nav-toggle::before {
+  content: "";
+  width: 0.4rem;
+  height: 0.4rem;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  /* Pointing right when shut, down when open. */
+  transform: rotate(-45deg);
+}
+
+.site-nav details[open] > .nav-toggle::before {
+  transform: translateY(-0.1rem) rotate(45deg);
+}
+
+.site-nav .nav-toggle:hover {
+  background: var(--bg-subtle);
+  color: var(--text);
+}
+
+.site-nav .nav-toggle:focus-visible {
+  outline: 2px solid var(--link);
+  outline-offset: -2px;
+}
+
+/* Room for the toggle, so a group title that wraps runs under neither the
+   chevron nor its hover band. */
+.site-nav li:has(> details) > a {
+  padding-right: 2rem;
+}
 
 /* Muted rather than --link: eight links in the accent colour beside the
    document would read as louder than the document. The full-width block is
