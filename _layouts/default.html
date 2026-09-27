@@ -172,6 +172,21 @@
             `open_group` survive the loop body. The (1..8) loops are the `while`
             Liquid does not have; both walk up towards "/" and break on it, and
             no url on this site is anywhere near eight deep.
+
+            Each nested list sits in a <details>, so a group folds under the
+            page that owns it. Shut by default below the first level, which
+            leaves the categories themselves (Bicep, Python, ...) showing and
+            their documents folded. The exception is the group the reader is in,
+            left open at every level on the way down, so the current page is
+            never hidden inside a closed fold. Worked out from the url at build
+            time, for the same reason the outer fold has no script.
+
+            The <summary> holds only a visually-hidden name and draws as a
+            chevron beside the group's link, not around it. A link inside the
+            summary would be a control inside a control: one click target for
+            two actions, and a screen reader announcing a button that is also a
+            link. The link stays where it was, a plain <li> entry, and the
+            summary is the separate button next to it.
           {%- endcomment -%}
           <ul>
             {%- if home -%}
@@ -187,6 +202,10 @@
                 {%- assign tail = prev_url | slice: -1, 1 -%}
                 {%- assign head = p.url | slice: 0, n -%}
                 {%- if tail == '/' and head == prev_url -%}
+                  {%- assign depth = prev_url | split: '/' | size -%}
+                  {%- assign here_head = here | slice: 0, n -%}
+                  <details{% if depth <= 2 or here_head == prev_url %} open{% endif %}>
+                    <summary class="nav-toggle"><span class="u-visually-hidden">Documents in {{ prev_title }}</span></summary>
                   <ul>{%- assign open_group = prev_url -%}{%- assign li_open = false -%}
                 {%- endif -%}
               {%- endif -%}
@@ -195,7 +214,7 @@
                 {%- assign n = open_group | size -%}
                 {%- assign head = p.url | slice: 0, n -%}
                 {%- if head == open_group -%}{%- break -%}{%- endif -%}
-                {%- if li_open -%}</li>{%- endif -%}</ul>
+                {%- if li_open -%}</li>{%- endif -%}</ul></details>
                 {%- assign parts = open_group | split: '/' -%}
                 {%- assign keep = parts | size | minus: 1 -%}
                 {%- assign open_group = parts | slice: 0, keep | join: '/' | append: '/' -%}
@@ -205,10 +224,11 @@
               <li><a href="{{ p.url | relative_url }}"{% if p.url == here %} aria-current="page"{% endif %}>{{ p.title }}</a>
               {%- assign li_open = true -%}
               {%- assign prev_url = p.url -%}
+              {%- assign prev_title = p.title -%}
             {%- endfor -%}
             {%- for i in (1..8) -%}
               {%- if open_group == '/' -%}{%- break -%}{%- endif -%}
-              {%- if li_open -%}</li>{%- endif -%}</ul>
+              {%- if li_open -%}</li>{%- endif -%}</ul></details>
               {%- assign parts = open_group | split: '/' -%}
               {%- assign keep = parts | size | minus: 1 -%}
               {%- assign open_group = parts | slice: 0, keep | join: '/' | append: '/' -%}
