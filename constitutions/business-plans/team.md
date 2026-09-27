@@ -15,7 +15,7 @@ plan that implied otherwise loses more than the answer would have.
 
 Experience is written as outcomes relevant to this plan — *built and ran the billing
 platform for 4M users*, *sold to hospital procurement for eight years* — rather than as
-titles and employer logos. What makes a team fundable at this stage is the fit between the
+titles and employer logos. What makes a team fundable at seed is the fit between the
 people and this problem, and an employer's name does not show it.
 
 A person is named only with their agreement.

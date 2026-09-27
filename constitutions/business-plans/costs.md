@@ -28,7 +28,7 @@ role; this file keeps no headcount of its own.
 - A band is sourced — a salary survey or a set of job postings, with its date and location —
   because the same role costs very differently in two cities.
 - Salary is loaded for employer taxes, benefits and insurance, by a factor stated per
-  country with its source. In the US that factor commonly runs 1.25–1.4; elsewhere it
+  country with its source. US estimates from 2025–26 put it at 1.25–1.4; elsewhere it
   differs, and a factor carried over from another country is wrong in a way nobody notices.
   Contractors are costed at their rate, without the factor.
 - Founders are costed at the salary they will draw. A founder drawing nothing is shown at
