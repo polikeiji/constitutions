@@ -26,7 +26,8 @@ project needs it.
 - **[GitHub Projects](constitutions/github-projects/README.md)** — how tickets are written,
   and what happens to one between the board and a pull request a human can review.
 - **[CI/CD pipelines](constitutions/ci-cd/README.md)** — which pipelines a repository
-  carries, what each one guarantees, and the choices that cannot be read off the code.
+  carries, what each one guarantees, how long a pull request may wait on them, and the
+  choices that cannot be read off the code.
 - **[Python](constitutions/python/README.md)** — the toolchain, the type policy, and the
   shape of the code under it: uv, ruff, mypy, Pydantic v2, FastAPI, pytest.
 - **[TypeScript](constitutions/typescript/README.md)** — the same for TypeScript and React:
