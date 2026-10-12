@@ -99,6 +99,9 @@ one that was missed. The pass is a first pass, and does not stand in for the hum
 A review of one's own PR is submitted as `COMMENT`. GitHub rejects `REQUEST_CHANGES` on your
 own pull request with a 422.
 
+What the PR meets before it merges, and who merges it, is
+[Reviewing and merging a PR](reviewing-and-merging.md).
+
 ## Driving the board with `gh`
 
 - Board mutations need the `project` OAuth scope, which `gh auth login` does not grant;
