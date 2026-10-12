@@ -16,7 +16,10 @@ not
 
 Frontmatter carries `adr: NNNN` and `status`, and nothing else — the Decision section
 records who agreed. `status` is one of **Proposed**, **Accepted**, **Deprecated**, or
-**Superseded by [ADR-NNNN]**.
+**Superseded by [ADR-NNNN]**. A pull request carrying a record merges only after a human
+has reviewed it, recorded as
+[Reviewing and merging a PR](../github-projects/reviewing-and-merging.md#an-adr-is-reviewed-by-a-human)
+describes.
 
 A record running past the length budget usually holds more than one decision. Splitting
 the file does not split the decision: moving Options onto a page of its own answers the
