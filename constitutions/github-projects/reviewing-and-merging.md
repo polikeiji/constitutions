@@ -21,11 +21,11 @@ Every box is checked, and only because that check ran and passed. A box ticked t
 way is worse than one left empty, for the reason [From board to reviewed PR](board-to-pr.md)
 gives. A box that cannot be ticked stops the merge.
 
-A check that is dropped rather than run is struck through with the reason beside it, never
-left unchecked or checked anyway:
+A check that is dropped rather than run loses its box and is struck through with the reason
+beside it, never left unchecked or checked anyway:
 
-> - [x] ~~Seed the staging tenant and sign in as a viewer~~ — staging is retired; covered by
->   the viewer-role e2e case above
+> - ~~Seed the staging tenant and sign in as a viewer~~ — dropped: staging is retired, and
+>   the viewer-role e2e case above covers it
 
 An unchecked box reads as work still owed, and a checked one as work done, so a dropped
 check written as either tells the next reader something false.
@@ -61,8 +61,9 @@ passes on re-run is still noted on the PR, with the run that failed, since a fla
 recorded is the one that keeps costing re-runs.
 
 This covers every workflow, not only those branch protection marks required. The required
-list is a floor GitHub enforces, and a workflow left off it still reports something the
-merge would otherwise ignore.
+list is a floor GitHub enforces. The workflows left off it tend to be the ones added later
+or known to be flaky, and those are the red results a merge goes past without anyone
+noticing.
 
 ## An ADR is reviewed by a human
 
