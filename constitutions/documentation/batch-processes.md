@@ -39,8 +39,8 @@ them; this file adds what a job has that a long-running application does not.
    explanation beside the drawing links it. A cron expression copied into prose is wrong as
    soon as someone moves the run by an hour, and nothing notices.
 5. An operator who can start the job by hand is drawn as a user, with the credential and
-   role that allow it, as [applications.md](applications.md) rule 5 requires of any user. A
-   manual run is the one path into a job that skips what the schedule guarantees.
+   role that allow it, as [applications.md](applications.md) rules 4 and 5 require of any
+   user. A manual run is the one path into a job that skips what the schedule guarantees.
 6. The run's own steps — extract, transform, load, retry — are a flow, and sit in
    `software-design/` as Mermaid. The layout says where the job stands among the things it
    touches; the flow says what it does once started.
