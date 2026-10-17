@@ -63,7 +63,8 @@ rather than in a document; see [cross-referencing.md](cross-referencing.md).
   guides/           the one-time procedures a human runs for it: consoles, accounts, registrations
 ```
 
-The names are the same in every application folder. A reader who has found one application's
+What `tech-stack.md`, `architecture/` and `tests.md` contain is
+[applications.md](applications.md). The names are the same in every application folder. A reader who has found one application's
 software design knows the path to the next one's without looking, and a new subject arrives
 at a name that already exists instead of at a folder invented to hold it.
 
