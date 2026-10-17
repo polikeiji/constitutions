@@ -44,7 +44,7 @@ and a batch process is workload the project runs once shipped.
 There is no `plans/`, because how something is intended to be built is written in its ticket
 rather than in a document; see [cross-referencing.md](cross-referencing.md).
 
-## The sections an application folder carries
+## The sections an application or batch-process folder carries
 
 ```text
   architecture/     a drawn layout as deployed — what it talks to, who uses it and how each
