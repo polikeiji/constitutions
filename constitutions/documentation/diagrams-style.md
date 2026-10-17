@@ -51,9 +51,9 @@ flowchart TD
 
 ### What a drawn layout carries
 
-21. Every element of one of the four layouts [diagrams.md](diagrams.md) rule 2 names has a
+21. Every element of one of the five layouts [diagrams.md](diagrams.md) rule 2 names has a
     named explanation in the document beside it. A box nobody explains is the unlabelled
-    fact rule 10 already describes, and the four are exactly the diagrams dense enough to
+    fact rule 10 already describes, and the five are exactly the diagrams dense enough to
     hide one in.
 22. Rule 14 is a Mermaid mechanism, and a `.drawio.svg` has no second one. What it carries
     instead is the alt text on the markdown image, which [diagrams.md](diagrams.md) rule 4

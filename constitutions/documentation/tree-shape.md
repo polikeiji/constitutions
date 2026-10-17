@@ -1,8 +1,8 @@
 # Tree shape
 
 The top level of the documentation tree is organised around what the project runs — its
-environments, its applications, its pipelines, its cloud account and the services it pays
-for — so that a new document has exactly one obvious home.
+environments, its applications and batch processes, its pipelines, its cloud account and the
+services it pays for — so that a new document has exactly one obvious home.
 
 ## The top level
 
@@ -11,6 +11,7 @@ docs/
   environments/        one entry per environment — what it is, its URLs, its resources, its docs
   local-development/   bringing the stack up on a laptop
   <application>/       one folder per application, each carrying the sections below
+  <batch-process>/     one folder per batch process, carrying the same sections
   devops/              the pipeline inventory: trigger, environment, secrets
   cloud/               the cloud architecture diagram and the monthly cost estimate
   saas/                paid services outside the cloud account, and their monthly cost
@@ -35,13 +36,20 @@ An application kept in its own sub-project directory joins the tree as a symlink
 sub-project's `docs/`, so its documentation stays where it belongs and still renders as one
 site. It carries the same section names as any other application folder.
 
+A batch process is a folder beside the applications, carrying the same sections — including
+one that only a single application starts, since its trigger, schedule and compute are what a
+reader comes for. It is not `devops/`: that folder holds the pipelines that ship the project,
+and a batch process is workload the project runs once shipped.
+
 There is no `plans/`, because how something is intended to be built is written in its ticket
 rather than in a document; see [cross-referencing.md](cross-referencing.md).
 
 ## The sections an application folder carries
 
 ```text
-  architecture/     a drawn layout, plus a short explanation of every element in it
+  architecture/     a drawn layout as deployed — what it talks to, who uses it and how each
+                    is authenticated and authorized, where it runs — plus a short explanation
+                    of every element in it
   tech-stack.md     the stack drawn, with versions and why each piece is there
   software-design/  class, package, flow and sequence diagrams, in Mermaid
   agents/           where the application has AI agents: their map, interactions and triggers,
@@ -50,7 +58,8 @@ rather than in a document; see [cross-referencing.md](cross-referencing.md).
   api/              where the application publishes a contract: the generated document and
                     the page that renders it
   ui-catalogue.md   where the application has UI: how the component catalogue is generated
-  tests.md          the automated test suites and the current coverage
+  tests.md          the automated test suites, their current results and coverage, and where
+                    the evidence lives
   guides/           the one-time procedures a human runs for it: consoles, accounts, registrations
 ```
 
