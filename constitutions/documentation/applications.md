@@ -18,8 +18,9 @@ this file says what `tech-stack.md`, `architecture/` and `tests.md` contain.
    is typed and wrong the day the lockfile moves, and nothing fails when it does. A version
    no manifest pins — a managed runtime, a hosted database's engine — is stated, with a link
    to the infrastructure file that selects it.
-3. A document for a narrower subject inside the application adds its own pieces to this
-   list under the same two rules, rather than starting a second stack.
+3. A document for a narrower subject inside the application — [agents.md](agents.md) for
+   its AI agents — adds its own pieces to this list under the same two rules, rather than
+   starting a second stack.
 
 ### The architecture
 
