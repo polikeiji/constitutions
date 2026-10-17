@@ -11,12 +11,17 @@ rule numbering at 12 so no number means two things.
 1. Diagrams are authored as fenced ` ```mermaid ` blocks. Mermaid renders on every major
    code host and in the common docs-site generators, and reviews as a text diff. ASCII art,
    PNGs, and links to an external diagramming tool are not committed.
-2. The exception is four layouts whose grouping and placement carry meaning — what Mermaid's
+2. The exception is five layouts whose grouping and placement carry meaning — what Mermaid's
    auto-layout cannot express, having no containers and no say in where a node sits: an
-   application's architecture, its tech stack, its AI agent map with the interactions and
-   triggers between agents, and the cloud architecture. Those four are drawn in draw.io and
-   committed under the rules below. Everything Mermaid can draw, Mermaid draws: a format
-   reached for by preference rather than necessity turns every diagram into an argument.
+   application's architecture, with the systems it talks to, its users, how each is
+   authenticated and authorized, and where it is deployed; its tech stack; its AI agent map
+   with the interactions and triggers between agents; a batch process's execution layout,
+   with its trigger, cadence, what triggers it, where it runs, and what it reads and writes;
+   and the cloud architecture. Those five are drawn in draw.io and committed under the rules
+   below. A cadence or trigger is a label on the drawing; the exact schedule stays in the
+   file that runs it and is linked from the prose beside it. A batch run's own steps are a
+   flow, and a flow is Mermaid. Everything Mermaid can draw, Mermaid draws: a format reached
+   for by preference rather than necessity turns every diagram into an argument.
 3. Screenshots of real UI are not diagrams, and remain allowed as illustrations.
 
 ### Committing a drawn diagram
@@ -75,6 +80,7 @@ flowchart TD
 | An application or cloud architecture layout | a `.drawio.svg` |
 | An application's tech stack | a `.drawio.svg` |
 | An AI agent map, with its interactions and triggers | a `.drawio.svg` |
+| A batch process's execution layout | a `.drawio.svg` |
 
 11. `gantt` and `timeline` are not used. Dated diagrams go stale silently.
 
