@@ -39,7 +39,8 @@ site. It carries the same section names as any other application folder.
 A batch process is a folder beside the applications, carrying the same sections — including
 one that only a single application starts, since its trigger, schedule and compute are what a
 reader comes for. It is not `devops/`: that folder holds the pipelines that ship the project,
-and a batch process is workload the project runs once shipped.
+and a batch process is workload the project runs once shipped. What its folder adds to an
+application's is [batch-processes.md](batch-processes.md).
 
 There is no `plans/`, because how something is intended to be built is written in its ticket
 rather than in a document; see [cross-referencing.md](cross-referencing.md).
