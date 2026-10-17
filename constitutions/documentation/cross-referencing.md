@@ -36,7 +36,7 @@ Sessions steer toward a close once they have run long enough; see
 | How a feature behaves for the user | `docs/specs/` |
 | How something is intended to be built | its ticket on the project board |
 | A procedure a human runs step by step | the `guides/` section of the application or area it configures |
-| The shape of the running system | the `architecture/` section of the application it belongs to |
+| The shape of the running system | the `architecture/` section of the application or batch process it belongs to |
 | Evidence that a user-visible change was tested | `docs/test-reports/` |
 | The market, competitors, team and five-year costs the company raises money on | `docs/business-plan/` |
 
@@ -46,9 +46,9 @@ request that carries the change; a document restating it would outlive the branc
 it true.
 
 The architecture row names no single folder either, because the running system is not one
-subject. Each application's `architecture/` describes that application as deployed, and
-`docs/cloud/` describes the estate they all run on. [tree-shape.md](tree-shape.md) has the
-sections an application folder carries.
+subject. Each application's or batch process's `architecture/` describes that one as
+deployed, and `docs/cloud/` describes the estate they all run on.
+[tree-shape.md](tree-shape.md) has the sections those folders carry.
 
 The procedure row names none for the same reason: a runbook belongs to the thing it
 configures, so the console runbooks sit under the console and the pipeline ones under
