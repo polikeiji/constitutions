@@ -52,7 +52,7 @@ rather than in a document; see [cross-referencing.md](cross-referencing.md).
                     is authenticated and authorized, where it runs — plus a short explanation
                     of every element in it
   tech-stack.md     the stack drawn, with versions and why each piece is there
-  software-design/  class, package, flow and sequence diagrams, in Mermaid
+  software-design/  class, package, flow and sequence diagrams
   agents/           where the application has AI agents: their map, interactions and triggers,
                     plus the evaluation-pipeline design
   data-design/      where the application owns a database: the ERD

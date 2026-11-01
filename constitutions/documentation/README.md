@@ -14,7 +14,7 @@ themselves.
 | [File organization](file-organization.md) | Splitting an over-budget document into a folder, folder `README.md` indexes, frontmatter |
 | [Tree shape](tree-shape.md) | What the top level of the documentation tree is organised around, and where a new document goes |
 | [Cross-referencing](cross-referencing.md) | One home per fact, which document owns what, removing duplicates, link mechanics |
-| [Diagrams](diagrams.md) | Mermaid as the default format, when a diagram is required, choosing the type |
+| [Diagrams](diagrams.md) | What a diagram achieves in any format, when one is required, choosing the type |
 | [Diagram style](diagrams-style.md) | Diagram size, accessibility, verification, and what a drawn layout carries |
 
 ### Particular kinds of document

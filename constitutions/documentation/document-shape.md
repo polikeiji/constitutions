@@ -20,8 +20,9 @@ is particular to it, and where that document says nothing, this one governs.
    screenshots embedded is itself the artifact, and there is no markdown it could be
    generated from.
 3. Formatting stays to what renders on the code host and in a plain viewer both: headings,
-   lists, tables, links, fenced code, and Mermaid — see [diagrams.md](diagrams.md). Raw HTML
-   renders in some viewers and shows as markup in the rest. This governs the markup inside a
+   lists, tables, links, images, fenced code, and Mermaid — see [diagrams.md](diagrams.md).
+   Raw HTML renders in some viewers and shows as markup in the rest, so an SVG is a file the
+   document links as an image rather than an inline `<svg>`. This governs the markup inside a
    document, not rule 2's standalone artifact that is itself a rendered page.
 
 ### The opening

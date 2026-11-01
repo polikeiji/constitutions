@@ -23,8 +23,8 @@ them; this file adds what a job has that a long-running application does not.
 
 ### The execution layout
 
-3. `architecture/` carries the execution layout, the `.drawio.svg`
-   [diagrams.md](diagrams.md) rule 2 names, showing:
+3. `architecture/` carries the execution layout [diagrams.md](diagrams.md) rule 2 names,
+   showing:
    - **the trigger** — a schedule, an event, an upstream job, or a manual run;
    - **the cadence** — as a label, *nightly 02:00 UTC* or *on every upload*;
    - **who or what triggers it** — the scheduler, an application, an operator, the job
@@ -42,8 +42,8 @@ them; this file adds what a job has that a long-running application does not.
    role that allow it, as [applications.md](applications.md) rules 4 and 5 require of any
    user. A manual run is the one path into a job that skips what the schedule guarantees.
 6. The run's own steps — extract, transform, load, retry — are a flow, and sit in
-   `software-design/` as Mermaid. The layout says where the job stands among the things it
-   touches; the flow says what it does once started.
+   `software-design/`. The layout says where the job stands among the things it touches; the
+   flow says what it does once started.
 
 ### Operating it
 
