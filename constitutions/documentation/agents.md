@@ -18,12 +18,11 @@ and this file extends them rather than repeating them.
 
 ### The agent map
 
-2. Where the application has more than one agent, `agents/` opens with the agent map, a
-   `.drawio.svg` under [diagrams.md](diagrams.md) rule 2. It shows every agent, which one
-   calls or hands off to which and what passes between them, what starts each one — a user,
-   an event, a schedule, another agent — and the stores the agents share. A shared store is
-   drawn because two agents writing to one memory interact whether or not either calls the
-   other.
+2. Where the application has more than one agent, `agents/` opens with the agent map
+   [diagrams.md](diagrams.md) rule 2 names. It shows every agent, which one calls or hands
+   off to which and what passes between them, what starts each one — a user, an event, a
+   schedule, another agent — and the stores the agents share. A shared store is drawn
+   because two agents writing to one memory interact whether or not either calls the other.
 3. An application with one agent carries no map: its architecture drawing already shows the
    agent and what it talks to, and a map of one box is a section with no subject.
 

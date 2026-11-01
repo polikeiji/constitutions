@@ -44,9 +44,9 @@ done | sort -rn | head -20
    reader needs is not a fix; see [file-organization.md](file-organization.md) for how to
    split.
 8. Reasons are what compress first, and a rule stripped of its reason is the one a later
-   reader tidies away. Replacing prose with a Mermaid diagram is the one route back under
-   budget that costs the reader nothing, and the preferred one where the content is
-   structural — see [diagrams.md](diagrams.md).
+   reader tidies away. Replacing prose with a diagram is the one route back under budget
+   that costs the reader nothing, and the preferred one where the content is structural —
+   see [diagrams.md](diagrams.md).
 9. Documents written before this constitution may exceed the budget. A substantial edit to
    one splits it as part of that change, and an already over-budget document takes no new
    sections.

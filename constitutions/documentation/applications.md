@@ -8,11 +8,11 @@ this file says what `tech-stack.md`, `architecture/` and `tests.md` contain.
 
 ### The tech stack
 
-1. `tech-stack.md` opens with the stack drawn as a `.drawio.svg` — see
-   [diagrams.md](diagrams.md) rule 2 — then lists every piece the drawing shows: language,
-   framework, runtime, data stores, hosting service, and any library a reader has to know
-   about to change the code. Each piece carries one line on why it is there, since a stack
-   listed without reasons is the one a later change swaps a piece out of without asking.
+1. `tech-stack.md` opens with the stack drawn — see [diagrams.md](diagrams.md) rule 2 — then
+   lists every piece the drawing shows: language, framework, runtime, data stores, hosting
+   service, and any library a reader has to know about to change the code. Each piece
+   carries one line on why it is there, since a stack listed without reasons is the one a
+   later change swaps a piece out of without asking.
 2. A version is the one the lockfile or manifest pins, and the list links that file rather
    than writing the number beside each piece. A version typed into prose is right the day it
    is typed and wrong the day the lockfile moves, and nothing fails when it does. A version
