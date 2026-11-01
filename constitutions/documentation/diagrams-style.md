@@ -38,7 +38,8 @@ flowchart TD
 17. `style` and `classDef` are not used for decoration. A docs site with light and dark
     themes makes hardcoded colours unreadable in one of them. Colour carries meaning only
     where the caption states that meaning in words. A committed image gets that restraint
-    from [diagrams.md](diagrams.md) rule 5.
+    from [diagrams.md](diagrams.md) rule 5. A vendor's icon under rule 23 is the exception to
+    hardcoded colours: it keeps its fixed colours, which are the vendor's and not a legend.
 18. Diagrams count toward the document's 650-line limit, and no single block exceeds 60
     lines — see [document-sizing.md](document-sizing.md).
 
@@ -49,8 +50,10 @@ flowchart TD
     request page or in a local site build — before merging.
 20. A new or edited committed image is checked on a local site build in both themes. A
     draw.io file is also reopened in draw.io to confirm the embedded copy survived, and a
-    generated image is regenerated to confirm its source still produces it. The build checks
-    none of this.
+    generated image is regenerated to confirm its source still produces it. The theme check
+    covers a vendor's icon too: one that disappears against a background gets a surface
+    behind it that works in both themes, since rule 23 rules out recolouring it. The build
+    checks none of this.
 
 ### What a drawn layout carries
 
@@ -61,6 +64,25 @@ flowchart TD
 22. Rule 14 is a Mermaid mechanism, and a committed image has no second one. What it carries
     instead is the alt text on the markdown image, which [diagrams.md](diagrams.md) rule 4
     already requires.
+23. A diagram whose subject is cloud infrastructure, including the cloud architecture layout
+    [diagrams.md](diagrams.md) rule 2 names, draws each cloud resource with the icon from its
+    vendor's own published set, as that vendor's terms allow, because a reader who knows the
+    console recognises its icon faster than a label. Each vendor's terms are its own and sit
+    with its set: [Azure icons](https://learn.microsoft.com/en-us/azure/architecture/icons/),
+    [AWS Architecture Icons](https://aws.amazon.com/architecture/icons/). The version is the
+    one current when the diagram is drawn or next redrawn, so an existing diagram comes into
+    line at its next redraw.
+    - **Unmodified:** an icon is not cropped, flipped, rotated, distorted or recoloured.
+    - **Named:** the product name sits beside the icon. An icon alone is an unlabelled fact,
+      and rule 21's named explanation still applies to it.
+    - **Embedded:** icons sit inside the image file, so it renders in an `<img>` as
+      [diagrams.md](diagrams.md) rule 4 requires. An SVG combining several keeps their
+      internal `id`s unique, or one icon's gradients resolve to another's.
+    - **Sourced:** a tool's built-in library counts as official only if it carries the
+      vendor's current set; otherwise the icons come from the vendor's download.
+    - **Left out:** the project's own workload is never drawn with a vendor's icon, because
+      that icon stands for the vendor's product. A resource with no icon in the set stays a
+      labelled box rather than a lookalike. A third-party service is outside this rule.
 
 ## Rationale
 

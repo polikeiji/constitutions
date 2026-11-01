@@ -20,9 +20,10 @@ this file's rule numbering at 12 so no number means two things.
    how each is authenticated and authorized, and where it is deployed; its tech stack; its
    AI agent map with the interactions and triggers between agents; a batch process's
    execution layout, with its trigger, cadence, what triggers it, where it runs, and what it
-   reads and writes; and the cloud architecture. A cadence or trigger is a label on the
-   drawing; the exact schedule stays in the file that runs it and is linked from the prose
-   beside it. A batch run's own steps are a flow, and no part of its layout.
+   reads and writes; and the cloud architecture, whose resources take their vendors' icons
+   under [diagrams-style.md](diagrams-style.md) rule 23. A cadence or trigger is a label on
+   the drawing; the exact schedule stays in the file that runs it and is linked from the
+   prose beside it. A batch run's own steps are a flow, and no part of its layout.
 3. Screenshots of real UI are not diagrams, and remain allowed as illustrations.
 
 ### Committing an image
