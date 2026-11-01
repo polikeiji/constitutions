@@ -45,7 +45,7 @@ diagram written inside the markdown, as a fenced block, is not one.
    Firefox 120, and Safari 17.5. A draw.io export gets those from **Appearance: Automatic**,
    with the page's adaptive colour mode (Page Setup) also Automatic. A raster image has a
    background that works in both.
-6. Those pairs track the **site's** theme, not the operating system's, wherever the
+6. `light-dark()` tracks the **site's** theme, not the operating system's, wherever the
    docs-site theme sets a computed `color-scheme` on `<body>` — an `<img>` inherits it, so
    the toggle in the header moves the diagram with the page. Worth verifying in a browser
    across all four combinations of OS and site theme: a theme that stopped declaring
