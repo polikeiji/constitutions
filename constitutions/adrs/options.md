@@ -47,7 +47,7 @@ its own, and a comparison carrying no marker is read to its end without ever say
 way it went. A record whose options are spread across sibling files marks the winner on
 whichever page its heading lives. Those siblings sit in a folder of the record's own: a
 record over the budget splits the way any document does
-([file-organization.md](documentation/file-organization.md) rule 1), into
+([file-organization.md](../documentation/file-organization.md) rule 1), into
 `NNNN-short-title/` whose `README.md` is the record and replaces the original file. `adr`
 and `status` go there with it; a page beside it is not a record and carries neither. Its
 Links section lists those pages, so the record is not also a directory index. The parent
