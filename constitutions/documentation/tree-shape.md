@@ -16,15 +16,17 @@ docs/
   cloud/               the cloud architecture diagram and the monthly cost estimate
   saas/                paid services outside the cloud account, and their monthly cost
   specs/ adrs/ constitutions/ legal/ test-reports/ business-plan/   organised by document type
+  <reference-data>/    published records that code reads, one record per page, the folder
+                       named for their kind (banks/); document-sizing rule 11 exempts their fences
 ```
 
 An application is a folder because that is the noun a reader arrives with. Someone asking
 how the admin console is built does not know whether the answer was filed as architecture,
 as a plan or as a guide, and under a tree organised by document type they have to open all
-three and reconcile what they find. `specs/`, `adrs/`, `constitutions/`, `legal/`,
-`test-reports/` and `business-plan/` are the folders that survive by document type, because
-they hold records whose *kind* is what a reader searches by — a decision and why it beat the
-alternatives, a rule, the evidence that one change was tested, the case made to investors.
+three and reconcile what they find. The last two lines are the folders that survive by
+document type, because they hold records whose *kind* is what a reader searches by — a
+decision and why it beat the alternatives, a rule, the evidence that one change was tested,
+the case made to investors, what a bank lends on.
 
 A runbook and a generated contract both fail that test. Nobody searches for *a guide*: they
 search for the console they have to configure or the tenant they have to provision, and that
