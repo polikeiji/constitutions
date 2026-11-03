@@ -29,8 +29,10 @@ flowchart TD
     Short -->|no| Diagram["Diagram"]
 ```
 
-15. Every edge is labelled with what crosses it (`Bot -->|session report| Queue`), never with
-    `1`, `2`, or a bare `yes`.
+15. Every edge that carries something is labelled with what crosses it
+    (`Bot -->|session report| Queue`), never with `1` or `2`. An edge leaving a decision node
+    may read `yes` or `no`, since the node's question gives the answer its meaning. A
+    flowchart edge that only leads to the next step carries nothing and needs no label.
 16. In a Mermaid block, node IDs are short and stable, with the human-readable text in the
     label. A label containing `()`, `:`, `,`, or `#` is quoted — an unquoted special
     character is a parse error, and a parse error replaces the **whole** diagram with an

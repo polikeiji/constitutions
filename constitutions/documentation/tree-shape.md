@@ -60,7 +60,7 @@ rather than in a document; see [cross-referencing.md](cross-referencing.md).
   data-design/      where the application owns a database: the ERD
   api/              where the application publishes a contract: the generated document and
                     the page that renders it, a page of its own beside the folder's README.md
-  ui-catalogue.md   where the application has UI: how the component catalogue is generated
+  ui-catalogue.md   where the application generates a component catalogue: how it is built
   tests.md          the automated test suites, their current results and coverage, and where
                     the evidence lives
   guides/           the one-time procedures a human runs for it: consoles, accounts, registrations
