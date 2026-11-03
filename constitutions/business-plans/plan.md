@@ -67,15 +67,15 @@ The sections share their figures. A driver used twice is one assumption cited tw
 flowchart LR
   accTitle: How the plan's figures depend on one another
   accDescr: The market's segment and reference customer feed the price in the business model and the competitor price comparison. The go-to-market capacity sets the customer count, which drives revenue, cloud and AI usage costs. The team's headcount plan drives people costs. Costs and revenue together give unit economics, cash and runway, which size the ask.
-  market["market.md — segment, reference customer, SOM"] --> model["business-model.md — price, go-to-market capacity"]
-  market --> comp["competitors.md — prices for the reference customer"]
-  model --> revenue["financials.md — customers × price"]
+  market["market.md — segment, reference customer, SOM"] -->|"segment, reference customer"| model["business-model.md — price, go-to-market capacity"]
+  market -->|reference customer| comp["competitors.md — prices for the reference customer"]
+  model -->|"price, customer count"| revenue["financials.md — customers × price"]
   market -. "Y5 customers ≤ SOM" .-> revenue
-  model --> usage["costs.md — cloud and AI usage"]
-  team["team.md — headcount plan"] --> people["costs.md — people"]
-  usage --> econ["financials.md — margin, burn, runway, the ask"]
-  people --> econ
-  revenue --> econ
+  model -->|customer count| usage["costs.md — cloud and AI usage"]
+  team["team.md — headcount plan"] -->|headcount| people["costs.md — people"]
+  usage -->|usage costs| econ["financials.md — margin, burn, runway, the ask"]
+  people -->|people costs| econ
+  revenue -->|revenue| econ
 ```
 
 The consistency checks that follow from it: Y5 customers do not exceed the SOM; the
