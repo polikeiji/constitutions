@@ -119,10 +119,12 @@ docs/web/tech-stack-agents.md
 14. The exceptions are the facts git cannot reconstruct and the keys a build genuinely
     needs, and a document type's own constitution names them. ADRs are the standing one: a
     record carries `adr` and `status`, and `status` is what says a decision was superseded
-    three years on, which no commit message puts in front of the reader. The other is a
-    folder index under a docs-site generator that takes a section's sidebar label from page
-    metadata — read before the page renders, where an H1 is discovered too late — which
-    otherwise falls back to the prettified directory name and turns
+    three years on, which no commit message puts in front of the reader. A legal document a
+    person accepts carries the acceptance version [legal-documents.md](legal-documents.md)
+    names, beside the markers that keep repository-only notes off the published page. The
+    last is a folder index under a docs-site generator that takes a section's sidebar label
+    from page metadata — read before the page renders, where an H1 is discovered too late —
+    which otherwise falls back to the prettified directory name and turns
     `docs/adrs/0001-ai-agent-framework/` into "0001 ai agent framework". A leaf document
     needs no such key, because its own label does come from its H1. A type whose
     constitution names no such field carries no frontmatter at all — a document does not

@@ -25,6 +25,7 @@ themselves.
 | [AI agent documentation](agents.md) | What an application's `agents/` section contains: stack, agent map, prompts and tools, models, evaluations |
 | [Batch process documentation](batch-processes.md) | What a batch process adds to an application's sections: trigger, schedule, where it runs, run history |
 | [UI test reports](ui-test-reports.md) | The report a user-visible change leaves behind, and how the PR links it |
+| [Legal documents](legal-documents.md) | The acceptance version and the strip markers a legal document may carry for the build that publishes it |
 
 ### The constitutions themselves
 
