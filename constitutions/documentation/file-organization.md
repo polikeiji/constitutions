@@ -13,11 +13,13 @@ link:
 ```mermaid
 flowchart TD
     accTitle: Splitting a document that is over the read budget
-    accDescr: A document inside the budget is left as one file. One over it becomes a folder named after the file, split by reader question, with a README indexing the new files; the original is then deleted and every inbound link and the parent README repointed. A document already in the deepest permitted folder splits into sibling files instead, each listed in that folder's README, and every inbound link to a moved section is repointed.
+    accDescr: A document inside the budget is left as one file. One over it becomes a folder named after the file, split by reader question, with a README indexing the new files; the original is then deleted and every inbound link and the parent README repointed. A document already in the deepest permitted folder, or one whose name the tree fixes, splits into sibling files instead: the original keeps its path and its opening, each new file is listed in that folder's README, and every inbound link to a moved section is repointed.
     check{"Over the five-minute budget?"} -->|no| keep["Leave it as one file"]
     check -->|yes| depth{"In the deepest permitted folder?"}
-    depth -->|no| folder["Create a folder named after the file"]
+    depth -->|no| fixed{"Does the tree fix its name?"}
+    fixed -->|no| folder["Create a folder named after the file"]
     depth -->|yes| sibling["Split by reader question into sibling files sharing its name as a prefix"]
+    fixed -->|yes| sibling
     sibling --> listed["List each new file in the folder's README.md"]
     listed --> links
     folder --> split["Split by reader question, one file each"]
@@ -27,8 +29,8 @@ flowchart TD
 ```
 
 1. A document over the [sizing budget](document-sizing.md) becomes a sub-folder of smaller
-   documents, unless it already sits at the depth limit (rule 5). The folder takes the
-   original file's name, kebab-case, without the extension:
+   documents, unless it already sits at the depth limit or the tree fixes its name (rule 5).
+   The folder takes the original file's name, kebab-case, without the extension:
 
 ```text
 docs/adrs/0005-host-docs-on-a-static-site.md   (1,011 words — over budget)
@@ -49,14 +51,18 @@ docs/adrs/0005-host-docs-on-a-static-site/
    Related documents share a filename prefix so the directory sorts into groups
    (`onboarding-overview.md`, `onboarding-email-verification.md`), and a folder-name prefix
    is kept where the folder already uses one (`docs/specs/billing/billing-invoices.md`). A
-   prefix groups separate subjects; a folder holds one subject that split, except at the
-   depth limit, where rule 5's siblings do.
+   prefix groups separate subjects; a folder holds one subject that split, except where
+   rule 5's siblings do.
 5. Folders nest no more than two levels below the documentation root.
    `docs/<application>/software-design/` is the deepest permitted; a third level means the
    area belongs at the top of the tree instead — see [tree-shape.md](tree-shape.md).
    An over-budget document in a folder at that depth has no room for a sub-folder, so it
-   splits into sibling files in the same folder. The siblings share the original's name as
-   a prefix, each is listed in the folder's `README.md`, rule 2's seams apply, and every
+   splits into sibling files in the same folder. So does a document whose name the tree
+   fixes, at any depth: `tech-stack.md`, `ui-catalogue.md` and `tests.md` in
+   [tree-shape.md](tree-shape.md). A folder would move the name a reader looks for, and its
+   `README.md` could not keep the page's opening, since rule 10 lets an index list but not
+   explain. The original keeps its path and its opening, the siblings share its name as a
+   prefix, each is listed in the folder's `README.md`, rule 2's seams apply, and every
    inbound link to a moved section is repointed. The limit itself stays where it is:
 
 ```text
@@ -64,6 +70,11 @@ docs/specs/billing/billing-invoices.md             (1,079 words — over budget,
   →
 docs/specs/billing/billing-invoices.md             (keeps what a reader arrives at first)
 docs/specs/billing/billing-invoices-corrections.md
+
+docs/web/tech-stack.md                             (1,040 words — over budget, name fixed by the tree)
+  →
+docs/web/tech-stack.md                             (keeps the stack drawing it opens with)
+docs/web/tech-stack-agents.md
 ```
 
 ### The folder index README
