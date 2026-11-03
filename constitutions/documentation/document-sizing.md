@@ -17,7 +17,7 @@ is measured and what happens when one is not.
    line limits apply instead:
    - a document runs to no more than **650 lines** in total, and
    - no single fenced block exceeds **60 lines**. A longer sample lives in the repository and
-     is linked by path rather than pasted in.
+     is linked by path rather than pasted in; rule 11 names the one fence exempt.
 4. A document carries no YAML frontmatter, so there is none to exclude from the count. Where
    a project's docs-site generator forces one on a folder index — see
    [file-organization.md](file-organization.md) — that line does not count toward the budget.
@@ -59,6 +59,10 @@ done | sort -rn | head -20
     [UI test reports](ui-test-reports.md), and any tree the docs-site build excludes are
     exempt. A report is a record of one test run rather than a document a reader keeps
     returning to, and splitting one would separate a screenshot from the case it belongs to.
+    A fenced block that is itself the data code reads — the record a script parses, not a
+    sample or a copy of it — is exempt from rule 3's line limits, though the prose around it
+    still counts. Linked by path, the page loses the record it exists to publish; kept beside
+    a copy, the fact has two homes.
 12. There are no other exemptions. A document that feels indivisible almost always has an
     overview and a reference half.
 
