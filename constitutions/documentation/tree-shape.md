@@ -23,8 +23,8 @@ docs/
 An application is a folder because that is the noun a reader arrives with. Someone asking
 how the admin console is built does not know whether the answer was filed as architecture,
 as a plan or as a guide, and under a tree organised by document type they have to open all
-three and reconcile what they find. The last two lines are the folders that survive by
-document type, because they hold records whose *kind* is what a reader searches by — a
+three and reconcile what they find. The folders listed after `saas/` survive by document
+type, because they hold records whose *kind* is what a reader searches by — a
 decision and why it beat the alternatives, a rule, the evidence that one change was tested,
 the case made to investors, what a bank lends on.
 
