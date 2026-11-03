@@ -57,7 +57,7 @@ rather than in a document; see [cross-referencing.md](cross-referencing.md).
                     plus the evaluation-pipeline design
   data-design/      where the application owns a database: the ERD
   api/              where the application publishes a contract: the generated document and
-                    the page that renders it
+                    the page that renders it, a page of its own beside the folder's README.md
   ui-catalogue.md   where the application has UI: how the component catalogue is generated
   tests.md          the automated test suites, their current results and coverage, and where
                     the evidence lives
@@ -95,8 +95,10 @@ the answer.
 documentation root, and an application's section folder sits exactly at that cap. A section
 outgrowing one file splits into prefixed sibling files inside that same folder,
 `software-design-session-flow.md` beside `software-design-hint-flow.md`, by rule 4 of the
-same document. A third level is the sign that the section has become an area of its own, and
-an area belongs at the top of the tree.
+same document. So does a file whose name this tree fixes, at any depth: `tech-stack.md`
+stays and keeps its opening, with `tech-stack-agents.md` beside it. A third level is the
+sign that the section has become an area of its own, and an area belongs at the top of the
+tree.
 
 ## What dissolves into it
 
