@@ -63,7 +63,8 @@ docs/adrs/0005-host-docs-on-a-static-site/
    `README.md` could not keep the page's opening, since rule 10 lets an index list but not
    explain. The original keeps its path and its opening, the siblings share its name as a
    prefix, each is listed in the folder's `README.md`, rule 2's seams apply, and every
-   inbound link to a moved section is repointed. The limit itself stays where it is:
+   inbound link to a moved section is repointed. A rule that names the fixed page covers its
+   siblings too. The limit itself stays where it is:
 
 ```text
 docs/specs/billing/billing-invoices.md             (1,079 words — over budget, at the limit)
