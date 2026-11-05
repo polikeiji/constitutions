@@ -39,6 +39,7 @@ around notes the published page leaves out.
    an end without a start, or a block left open fails the build, since publishing would
    either show the note or drop the terms after it.
 
-These are the keys and the markup [file-organization.md](file-organization.md) rule 14 lets
-a legal document carry; it invents no others. Its length is exempt from the budget under
+These are the keys [file-organization.md](file-organization.md) rule 14 lets a legal
+document carry, and the markup [document-shape.md](document-shape.md) rule 3 lets it carry;
+it invents no others. Its length is exempt from the budget under
 [document-sizing.md](document-sizing.md) rule 10.

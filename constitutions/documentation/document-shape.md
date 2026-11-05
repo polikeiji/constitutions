@@ -22,7 +22,9 @@ is particular to it, and where that document says nothing, this one governs.
 3. Formatting stays to what renders on the code host and in a plain viewer both: headings,
    lists, tables, links, images, fenced code, and Mermaid — see [diagrams.md](diagrams.md).
    Raw HTML renders in some viewers and shows as markup in the rest, so an SVG is a file the
-   document links as an image rather than an inline `<svg>`. This governs the markup inside a
+   document links as an image rather than an inline `<svg>`. A legal document's strip markers
+   are the one exception: they are HTML comments, which render as nothing in either viewer —
+   see [legal-documents.md](legal-documents.md) rule 6. This governs the markup inside a
    document, not rule 2's standalone artifact that is itself a rendered page.
 
 ### The opening
