@@ -80,9 +80,10 @@ docs/web/tech-stack-agents.md
 
 ### The folder index README
 
-6. Every folder holding markdown files holds a `README.md`. The single exception is the
+6. Every folder holding markdown files holds a `README.md`. The exceptions are the
    documentation root itself, where a docs-site generator may require a differently named
-   home page.
+   home page, and `design-handoffs/` with each [design handoff](design-handoffs.md) folder
+   in it, where `HANDOFF.md` is the page a reader lands on.
 7. That `README.md` lists **every** markdown file and every sub-folder in the folder, as a
    table with a one-line description each, and any non-markdown artefact the folder holds
    for a reader — a [UI test report](ui-test-reports.md) is listed the same way, and its row

@@ -26,6 +26,7 @@ themselves.
 | [Batch process documentation](batch-processes.md) | What a batch process adds to an application's sections: trigger, schedule, where it runs, run history |
 | [UI test reports](ui-test-reports.md) | The report a user-visible change leaves behind, and how the PR links it |
 | [Legal documents](legal-documents.md) | The acceptance version and the strip markers a legal document may carry for the build that publishes it |
+| [Design handoffs](design-handoffs.md) | A prototype and the handoff a coding agent builds from: where it lives, what it is exempt from and owes, when it goes |
 
 ### The constitutions themselves
 
