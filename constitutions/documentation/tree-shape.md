@@ -16,6 +16,7 @@ docs/
   cloud/               the cloud architecture diagram and the monthly cost estimate
   saas/                paid services outside the cloud account, and their monthly cost
   specs/ adrs/ constitutions/ legal/ test-reports/ business-plan/   organised by document type
+  design-handoffs/     one folder per prototype a coding agent is building from, deleted once shipped
   <reference-data>/    published records that code reads, one record per page, the folder
                        named for their kind (banks/); document-sizing rule 11 exempts their fences
 ```
@@ -44,8 +45,8 @@ reader comes for. It is not `devops/`: that folder holds the pipelines that ship
 and a batch process is workload the project runs once shipped. What its folder adds to an
 application's is [batch-processes.md](batch-processes.md).
 
-There is no `plans/`, because how something is intended to be built is written in its ticket
-rather than in a document; see [cross-referencing.md](cross-referencing.md).
+There is no `plans/`: how something is intended to be built is written in its ticket, a
+[design handoff](design-handoffs.md) aside; see [cross-referencing.md](cross-referencing.md).
 
 ## The sections an application or batch-process folder carries
 

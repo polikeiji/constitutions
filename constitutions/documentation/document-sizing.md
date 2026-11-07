@@ -56,9 +56,12 @@ done | sort -rn | head -20
 10. Legal documents — terms of service, privacy policies — are exempt. They are published
     whole and are not read for speed.
 11. Generated artefacts (an OpenAPI document, a generated API reference), the
-    [UI test reports](ui-test-reports.md), and any tree the docs-site build excludes are
-    exempt. A report is a record of one test run rather than a document a reader keeps
-    returning to, and splitting one would separate a screenshot from the case it belongs to.
+    [UI test reports](ui-test-reports.md), [design handoffs](design-handoffs.md), and any
+    tree the docs-site build excludes are exempt. A report is a record of one test run rather
+    than a document a reader keeps returning to, and splitting one would separate a
+    screenshot from the case it belongs to. A handoff is read whole by a coding agent while
+    its tickets are open, and splitting one would separate a change from its place in the
+    prototype.
     A fenced block that is itself the data code reads — the record a script parses, not a
     sample or a copy of it — is exempt from rule 3's line limits, though the prose around it
     still counts. Linked by path, the page loses the record it exists to publish; kept beside

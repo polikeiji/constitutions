@@ -43,7 +43,9 @@ Sessions steer toward a close once they have run long enough; see
 The ticket row names no folder because there are no plan documents. How something is
 intended to be built is written in the ticket that carries the work and closed by the pull
 request that carries the change; a document restating it would outlive the branch that made
-it true.
+it true. The one exception is a [design handoff](design-handoffs.md): a prototype cannot ride
+in a ticket, so the plan for carrying it into the code sits beside it until its last ticket
+closes.
 
 The architecture row names no single folder either, because the running system is not one
 subject. Each application's or batch process's `architecture/` describes that one as
